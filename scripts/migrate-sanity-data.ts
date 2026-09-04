@@ -192,13 +192,211 @@ async function migrateCapabilities() {
   }
 }
 
+async function migratePageSingletons() {
+  console.log('\n--- Migrating Page Singletons & Global Settings ---');
+
+  // 1. Home Page Singleton
+  const heroSlidePaths = [
+    { src: "/pictures/hero-slider/ob3-construction-team.jpg", title: "OB3 River Niger HDD Crossing Completion Team" },
+    { src: "/pictures/hero-slider/akk-cover-photo.jpg", title: "AKK Pipeline Crossing Project" },
+    { src: "/pictures/hero-slider/drilling-rig-cover-photo.jpg", title: "Heavy HDD Rig Land-to-Sea Crossing" },
+    { src: "/pictures/hero-slider/drilling-rig-03.jpg", title: "HDD Drilling Rig Operations & High-Pressure Mud Line" },
+    { src: "/pictures/hero-slider/offshore-hdd-project.jpg", title: "Offshore HDD Project Operations" },
+  ];
+
+  const heroItems = [];
+  for (const slide of heroSlidePaths) {
+    const img = await uploadLocalImage(slide.src);
+    if (img) {
+      heroItems.push({
+        _type: 'galleryItem',
+        image: img,
+        title: slide.title,
+      });
+    }
+  }
+
+  const homeDoc = {
+    _type: 'homePage',
+    _id: 'homePage',
+    glanceHeading: 'PCE AT A GLANCE',
+    glanceStats: [
+      { _type: 'statItem', number: '1200t/500t/500t', label: 'Maximum Rig Pullback Force' },
+      { _type: 'statItem', number: '48 inches', label: 'Largest Pipeline Diameter' },
+      { _type: 'statItem', number: '4,060 metres', label: 'Longest Single HDD Length' },
+    ],
+    capabilitiesIntro: 'Integrated HDD engineering, pipeline EPC, deep pipeline detection, and specialist technical support.',
+    heroSlides: {
+      _type: 'gallery',
+      categoryTitle: 'Home Hero Slideshow',
+      items: heroItems,
+    },
+    featuredProjects: [
+      { _type: 'reference', _ref: 'project-akk-river-niger' },
+      { _type: 'reference', _ref: 'project-ob3-river-niger' },
+    ],
+  };
+  console.log('Creating homePage singleton...');
+  await client.createOrReplace(homeDoc);
+
+  // 2. Company Page Singleton
+  const companyDoc = {
+    _type: 'companyPage',
+    _id: 'companyPage',
+    heroHeadline: 'Engineering excellence beneath difficult crossings.',
+    heroSubtext: 'PCE combines heavy HDD rigs, specialized mud recycling systems, and experienced field personnel for high-stakes pipeline installations.',
+    whoWeAreSection: {
+      _type: 'sectionBlock',
+      tagline: 'WHO WE ARE',
+      heading: 'Leading trenchless crossing contractor in West Africa.',
+      bullets: [
+        'Over 20 years of continuous trenchless drilling experience',
+        'Fleet of 500-ton and 1200-ton heavy HDD rigs',
+        'Proven track record across River Niger, wetland, and coastal environments',
+      ],
+    },
+    peopleScaleStats: [
+      { _type: 'statItem', number: '200+', label: 'Engineers & HDD Specialists' },
+      { _type: 'statItem', number: '30+', label: 'Major River Crossings Completed' },
+      { _type: 'statItem', number: '100%', label: 'Project Success & Safety Record' },
+    ],
+  };
+  console.log('Creating companyPage singleton...');
+  await client.createOrReplace(companyDoc);
+
+  // 3. Capabilities Page Singleton
+  const capabilitiesDoc = {
+    _type: 'capabilitiesPage',
+    _id: 'capabilitiesPage',
+    heroHeadline: 'Our Core Engineering Capabilities',
+    heroSubtext: 'Comprehensive trenchless drilling, pipeline EPC construction, BPDS subsurface detection, and equipment technical support.',
+    capabilitiesOrder: [
+      { _type: 'reference', _ref: 'capability-hdd' },
+      { _type: 'reference', _ref: 'capability-epc' },
+      { _type: 'reference', _ref: 'capability-bpds' },
+      { _type: 'reference', _ref: 'capability-support' },
+    ],
+  };
+  console.log('Creating capabilitiesPage singleton...');
+  await client.createOrReplace(capabilitiesDoc);
+
+  // 4. Equipment Page Singleton
+  const equipmentDoc = {
+    _type: 'equipmentPage',
+    _id: 'equipmentPage',
+    heroHeadline: 'Equipment & Rig Fleet',
+    heroSubtext: 'Heavy-duty HDD drilling rigs, high-volume mud circulation systems, and continuous electronic tracking equipment.',
+    introCopy: 'PCE operates a fleet of heavy HDD rigs up to 1,200 tons pullback capacity, supported by mud recycling plants and guidance technology.',
+  };
+  console.log('Creating equipmentPage singleton...');
+  await client.createOrReplace(equipmentDoc);
+
+  // 5. Safety Quality Page Singleton
+  const safetyDoc = {
+    _type: 'safetyQualityPage',
+    _id: 'safetyQualityPage',
+    heroHeadline: 'Safety, Quality & Responsibility',
+    heroSubtext: 'Zero-harm policy, strict quality control procedures, ISO-compliant operations, and environmental protection standards.',
+  };
+  console.log('Creating safetyQualityPage singleton...');
+  await client.createOrReplace(safetyDoc);
+
+  // 6. Projects Page Singleton
+  const projectsDoc = {
+    _type: 'projectsPage',
+    _id: 'projectsPage',
+    introHeadline: 'Featured HDD & Pipeline Projects',
+    introSubtext: 'Explore our completed river crossings, offshore landfalls, and major pipeline EPC construction projects across Nigeria, Thailand, and China.',
+  };
+  console.log('Creating projectsPage singleton...');
+  await client.createOrReplace(projectsDoc);
+
+  // 7. Products Page Singleton
+  const productsDoc = {
+    _type: 'productsPage',
+    _id: 'productsPage',
+    heroHeadline: 'Brighter Star Drilling Fluids & Mud Additives',
+    heroSubtext: 'High-performance viscosifiers, fluid loss control polymers, and shale stabilizers formulated for HDD and deep drilling applications.',
+  };
+  console.log('Creating productsPage singleton...');
+  await client.createOrReplace(productsDoc);
+
+  // 8. News & Insights Page Singleton
+  const newsDoc = {
+    _type: 'newsInsightsPage',
+    _id: 'newsInsightsPage',
+    heroHeadline: 'News & Technical Insights',
+    heroSubtext: 'Latest announcements, project completion milestones, and technical articles from PCE Engineering.',
+  };
+  console.log('Creating newsInsightsPage singleton...');
+  await client.createOrReplace(newsDoc);
+
+  // 9. Resources Page Singleton
+  const resourcesDoc = {
+    _type: 'resourcesPage',
+    _id: 'resourcesPage',
+    heroHeadline: 'Resources & Downloads',
+    heroSubtext: 'Download corporate profiles, technical specification sheets, and project brochures.',
+  };
+  console.log('Creating resourcesPage singleton...');
+  await client.createOrReplace(resourcesDoc);
+
+  // 10. Contact Page Singleton
+  const contactDoc = {
+    _type: 'contactPage',
+    _id: 'contactPage',
+    heroHeadline: 'Get in Touch with Our Engineering Team',
+    heroSubtext: 'Contact PCE Nigeria for project inquiries, technical consultations, or mud chemical orders.',
+    officeAddress: 'Port Harcourt & Lagos Offices, Nigeria',
+    phoneNumbers: ['+234 814 990 8888', '+234 814 990 6666'],
+    emailAddresses: ['info@pcenigeria.com', 'wanyang@pcenigeria.com', 'xuliangkui@pcenigeria.com'],
+  };
+  console.log('Creating contactPage singleton...');
+  await client.createOrReplace(contactDoc);
+
+  // 11. Navigation Singleton
+  const navDoc = {
+    _type: 'navigation',
+    _id: 'navigation',
+    mainLinks: [
+      { title: 'Home', href: '/' },
+      { title: 'Our Company', href: '/our-company' },
+      { title: 'Capabilities', href: '/capabilities' },
+      { title: 'Equipment & Technology', href: '/equipment-technology' },
+      { title: 'Safety & Quality', href: '/safety-quality-responsibility' },
+      { title: 'Projects', href: '/projects' },
+      { title: 'Products', href: '/products' },
+      { title: 'News & Insights', href: '/news-insights' },
+      { title: 'Resources', href: '/resources' },
+      { title: 'Contact', href: '/contact' },
+    ],
+  };
+  console.log('Creating navigation singleton...');
+  await client.createOrReplace(navDoc);
+
+  // 12. Global Settings Singleton
+  const settingsDoc = {
+    _type: 'globalSettings',
+    _id: 'globalSettings',
+    siteTitle: 'PCE Nigeria — Power & Construction Engineering',
+    generalEmail: 'info@pcenigeria.com',
+    footerContacts: [
+      { name: 'Wan Yang', phone: '+234 814 990 8888', email: 'wanyang@pcenigeria.com' },
+      { name: 'Xu Liangkui', phone: '+234 814 990 6666', email: 'xuliangkui@pcenigeria.com' },
+    ],
+  };
+  console.log('Creating globalSettings singleton...');
+  await client.createOrReplace(settingsDoc);
+}
+
 async function runMigration() {
   try {
     await migrateProjects();
     await migrateNews();
     await migrateProducts();
     await migrateCapabilities();
-    console.log('\n✅ Migration completed successfully!');
+    await migratePageSingletons();
+    console.log('\n✅ Full migration completed successfully! All singletons and collections populated.');
   } catch (err) {
     console.error('\n❌ Migration failed:', err);
   }
