@@ -4,6 +4,25 @@ import React, { useState } from 'react';
 import { DownloadSimple } from '@phosphor-icons/react';
 import { StaggerContainer, StaggerItem } from '@/shared/components/ui/fade-in-slide-up';
 
+export interface SanityResourceItem {
+    _key?: string;
+    title: string;
+    description?: string;
+    downloadUrl?: string;
+    fileUrl?: string;
+}
+
+export interface SanityResourceCategory {
+    _id: string;
+    label: string;
+    slug?: string;
+    items?: SanityResourceItem[];
+}
+
+export interface ReportsProps {
+    sanityCategories?: SanityResourceCategory[];
+}
+
 interface ReportItem {
     id: string;
     title: string;
@@ -70,10 +89,60 @@ const reportCategories: ReportCategory[] = [
     },
 ];
 
-export const Reports = () => {
+export const Reports: React.FC<ReportsProps> = ({ sanityCategories }) => {
     const [activeTabId, setActiveTabId] = useState<string>('all');
 
-    const activeCategory = reportCategories.find((cat) => cat.id === activeTabId) || reportCategories[0];
+    const categoriesToDisplay: ReportCategory[] = React.useMemo(() => {
+        if (!sanityCategories || sanityCategories.length === 0) {
+            return reportCategories;
+        }
+
+        const formattedCategories: ReportCategory[] = sanityCategories.map((cat) => {
+            const catSlug = cat.slug || cat._id;
+            let defaultTag = cat.label;
+            if (cat.label.includes('Technical Data Sheets') || cat.label.toLowerCase().includes('tds')) {
+                defaultTag = 'TDS';
+            } else if (cat.label.includes('Safety Data Sheets') || cat.label.toLowerCase().includes('sds')) {
+                defaultTag = 'SDS';
+            } else if (cat.label.includes('Company Profile') || cat.label.toLowerCase().includes('manual')) {
+                defaultTag = 'Company Profile';
+            }
+
+            const formattedItems: ReportItem[] = (cat.items || []).map((item, idx) => {
+                let fallbackUrl = item.downloadUrl || item.fileUrl || '';
+                if (!fallbackUrl) {
+                    const match = ALL_REAL_RESOURCES.find(
+                        (r) => r.title.toLowerCase() === item.title.toLowerCase()
+                    );
+                    if (match) fallbackUrl = match.downloadUrl;
+                }
+
+                return {
+                    id: item._key || `${catSlug}-${idx}`,
+                    title: item.title,
+                    downloadUrl: fallbackUrl,
+                    categoryTag: defaultTag,
+                };
+            });
+
+            return {
+                id: catSlug,
+                label: cat.label,
+                items: formattedItems,
+            };
+        });
+
+        const allItems = formattedCategories.flatMap((c) => c.items);
+        const allCategory: ReportCategory = {
+            id: 'all',
+            label: 'All Resources',
+            items: allItems,
+        };
+
+        return [allCategory, ...formattedCategories];
+    }, [sanityCategories]);
+
+    const activeCategory = categoriesToDisplay.find((cat) => cat.id === activeTabId) || categoriesToDisplay[0];
 
     return (
         <section className="w-full section py-16 lg:py-24 bg-white">
@@ -81,7 +150,7 @@ export const Reports = () => {
                 
                 {/* Left Sidebar / Top Category Navigation */}
                 <div className="lg:col-span-3 flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible border-b lg:border-b-0 lg:border-r border-black/10 gap-2 lg:gap-1 relative pb-2 lg:pb-0 whitespace-nowrap scrollbar-none">
-                    {reportCategories.map((category) => {
+                    {categoriesToDisplay.map((category) => {
                         const isActive = category.id === activeTabId;
                         return (
                             <button
@@ -150,3 +219,4 @@ export const Reports = () => {
 };
 
 export default Reports;
+

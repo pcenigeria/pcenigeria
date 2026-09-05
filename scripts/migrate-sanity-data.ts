@@ -107,6 +107,33 @@ async function uploadLocalImage(relativePath?: string): Promise<any> {
   }
 }
 
+async function uploadLocalFile(relativePath?: string): Promise<any> {
+  if (!relativePath || !relativePath.startsWith('/')) return null;
+  const fullPath = path.join(process.cwd(), 'public', relativePath);
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`File not found: ${fullPath}`);
+    return null;
+  }
+  try {
+    console.log(`Uploading file asset: ${relativePath}...`);
+    const stream = fs.createReadStream(fullPath);
+    const asset = await client.assets.upload('file', stream, {
+      filename: path.basename(fullPath),
+    });
+    return {
+      _type: 'file',
+      asset: {
+        _type: 'reference',
+        _ref: asset._id,
+      },
+    };
+  } catch (err) {
+    console.error(`Failed to upload file ${relativePath}:`, err);
+    return null;
+  }
+}
+
+
 async function migrateProjects() {
   console.log('\n--- Migrating Projects / Case Studies ---');
   const projectsList = Object.values(PROJECTS_DATA);
@@ -684,6 +711,122 @@ async function migratePageSingletons() {
   await saveDoc(settingsDoc);
 }
 
+async function migrateResourceCategories() {
+  console.log('\n--- Migrating Resource Categories ---');
+
+  const categoriesData = [
+    {
+      _id: 'resource-category-company',
+      label: 'Company Profile & Manuals',
+      slug: 'company',
+      items: [
+        {
+          title: '2026 PCE Corporate Profile',
+          relativePath: '/resources/01-PROFILE_PCE Nigeria LTD_2026-compressed.pdf',
+          description: 'Comprehensive company profile detailing PCE Nigeria engineering operations, HDD capabilities, equipment fleet, and project track record.',
+        },
+        {
+          title: 'Brighter Star Drilling Fluids Product Manual',
+          relativePath: '/resources/Brighter_Star_Drilling_Fluids_Product_Manual_EN.pdf',
+          description: 'Complete product catalog and technical application manual for Brighter Star drilling fluids, bentonites, and biopolymers.',
+        },
+      ],
+    },
+    {
+      _id: 'resource-category-tds',
+      label: 'Technical Data Sheets (TDS)',
+      slug: 'tds',
+      items: [
+        {
+          title: 'BRSBENT SQ Technical Data Sheet (TDS)',
+          relativePath: '/resources/BRSBENT_SQ_Product_Data_Sheet.pdf',
+          description: 'Technical specifications, physical properties, performance characteristics, and dosage instructions for BRSBENT SQ high-yield bentonite.',
+        },
+        {
+          title: 'BRSCMC Technical Data Sheet (TDS)',
+          relativePath: '/resources/BRSCMC_Technical_Data_Sheet.pdf',
+          description: 'Technical specifications for BRSCMC carboxymethyl cellulose fluid loss control polymer.',
+        },
+        {
+          title: 'BRSMMH Product Data Sheet (TDS)',
+          relativePath: '/resources/BRSMMH_Product_Data_Sheet.pdf',
+          description: 'Technical data sheet for BRSMMH mixed metal hydroxide inorganic rheology modifier.',
+        },
+        {
+          title: 'BRSVR Technical Data Sheet (TDS)',
+          relativePath: '/resources/BRSVR_Technical_Data_Sheet.pdf',
+          description: 'Technical specifications for BRSVR high-viscosity viscosifier polymer.',
+        },
+        {
+          title: 'BRSXTG Technical Data Sheet (TDS)',
+          relativePath: '/resources/BRSXTG_Technical_Data_Sheet.pdf',
+          description: 'Technical data sheet for BRSXTG premium xanthan gum biopolymer.',
+        },
+      ],
+    },
+    {
+      _id: 'resource-category-sds',
+      label: 'Safety Data Sheets (SDS)',
+      slug: 'sds',
+      items: [
+        {
+          title: 'BRSBENT SQ Safety Data Sheet (SDS)',
+          relativePath: '/resources/BRSBENT_SQ_Safety_Data_Sheet.pdf',
+          description: 'Safety data sheet containing hazard identification, first aid measures, storage, and handling guidelines for BRSBENT SQ.',
+        },
+        {
+          title: 'BRSCMC Safety Data Sheet (SDS)',
+          relativePath: '/resources/BRSCMC_Safety_Data_Sheet.pdf',
+          description: 'Safety data sheet containing hazard identification and handling instructions for BRSCMC.',
+        },
+        {
+          title: 'BRSMMH Safety Data Sheet (SDS)',
+          relativePath: '/resources/BRSMMH_Safety_Data_Sheet.pdf',
+          description: 'Safety data sheet for BRSMMH mixed metal hydroxide.',
+        },
+        {
+          title: 'BRSVR Safety Data Sheet (SDS)',
+          relativePath: '/resources/BRSVR_Safety_Data_Sheet.pdf',
+          description: 'Safety data sheet for BRSVR viscosifier polymer.',
+        },
+        {
+          title: 'BRSXTG Safety Data Sheet (SDS)',
+          relativePath: '/resources/BRSXTG_Safety_Data_Sheet.pdf',
+          description: 'Safety data sheet for BRSXTG xanthan gum biopolymer.',
+        },
+      ],
+    },
+  ];
+
+  for (const cat of categoriesData) {
+    const items = [];
+    for (const item of cat.items) {
+      const fileAsset = await uploadLocalFile(item.relativePath);
+      items.push({
+        _key: genKey('item'),
+        title: item.title,
+        description: item.description,
+        ...(fileAsset ? { file: fileAsset } : {}),
+      });
+    }
+
+    const doc = {
+      _type: 'resourceCategory',
+      _id: cat._id,
+      label: cat.label,
+      slug: { _type: 'slug', current: cat.slug },
+      items,
+      seo: {
+        _type: 'seo',
+        metaTitle: `${cat.label} — PCE Nigeria Resources`,
+        metaDescription: `Download ${cat.label} from PCE Nigeria.`,
+      },
+    };
+
+    await saveDoc(doc);
+  }
+}
+
 async function runMigration() {
   try {
     await migrateProjects();
@@ -691,6 +834,7 @@ async function runMigration() {
     await migrateProducts();
     await migrateCapabilities();
     await migratePageSingletons();
+    await migrateResourceCategories();
     console.log('\n✅ Full migration completed successfully! Clean published singletons with drafts purged.');
   } catch (err) {
     console.error('\n❌ Migration failed:', err);
@@ -698,3 +842,4 @@ async function runMigration() {
 }
 
 runMigration();
+

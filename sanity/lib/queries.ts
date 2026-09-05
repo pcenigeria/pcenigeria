@@ -229,13 +229,15 @@ export async function getAllEquipmentCategories() {
 // =========================================
 
 export async function getAllResourceCategories() {
-  const query = `*[_type == "resourceCategory" && !(_id in path("drafts.**"))] | order(label asc) {
+  const query = `*[_type == "resourceCategory" && !(_id in path("drafts.**"))] | order(_createdAt asc) {
     _id,
     label,
     "slug": slug.current,
     items[]{
+      _key,
       title,
       description,
+      "downloadUrl": file.asset->url,
       "fileUrl": file.asset->url
     }
   }`;
@@ -246,6 +248,7 @@ export async function getAllResourceCategories() {
     return [];
   }
 }
+
 
 // =========================================
 // SINGLETON PAGES
