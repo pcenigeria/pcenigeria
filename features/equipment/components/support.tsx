@@ -6,12 +6,21 @@ import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
 
-export const Support = () => {
-    const images = [
-        "/pictures/equipment/91903d3f483647597b5364f08e4e7007.jpg",
-        "/pictures/equipment/a712f76d550bdfd698c2856f692cac93.jpg",
-        "/pictures/equipment/b6479a902617ac3c6952aa611d41255f.jpg"
-    ];
+interface SupportProps {
+    sanityPage?: any;
+}
+
+export const Support: React.FC<SupportProps> = ({ sanityPage }) => {
+    const images = React.useMemo(() => {
+        if (sanityPage?.supportImages && sanityPage.supportImages.length > 0) {
+            return sanityPage.supportImages.map((img: any) => img.src).filter(Boolean);
+        }
+        return [
+            "/pictures/equipment/91903d3f483647597b5364f08e4e7007.jpg",
+            "/pictures/equipment/e4718ab6567102f62eba9b2f0406e17f.jpg",
+            "/pictures/home-page/equipment-08.jpg"
+        ];
+    }, [sanityPage]);
 
     const supportItems = [
         "Crossing proposals and technical planning",
@@ -26,10 +35,11 @@ export const Support = () => {
 
     React.useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % images.length);
+            setCurrentImageIndex((prev) => (prev + 1) % Math.max(images.length, 1));
         }, 3000);
         return () => clearInterval(interval);
     }, [images.length]);
+
 
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-12 border-t border-[var(--color-hairline)]">
@@ -56,7 +66,7 @@ export const Support = () => {
                 
                 {/* Left Column: Dynamic Looping Slideshow */}
                 <FadeInSlideUp className="lg:col-span-6 relative w-full h-[320px] sm:h-[400px] lg:h-[520px] rounded-xl overflow-hidden group border border-black/5 bg-black/5">
-                    {images.map((imgUrl, index) => (
+                    {images.map((imgUrl: string, index: number) => (
                         <div 
                             key={imgUrl}
                             className={`absolute inset-0 bg-cover bg-center transition-all duration-[2000ms] ease-in-out ${
@@ -68,6 +78,7 @@ export const Support = () => {
                         />
                     ))}
                 </FadeInSlideUp>
+
 
                 {/* Right Column: Heading, Narrative, and Stats List */}
                 <FadeInSlideUp delay={0.1} className="lg:col-span-6 flex flex-col justify-between h-full py-2">

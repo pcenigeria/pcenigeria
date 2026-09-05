@@ -224,7 +224,24 @@ export async function getAllEquipmentCategories() {
   }
 }
 
+export async function getEquipmentPage() {
+  const query = `*[_id == "equipmentPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    "heroImage": heroImage.asset->url,
+    "supportImages": supportImages.items[]{ "src": image.asset->url }
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['equipmentPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getEquipmentPage):', err);
+    return null;
+  }
+}
+
+
 // =========================================
+
 // RESOURCES
 // =========================================
 

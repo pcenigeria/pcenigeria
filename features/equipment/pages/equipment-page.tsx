@@ -1,11 +1,18 @@
 import { ETHero, OurEquipments, Support } from '../components';
 
-export const EquipmentPage = () => {
+interface EquipmentPageProps {
+  sanityCategories?: any[];
+  sanityPage?: any;
+}
+
+export const EquipmentPage: React.FC<EquipmentPageProps> = ({ sanityCategories, sanityPage }) => {
     return (
         <div className="flex flex-col w-full">
-            <ETHero />
-            <OurEquipments />
-            <Support />
+            <ETHero sanityPage={sanityPage} />
+            <OurEquipments sanityCategories={sanityCategories} />
+            <Support sanityPage={sanityPage} />
         </div>
     );
 };
+
+export default EquipmentPage;
