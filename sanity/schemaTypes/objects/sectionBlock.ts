@@ -58,6 +58,12 @@ export default defineType({
       title: 'Action Button Link URL',
       type: 'string',
     }),
+    defineField({
+      name: 'gallery',
+      title: 'Section Photo Gallery',
+      type: 'gallery',
+      description: 'Image gallery items for lightbox / carousel in this section',
+    }),
   ],
   preview: {
     select: {

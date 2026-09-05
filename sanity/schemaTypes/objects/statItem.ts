@@ -25,6 +25,12 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
     }),
+    defineField({
+      name: 'gallery',
+      title: 'Modal Lightbox Photo Gallery',
+      type: 'gallery',
+      description: 'Photos displayed when clicking this card gallery badge',
+    }),
   ],
   preview: {
     select: {

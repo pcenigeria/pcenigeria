@@ -250,9 +250,72 @@ async function migrateProducts() {
 
 async function migrateCapabilities() {
   console.log('\n--- Migrating Capabilities ---');
+
+  const capabilityGalleriesData: Record<string, { categoryTitle: string; items: Array<{ src: string; title: string }> }> = {
+    hdd: {
+      categoryTitle: "Horizontal Directional Drilling (HDD) Capability",
+      items: [
+        { src: "/pictures/hero-slider/drilling-rig-cover-photo.jpg", title: "1200t / 500t Heavy HDD Drilling Rig System" },
+        { src: "/pictures/home-page/ob3-cover-photo.jpg", title: "OB3 River Niger HDD Crossing Project" },
+        { src: "/pictures/hero-slider/hdd-02.jpg", title: "River Niger HDD Crossing Site" },
+        { src: "/pictures/hero-slider/offshore-hdd-project.jpg", title: "Offshore HDD Project Site Infrastructure" },
+        { src: "/pictures/home-page/akk-02.jpg", title: "AKK River Niger HDD Crossing Project" },
+        { src: "/pictures/home-page/raoyang-river-hdd.jpg", title: "Raoyang River 2,293m HDD Crossing" }
+      ]
+    },
+    epc: {
+      categoryTitle: "52km Pipeline EPC Construction",
+      items: [
+        { src: "/pictures/hero-slider/pipeline-epc-cover-photo.JPG", title: "52km Pipeline EPC Construction Site" },
+        { src: "/pictures/home-page/epc-work-02.jpg", title: "52km Pipeline EPC Operations & Pipe Bending" },
+        { src: "/pictures/home-page/epc-work-03.jpg", title: "Pipeline Trenching, Alignment & Stringing" },
+        { src: "/pictures/home-page/epc-work-04.jpg", title: "Pipeline Field Operations & Welding" }
+      ]
+    },
+    bpds: {
+      categoryTitle: "New Pipeline Location Survey Technique - BPDS",
+      items: [
+        { src: "/pictures/hero-slider/bpds-cover-photo.png", title: "BPDS 3D Pipeline Location & Depth Survey" },
+        { src: "/pictures/hero-slider/bpds-03.png", title: "BPDS Signal Transmitter & Cable Connection" },
+        { src: "/pictures/hero-slider/bpds-04.png", title: "Buried Pipeline Sensor Receiver System" },
+        { src: "/pictures/hero-slider/bpds-05.png", title: "3D Coordinate & Magnetic Data Processing" },
+        { src: "/pictures/hero-slider/bpds-06.png", title: "River Crossing Pipeline Burial Depth Mapping" }
+      ]
+    },
+    support: {
+      categoryTitle: "PCE Equipment Yard & Technical Fleet",
+      items: [
+        { src: "/pictures/equipment/main-equipments-cover-photo.jpg", title: "PCE Main Equipment Yard (Aerial View)" },
+        { src: "/pictures/home-page/equipment-02.jpg", title: "Heavy HDD Rigs & Fleet Inventory" },
+        { src: "/pictures/home-page/equipment-03.jpg", title: "High-Pressure Mud Pumps & Circulation Units" },
+        { src: "/pictures/home-page/equipment-04.jpg", title: "Mud Recycling Systems & Solids Control" },
+        { src: "/pictures/home-page/equipment-05.jpg", title: "Specialist HDD Drilling Tools & Reamers" },
+        { src: "/pictures/home-page/equipment-06.jpg", title: "Field Excavators & Support Machinery" },
+        { src: "/pictures/home-page/equipment-07.jpg", title: "Continuous Electronic Tracking & Guidance Systems" },
+        { src: "/pictures/home-page/equipment-08.jpg", title: "PCE Heavy Equipment Maintenance & Logistics Yard" }
+      ]
+    }
+  };
+
   for (const card of CAPABILITIES_CARDS) {
     const detail = CAPABILITIES_DETAILS[card.id];
     const cardImg = await uploadLocalImage(card.image);
+
+    const galData = capabilityGalleriesData[card.id];
+    const galItems = [];
+    if (galData?.items) {
+      for (const item of galData.items) {
+        const img = await uploadLocalImage(item.src);
+        if (img) {
+          galItems.push({
+            _key: genKey('gal'),
+            _type: 'galleryItem',
+            image: img,
+            title: item.title,
+          });
+        }
+      }
+    }
 
     const doc = {
       _type: 'capability',
@@ -265,6 +328,11 @@ async function migrateCapabilities() {
       headline: detail?.headline || '',
       subtext: detail?.subtext || '',
       steps: detail?.steps || [],
+      gallery: {
+        _type: 'gallery',
+        categoryTitle: galData?.categoryTitle || card.title,
+        items: galItems,
+      },
     };
 
     await saveDoc(doc);
@@ -296,6 +364,76 @@ async function migratePageSingletons() {
     }
   }
 
+  // Build overview galleries with uploaded image assets
+  const overviewGalleriesData = [
+    {
+      categoryTitle: "PCE Construction Teams & Field Engineers",
+      items: [
+        { src: "/pictures/hero-slider/ob3-02-team.jpg", title: "OB3 HDD River Niger Crossing Construction Team" },
+        { src: "/pictures/home-page/engineering-teams-new.jpg", title: "PCE Nigeria Engineering & Construction Specialist Team" },
+        { src: "/pictures/hero-slider/construction-team-02.jpg", title: "PCE Field Construction Team on Site" },
+        { src: "/pictures/hero-slider/ob3-construction-team.jpg", title: "OB3 Project Construction Team Celebration" },
+        { src: "/pictures/hero-slider/team-in-suits.jpg", title: "PCE Executive & Management Team" },
+      ]
+    },
+    {
+      categoryTitle: "Nigeria-based HDD Rigs & Pipe-Handling Capability",
+      items: [
+        { src: "/pictures/hero-slider/drilling-rig-cover-photo.jpg", title: "1200t / 500t Heavy HDD Drilling Rig System" },
+        { src: "/pictures/hero-slider/drilling-rig-03.jpg", title: "HDD Drilling Rig Operations & High-Pressure Mud Line" },
+        { src: "/pictures/hero-slider/side-bomb.jpg", title: "Heavy Pipe-Handling Machine & Boom Capability" },
+        { src: "/pictures/hero-slider/excavator.jpg", title: "Heavy Excavator Fleet & Pipeline Field Support" },
+        { src: "/pictures/hero-slider/air-compression.jpg", title: "High-Pressure Air Compressor System & Site Equipment" },
+      ]
+    },
+    {
+      categoryTitle: "PCE Equipment & Materials Yard in Nigeria",
+      items: [
+        { src: "/pictures/equipment/main-equipments-cover-photo.jpg", title: "PCE Main Equipment & Materials Yard (Aerial View)" },
+        { src: "/pictures/equipment/equipment-02.png", title: "Equipment & Materials Stock in Nigeria Yard" },
+        { src: "/pictures/product-image/CMC.jpg", title: "BRSCMC Drilling Fluid Product Supply" },
+        { src: "/pictures/product-image/Bentonite.png", title: "BRSBENT High-Yield Bentonite Product Supply" },
+        { src: "/pictures/equipment/equipment-05.png", title: "Pipeline Supplies & Materials Stockpile" },
+      ]
+    }
+  ];
+
+  const glanceStatsPopulated = [];
+  const statDefs = [
+    { number: '150+', label: 'People across five specialist construction teams', coverPath: '/pictures/hero-slider/ob3-02-team.jpg', galIdx: 0 },
+    { number: '1200t/500t/500t', label: 'Nigeria-based HDD rig and pipe-handling capability', coverPath: '/pictures/hero-slider/drilling-rig-cover-photo.jpg', galIdx: 1 },
+    { number: '20+ Years', label: 'Continuous trenchless operations & project excellence', coverPath: '/pictures/equipment/main-equipments-cover-photo.jpg', galIdx: 2 },
+  ];
+
+  for (const def of statDefs) {
+    const coverImg = await uploadLocalImage(def.coverPath);
+    const galData = overviewGalleriesData[def.galIdx];
+    const galItems = [];
+    for (const item of galData.items) {
+      const imgAsset = await uploadLocalImage(item.src);
+      if (imgAsset) {
+        galItems.push({
+          _key: genKey('galitem'),
+          _type: 'galleryItem',
+          image: imgAsset,
+          title: item.title,
+        });
+      }
+    }
+    glanceStatsPopulated.push({
+      _key: genKey('stat'),
+      _type: 'statItem',
+      number: def.number,
+      label: def.label,
+      ...(coverImg ? { image: coverImg } : {}),
+      gallery: {
+        _type: 'gallery',
+        categoryTitle: galData.categoryTitle,
+        items: galItems,
+      },
+    });
+  }
+
   // 1. Home Page Singleton
   const homeDoc = {
     _type: 'homePage',
@@ -320,11 +458,7 @@ async function migratePageSingletons() {
     glanceTagline: 'PCE AT A GLANCE',
     glanceHeading: 'Specialist People. Field-ready Resources in Nigeria. Proven Capability.',
     glanceBody: 'PCE combines heavy HDD rigs, specialized mud recycling systems, and experienced field personnel for high-stakes pipeline installations.',
-    glanceStats: [
-      { _key: genKey('stat'), _type: 'statItem', number: '150+', label: 'People across five specialist construction teams' },
-      { _key: genKey('stat'), _type: 'statItem', number: '1200t/500t/500t', label: 'Nigeria-based HDD rig and pipe-handling capability' },
-      { _key: genKey('stat'), _type: 'statItem', number: '20+ Years', label: 'Continuous trenchless operations & project excellence' },
-    ],
+    glanceStats: glanceStatsPopulated,
     capabilitiesSection: {
       _type: 'sectionBlock',
       tagline: 'OUR CAPABILITIES',
