@@ -48,6 +48,16 @@ export default defineType({
         defineField({ name: 'label', title: 'Metric Label', type: 'string' }),
       ],
     }),
+    defineField({
+      name: 'buttonText',
+      title: 'Action Button Label',
+      type: 'string',
+    }),
+    defineField({
+      name: 'buttonLink',
+      title: 'Action Button Link URL',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {

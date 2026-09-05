@@ -5,22 +5,30 @@ export default defineType({
   title: 'Resources Page',
   type: 'document',
   groups: [
-    { name: 'overview', title: 'Hero & Intro', default: true },
-    { name: 'seo', title: 'SEO' },
+    { name: 'hero', title: '1. Hero Banner', default: true },
+    { name: 'downloads', title: '2. Downloads Section' },
+    { name: 'seo', title: 'SEO Metadata' },
   ],
   fields: [
     defineField({
       name: 'heroHeadline',
       title: 'Hero Banner Headline',
       type: 'string',
-      group: 'overview',
+      group: 'hero',
+      initialValue: 'Technical Resources, TDS & SDS Data Sheets',
     }),
     defineField({
       name: 'heroSubtext',
       title: 'Hero Banner Subtext',
       type: 'text',
-      group: 'overview',
+      group: 'hero',
       rows: 3,
+    }),
+    defineField({
+      name: 'downloadsSection',
+      title: 'Resources Downloads Section Block',
+      type: 'sectionBlock',
+      group: 'downloads',
     }),
     defineField({
       name: 'seo',

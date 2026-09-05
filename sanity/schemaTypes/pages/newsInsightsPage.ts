@@ -5,22 +5,30 @@ export default defineType({
   title: 'News & Insights Page',
   type: 'document',
   groups: [
-    { name: 'overview', title: 'Hero & Intro', default: true },
-    { name: 'seo', title: 'SEO' },
+    { name: 'hero', title: '1. Hero Banner', default: true },
+    { name: 'articles', title: '2. News Articles Section' },
+    { name: 'seo', title: 'SEO Metadata' },
   ],
   fields: [
     defineField({
       name: 'heroHeadline',
       title: 'Hero Banner Headline',
       type: 'string',
-      group: 'overview',
+      group: 'hero',
+      initialValue: 'News, Project Reports & Technical Insights',
     }),
     defineField({
       name: 'heroSubtext',
       title: 'Hero Banner Subtext',
       type: 'text',
-      group: 'overview',
+      group: 'hero',
       rows: 3,
+    }),
+    defineField({
+      name: 'articlesSection',
+      title: 'News Articles Section Block',
+      type: 'sectionBlock',
+      group: 'articles',
     }),
     defineField({
       name: 'seo',
