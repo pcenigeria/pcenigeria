@@ -5,16 +5,27 @@ import { Text } from '@/shared/components/ui/text';
 import Link from 'next/link';
 import { ArrowRight } from '@phosphor-icons/react';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
+import { PortableText } from '@portabletext/react';
 
 interface OurApproachProps {
     sanityPage?: any;
 }
 
+const bodyComponents = {
+    block: {
+        normal: ({ children }: any) => (
+            <p className="!text-white/80 text-sm md:text-base leading-relaxed max-w-[540px] mb-4 last:mb-0">
+                {children}
+            </p>
+        ),
+    },
+};
+
 export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
     const section = sanityPage?.approachSection;
     const tagline = section?.tagline || 'Our Approach';
     const heading = section?.heading || 'The route, the crossing and the line considered together.';
-    const body = section?.body || "Complex pipeline projects rarely depend on one discipline. Ground conditions affect engineering. Engineering determines equipment. Equipment affects execution. And every stage must work within the project's safety, quality and programme requirements. PCE brings these considerations together from assessment through delivery.";
+    const body = section?.body;
     const buttonText = section?.buttonText || 'Explore Our Projects';
     const buttonLink = section?.buttonLink || '/projects';
     const image = section?.gallery?.items?.[0]?.src || '/pictures/company/pipeline.jpg';
@@ -41,9 +52,17 @@ export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
                     </div>
 
                     {/* Body Paragraph */}
-                    <p className="!text-white/80 text-sm md:text-base leading-relaxed max-w-[540px]">
-                        {body}
-                    </p>
+                    {Array.isArray(body) && body.length > 0 ? (
+                        <div className="max-w-[540px]">
+                            <PortableText value={body} components={bodyComponents} />
+                        </div>
+                    ) : (
+                        <p className="!text-white/80 text-sm md:text-base leading-relaxed max-w-[540px]">
+                            {typeof body === 'string'
+                                ? body
+                                : "Complex pipeline projects rarely depend on one discipline. Ground conditions affect engineering. Engineering determines equipment. Equipment affects execution. And every stage must work within the project's safety, quality and programme requirements. PCE brings these considerations together from assessment through delivery."}
+                        </p>
+                    )}
 
                     {/* CTA Link */}
                     <div className="pt-2">
