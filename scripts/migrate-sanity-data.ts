@@ -68,10 +68,17 @@ function makeBlockContent(text: string) {
 }
 
 async function saveDoc(doc: any) {
-  console.log(`Saving document (published & draft): ${doc._id}...`);
+  console.log(`Publishing singleton document: ${doc._id}...`);
+  // 1. Create/Replace official published document
   await client.createOrReplace(doc);
-  const draftDoc = { ...doc, _id: `drafts.${doc._id}` };
-  await client.createOrReplace(draftDoc);
+
+  // 2. Delete any existing draft document overlay so Sanity Studio forces sync with published state
+  try {
+    await client.delete(`drafts.${doc._id}`);
+    console.log(`Deleted draft overlay for: drafts.${doc._id}`);
+  } catch (e) {
+    // ignore if draft doesn't exist
+  }
 }
 
 async function uploadLocalImage(relativePath?: string): Promise<any> {
@@ -594,7 +601,7 @@ async function migratePageSingletons() {
   };
   await saveDoc(resourcesDoc);
 
-  // 10. Contact Page Singleton
+  // 10. Contact Page Singleton (Updated with Wan Yang & Xu Liangkui numbers)
   const contactDoc = {
     _type: 'contactPage',
     _id: 'contactPage',
@@ -684,7 +691,7 @@ async function runMigration() {
     await migrateProducts();
     await migrateCapabilities();
     await migratePageSingletons();
-    console.log('\n✅ Full migration completed successfully! All singletons and collections populated with valid keys and rich body content (published & draft).');
+    console.log('\n✅ Full migration completed successfully! Clean published singletons with drafts purged.');
   } catch (err) {
     console.error('\n❌ Migration failed:', err);
   }
