@@ -12,12 +12,12 @@
   --text-5xl:  3rem;       /* 48px */
 
   /* PCE Type Scale — raw pixel values used by components */
-  --text-hero:          clamp(48px, 4vw + 32px, 80px); /* Hero headline (fluid 48px-80px on mobile/desktop) */
-  --text-display-lg:    clamp(40px, 2.8vw + 31px, 60px); /* Section / tile headlines (fluid 40px-60px) */
-  --text-display-md:    40px;   /* Section heads */
-  --text-lead:          28px;   /* Tile subcopy */
-  --text-lead-airy:     24px;   /* Long-form lead paragraphs */
-  --text-tagline:       21px;   /* Sub-tile tagline; sub-nav category */
+  --text-hero:          clamp(32px, 3vw + 16px, 52px); /* Hero headline (responsive 32px-52px) */
+  --text-display-lg:    clamp(26px, 2vw + 14px, 38px); /* Section / tile headlines (responsive 26px-38px) */
+  --text-display-md:    clamp(22px, 1.2vw + 12px, 30px);   /* Section heads */
+  --text-lead:          24px;   /* Tile subcopy */
+  --text-lead-airy:     20px;   /* Long-form lead paragraphs */
+  --text-tagline:       18px;   /* Sub-tile tagline; sub-nav category */
   --text-body-strong:   16px;   /* Inline strong emphasis */
   --text-body:          16px;   /* Default paragraph */
   --text-dense-link:    16px;   /* Footer link lists */
@@ -29,13 +29,13 @@
   --text-nav-link:      12px;   /* Global nav menu items */
 
   /* ===== Font Weights ===== */
-  /* PCE ladder: 300 / 400 / 600 / 700 — weight-500 deliberately excluded */
+  /* PCE ladder: 300 / 400 / 600 / 700 */
   --weight-light:    300;
   --weight-regular:  400;
   /* --weight-medium: 500 — removed: not part of PCE type ladder */
   --weight-semibold: 600;
   --weight-bold:     700;
-  --weight-extrabold: 800;
+  --weight-extrabold: 700;
 
   /* ===== Line Heights ===== */
   --leading-none:    1;
@@ -74,8 +74,8 @@ body {
 h1 {
   font-family: var(--font-sans);
   font-size: var(--text-hero);
-  font-weight: var(--weight-extrabold);
-  line-height: 1.07;
+  font-weight: var(--weight-bold);
+  line-height: 1.12;
   letter-spacing: var(--tracking-tighter);
 }
 

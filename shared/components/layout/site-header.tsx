@@ -99,7 +99,7 @@ export const SiteHeader = () => {
             subtitle: 'Clay Viscosity Reducer',
             href: '/products/brsvr',
             description: 'Clay stripper & clay dispersing solution for drilling fluids.',
-            image: '/pictures/product-image/brsvr.png',
+            image: '/pictures/product-image/brsvr-pack.png',
         },
         {
             title: 'BRSXTG',

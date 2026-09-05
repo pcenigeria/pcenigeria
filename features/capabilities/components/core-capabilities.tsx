@@ -87,7 +87,7 @@ export const CoreCapabilities = () => {
                 {CAPABILITIES_CARDS.map((cap) => {
                     const gallery = CAPABILITY_GALLERIES[cap.id];
                     return (
-                        <StaggerItem key={cap.id} className="w-full flex flex-col items-start gap-6">
+                        <StaggerItem key={cap.id} className="w-full h-full flex flex-col items-start justify-between gap-6">
                             
                             {/* 1. Standalone Image Frame */}
                             <div 
@@ -120,7 +120,7 @@ export const CoreCapabilities = () => {
                             </div>
 
                             {/* 2. Text & Button Panel */}
-                            <div className="w-full flex flex-col items-start gap-4">
+                            <div className="w-full flex-1 flex flex-col items-start justify-between gap-4">
                                 
                                 {/* Title & Description */}
                                 <div className="flex flex-col gap-2">
@@ -135,7 +135,7 @@ export const CoreCapabilities = () => {
                                 {/* Read More Button */}
                                 <button 
                                     onClick={() => openCapability(cap.id)}
-                                    className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-focus)] text-white text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-md transition-colors mt-2 cursor-pointer"
+                                    className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-focus)] text-white text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-md transition-colors mt-auto cursor-pointer"
                                 >
                                     Read Details
                                     <ArrowRight weight="bold" />
@@ -143,6 +143,7 @@ export const CoreCapabilities = () => {
                             </div>
 
                         </StaggerItem>
+
                     );
                 })}
             </StaggerContainer>

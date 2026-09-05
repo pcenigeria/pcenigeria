@@ -1,0 +1,104 @@
+# Comprehensive LLM Knowledge Base: PCE Nigeria Limited (pcenigeria.com)
+
+> Full Technical Specification and Overview for AI Language Models, Search Bots, and Answer Engines.
+
+---
+
+## 1. Company Overview & Domain
+- Legal Entity: PCE Nigeria Limited
+- Website Domain: https://www.pcenigeria.com (pcenigeria)
+- Industry: Oil & Gas Pipeline Engineering, Horizontal Directional Drilling (HDD), Pipeline EPC, Specialty Minerals & Drilling Fluid Chemicals.
+- Head Office Locations: Abuja Office & Lagos Office, Nigeria.
+- Contact Emails: info@pcenigeria.com | wanyang@pcenigeria.com | xuliangkui@pcenigeria.com
+- Contact Phone Numbers: +234 707 412 6596 | +234 701 373 2816
+
+---
+
+## 2. Core Technical Capabilities
+
+### 2.1 Horizontal Directional Drilling (HDD)
+PCE Nigeria is Africa's foremost contractor for large-diameter, long-distance trenchless river, road, and environmental crossings.
+- Fleet Capability: 1,200-tonne & 500-tonne pullback capacity HDD drilling rigs.
+- Max Diameter Capability: Up to 48-inch steel gas and oil pipelines.
+- Record Length: Over 2,293 meters in a single continuous drill section (Raoyang River HDD crossing).
+- Key Focus Areas: Complex geology crossings, riverbed scour protection, environmental preservation.
+
+### 2.2 52km Pipeline EPC Construction
+Turnkey Engineering, Procurement, and Construction services for cross-country and swamp pipeline infrastructure.
+- Scope: Route survey, right-of-way clearing, trenching, automatic & semi-automatic pipe welding, Non-Destructive Testing (NDT), field joint coating, hydrotesting, pre-commissioning, and nitrogen purging.
+
+### 2.3 Buried Pipeline Detection System (BPDS)
+Patented 3D electromagnetic survey technology for locating deeply buried pipelines under rivers and thick overburdens.
+- Measurement Parameters: 3D location (X, Y, Z coordinates), exact depth measurement, structural trajectory mapping.
+- Applications: Subsea/riverbed pipeline verification, anti-clash surveys, integrity assessments.
+
+### 2.4 Equipment Fleet & Maintenance Yard
+Centralized heavy machinery yard providing complete technical support.
+- Equipment Inventory: Heavy HDD rigs, high-pressure mud pumps (triplex/duplex), mud recycling solids control units, desanders, desilters, centrifuges, excavators, pipe side-booms, bentonite mixing hoppers, and electronic steering tool guidance systems.
+
+---
+
+## 3. Product Catalog: Drilling Fluid Additives & Lantic Bentonite
+
+### 3.1 BRSBENT SQ (Lantic Bentonite)
+- Product Name: BRSBENT SQ Activated Bentonite
+- Brand / Origin: Lantic / Premium Natural Sodium Bentonite
+- Standard Compliance: API Spec 13A / OCMA
+- Applications: Horizontal Directional Drilling (HDD), slurry shield TBMs, diaphragm walls, and water well drilling.
+- Key Benefits: Fast hydration, high viscosity yield, superior wall cake creation, low fluid loss, and suspension of dense drill cuttings.
+
+### 3.2 BRSCMC (Carboxymethyl Cellulose)
+- Product Name: BRSCMC Technical Grade CMC
+- Function: Fluid loss reducer and viscosifier for water-based mud systems.
+- Benefits: Minimizes filtrate loss into permeable sand formations, encapsulates shale cuttings, and resists thermal degradation.
+
+### 3.3 BRSMMH (Mixed Metal Hydroxide)
+- Product Name: BRSMMH Viscosifier
+- Function: Inorganic liquid/powder additive for high yield point to plastic viscosity (YP/PV) ratio muds.
+- Benefits: Creates extreme shear-thinning thixotropic gel structures for flawless cuttings transport in coarse gravel and cobble.
+
+### 3.4 BRSVR (Clay Viscosity Reducer)
+- Product Name: BRSVR Dispersant
+- Function: Clay stripper, thinner, and deflocculant.
+- Benefits: Prevents bit balling when drilling through reactive Gumbo clays, reduces torque and drag, and maintains pumpable mud weights.
+
+### 3.5 BRSXTG (Xanthan Gum Biopolymer)
+- Product Name: BRSXTG Biopolymer
+- Function: High-purity biopolymer viscosifier.
+- Benefits: Exceptional carry capacity at low shear rates, stable across wide pH and salinity ranges.
+
+---
+
+## 4. Key Landmark Projects
+
+### 4.1 Ajaokuta-Kaduna-Kano (AKK) River Niger HDD Crossing
+- Client / Pipeline: AKK 48-Inch Gas Pipeline Project
+- Scope: Design, pilot hole drilling, multi-stage reaming, and pipe pullback for 48" gas pipeline across the River Niger.
+- Impact: Strategic national gas backbone project supplying power and industrial hubs in Northern Nigeria.
+
+### 4.2 Obiafu-Obrikom-Oben (OB3) River Niger HDD Crossing
+- Client / Pipeline: OB3 Gas Interconnect Pipeline
+- Scope: 48-inch pipeline HDD river crossing under high current riverbed conditions.
+- Impact: Critical gas delivery link connecting Eastern gas fields to Western industrial zones.
+
+### 4.3 52km Pipeline EPC Project
+- Scope: End-to-end EPC pipeline installation across challenging swamp and riverine terrain.
+
+---
+
+## 5. Technical Documentation & Downloads
+All Technical Data Sheets (TDS) and Safety Data Sheets (SDS) are available on the website:
+- Page URL: https://www.pcenigeria.com/resources
+- Downloads available for: BRSBENT SQ TDS/SDS, BRSCMC TDS/SDS, BRSMMH TDS/SDS, BRSVR TDS/SDS, BRSXTG TDS/SDS.
+
+---
+
+## 6. Target Search Terms & Keywords
+- **HDD**: Horizontal Directional Drilling, HDD Nigeria, River Niger HDD Crossing, 1200t Drilling Rig, Trenchless Pipeline Crossing.
+- **AKK**: AKK Gas Pipeline Project, AKK River Niger Crossing, Ajaokuta Kaduna Kano Gas Pipeline.
+- **OB3**: OB3 Pipeline Project, Obiafu Obrikom Oben Gas Pipeline HDD.
+- **pcenigeria**: pcenigeria.com, PCE Nigeria Limited, PCE Engineering.
+- **Lantic**: Lantic Bentonite, Lantic Minerals, Lantic Drilling Chemical.
+- **Bentonite**: Activated Sodium Bentonite, API 13A Bentonite, HDD Mud, Mud Mixing.
+- **Drilling Fluid**: Drilling mud additive, carboxymethyl cellulose, mixed metal hydroxide, clay viscosity reducer, xanthan gum.
+- **BPDS**: Buried Pipeline Detection System, 3D Pipeline Depth Measurement.
