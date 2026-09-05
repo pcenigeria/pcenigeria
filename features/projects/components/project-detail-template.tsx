@@ -2,21 +2,33 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { PortableText } from '@portabletext/react';
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react';
 import { ProjectDetail } from '../types/project.types';
-import { PROJECTS_DATA } from '../data/projects-data';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
+
+const sectionBodyComponents = {
+    block: {
+        normal: ({ children }: any) => <p>{children}</p>,
+    },
+};
+
+interface ProjectSummary {
+    title: string;
+    slug: string;
+}
 
 interface ProjectDetailTemplateProps {
     project: ProjectDetail;
+    allProjects?: ProjectSummary[];
 }
 
-export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ project }) => {
+export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ project, allProjects = [] }) => {
     // Calculate Next Project for seamless footer navigation
-    const projectKeys = Object.keys(PROJECTS_DATA);
-    const currentIndex = project.slug ? projectKeys.indexOf(project.slug) : -1;
-    const nextKey = currentIndex !== -1 ? projectKeys[(currentIndex + 1) % projectKeys.length] : projectKeys[0];
-    const nextProject = PROJECTS_DATA[nextKey];
+    const currentIndex = project.slug ? allProjects.findIndex((p) => p.slug === project.slug) : -1;
+    const nextProject = allProjects.length > 0
+        ? allProjects[(currentIndex + 1) % allProjects.length]
+        : undefined;
 
     return (
         <article className="w-full bg-[var(--color-canvas)] text-[var(--color-ink)] min-h-screen pb-24">
@@ -103,11 +115,9 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
                                         )}
 
                                         {/* Section Paragraphs (if present) */}
-                                        {section.body && section.body.length > 0 && (
+                                        {Array.isArray(section.body) && section.body.length > 0 && (
                                             <div className="flex flex-col gap-4 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed font-normal pt-2">
-                                                {section.body.map((paragraph, pIdx) => (
-                                                    <p key={pIdx}>{paragraph}</p>
-                                                ))}
+                                                <PortableText value={section.body} components={sectionBodyComponents} />
 
                                                 {/* Section Bullets (if present) */}
                                                 {section.bullets && section.bullets.length > 0 && (
@@ -143,7 +153,7 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
                                                 {/* Large Featured Image 1 */}
                                                 {project.bentoImages[0] && (
                                                     <div className="col-span-12 md:col-span-8 h-[280px] sm:h-[380px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5">
-                                                        <div 
+                                                        <div
                                                             className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
                                                             style={{ backgroundImage: `url("${project.bentoImages[0]}")` }}
                                                         />
@@ -153,7 +163,7 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
                                                 {/* Side Tall Image 2 */}
                                                 {project.bentoImages[1] && (
                                                     <div className="col-span-12 md:col-span-4 h-[280px] sm:h-[380px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5">
-                                                        <div 
+                                                        <div
                                                             className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
                                                             style={{ backgroundImage: `url("${project.bentoImages[1]}")` }}
                                                         />
@@ -162,11 +172,11 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
 
                                                 {/* Bottom Trio: Images 3, 4, 5 */}
                                                 {project.bentoImages.slice(2, 5).map((imgUrl, iIdx) => (
-                                                    <div 
-                                                        key={iIdx} 
+                                                    <div
+                                                        key={iIdx}
                                                         className="col-span-12 sm:col-span-4 h-[220px] sm:h-[260px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5"
                                                     >
-                                                        <div 
+                                                        <div
                                                             className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
                                                             style={{ backgroundImage: `url("${imgUrl}")` }}
                                                         />

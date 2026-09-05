@@ -8,7 +8,16 @@ import { Button } from '@/shared/components/ui/button';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
 import { ArrowRight, CaretLeft, CaretRight, Pause, Play } from '@phosphor-icons/react';
 
-const HERO_SLIDES = [
+interface HeroSlide {
+    src: string;
+    alt: string;
+}
+
+interface HomeHeroProps {
+    sanityPage?: any;
+}
+
+const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     { src: "/pictures/hero-slider/ob3-construction-team.jpg", alt: "OB3 River Niger HDD Crossing Completion Team" },
     { src: "/pictures/hero-slider/akk-cover-photo.jpg", alt: "AKK Pipeline Crossing Project" },
     { src: "/pictures/hero-slider/drilling-rig-cover-photo.jpg", alt: "Heavy HDD Rig Land-to-Sea Crossing" },
@@ -21,18 +30,40 @@ const HERO_SLIDES = [
     { src: "/pictures/hero-slider/warehouse-story-yard.jpg", alt: "PCE Warehouse & Materials Yard" },
 ];
 
-export const HomeHero = () => {
+const DEFAULT_BULLETS = [
+    "Excellent HDD construction capability",
+    "Professional HDD drilling fluid scheme design and product supply capability",
+    "Comprehensive pipeline EPC construction capability",
+    "Deep buried pipeline detection capability",
+];
+
+export const HomeHero: React.FC<HomeHeroProps> = ({ sanityPage }) => {
+    const heroSlides: HeroSlide[] = React.useMemo(() => {
+        const items = sanityPage?.heroSlides?.items;
+        if (!items || items.length === 0) return DEFAULT_HERO_SLIDES;
+        return items.map((item: any) => ({
+            src: item.src || DEFAULT_HERO_SLIDES[0].src,
+            alt: item.title || item.description || 'PCE Nigeria HDD Project',
+        }));
+    }, [sanityPage]);
+
+    const bullets: string[] = sanityPage?.heroBullets?.length ? sanityPage.heroBullets : DEFAULT_BULLETS;
+    const primaryBtnText = sanityPage?.heroPrimaryBtnText || 'Explore Our Capabilities';
+    const primaryBtnLink = sanityPage?.heroPrimaryBtnLink || '/capabilities';
+    const secondaryBtnText = sanityPage?.heroSecondaryBtnText || 'Start a Project';
+    const secondaryBtnLink = sanityPage?.heroSecondaryBtnLink || '/contact';
+
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleNext = useCallback(() => {
-        setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, []);
+        setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, [heroSlides.length]);
 
     const handlePrev = useCallback(() => {
-        setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-    }, []);
+        setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+    }, [heroSlides.length]);
 
     useEffect(() => {
         if (!isPlaying || isHovered) return;
@@ -44,7 +75,7 @@ export const HomeHero = () => {
 
     const togglePlay = () => setIsPlaying((prev) => !prev);
 
-    const activeSlide = HERO_SLIDES[currentSlide];
+    const activeSlide = heroSlides[currentSlide] || heroSlides[0];
 
     return (
         <section 
@@ -86,20 +117,19 @@ export const HomeHero = () => {
                 {/* Headline */}
                 <FadeInSlideUp aboveFold delay={0} className="max-w-[1000px] mb-6">
                     <Text variant="hero" intent="inverse">
-                        <span className="text-[var(--color-accent)]">HDD</span> Crossing.<br />
-                        EPC for Pipeline.
+                        {sanityPage?.heroHeadline || (
+                            <>
+                                <span className="text-[var(--color-accent)]">HDD</span> Crossing.<br />
+                                EPC for Pipeline.
+                            </>
+                        )}
                     </Text>
                 </FadeInSlideUp>
 
                 {/* Sub-headline: Capability list */}
                 <FadeInSlideUp aboveFold delay={0.15} className="max-w-[800px] mb-10">
                     <ul className="flex flex-col gap-2.5 !list-none !pl-0 !m-0">
-                        {[
-                            "Excellent HDD construction capability",
-                            "Professional HDD drilling fluid scheme design and product supply capability",
-                            "Comprehensive pipeline EPC construction capability",
-                            "Deep buried pipeline detection capability",
-                        ].map((item) => (
+                        {bullets.map((item) => (
                             <li key={item} className="flex items-start gap-3">
                                 <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] shrink-0" />
                                 <Text variant="lead-airy" intent="inverse" className="!text-[16px] md:!text-[20px] !leading-relaxed">
@@ -113,12 +143,12 @@ export const HomeHero = () => {
                 {/* Buttons Row & Slider Controls Bar */}
                 <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <FadeInSlideUp aboveFold delay={0.3} className="flex flex-wrap gap-4">
-                        <Button variant="primary" href="/capabilities" rightIcon={<ArrowRight weight="bold" aria-hidden="true" />}>
-                            Explore Our Capabilities
+                        <Button variant="primary" href={primaryBtnLink} rightIcon={<ArrowRight weight="bold" aria-hidden="true" />}>
+                            {primaryBtnText}
                         </Button>
 
-                        <Button variant="tertiary" href="/contact" rightIcon={<ArrowRight weight="bold" aria-hidden="true" />}>
-                            Start a Project
+                        <Button variant="tertiary" href={secondaryBtnLink} rightIcon={<ArrowRight weight="bold" aria-hidden="true" />}>
+                            {secondaryBtnText}
                         </Button>
                     </FadeInSlideUp>
 
@@ -137,7 +167,7 @@ export const HomeHero = () => {
                             <div className="h-3 w-[1px] bg-white/20" />
 
                             <span className="text-xs font-mono text-white/90 tracking-wider min-w-[50px] text-center">
-                                {String(currentSlide + 1).padStart(2, '0')} / {String(HERO_SLIDES.length).padStart(2, '0')}
+                                {String(currentSlide + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
                             </span>
 
                             <div className="h-3 w-[1px] bg-white/20" />

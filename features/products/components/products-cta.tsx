@@ -4,7 +4,25 @@ import React from 'react';
 import Link from 'next/link';
 import { Text } from '@/shared/components/ui/text';
 
-export const ProductsCta: React.FC = () => {
+interface ProductsCtaProps {
+    section?: any;
+}
+
+const DEFAULT_TAGLINE = 'Brighter Star Drilling Fluids';
+const DEFAULT_HEADING = 'When the ground gets difficult, choose the products that have already crossed it.';
+const DEFAULT_BULLETS = ['Competitive Pricing', 'Guaranteed Quality', 'Ample Stock', 'The First Choice for HDD'];
+const DEFAULT_BUTTON_TEXT = 'Contact Us / Request a Quote';
+const DEFAULT_BUTTON_LINK = '/contact';
+
+export const ProductsCta: React.FC<ProductsCtaProps> = ({ section }) => {
+    const tagline = section?.tagline || DEFAULT_TAGLINE;
+    const heading = section?.heading || DEFAULT_HEADING;
+    const bullets = Array.isArray(section?.bullets) && section.bullets.length > 0
+        ? section.bullets
+        : DEFAULT_BULLETS;
+    const buttonText = section?.buttonText || DEFAULT_BUTTON_TEXT;
+    const buttonLink = section?.buttonLink || DEFAULT_BUTTON_LINK;
+
     return (
         <>
             {/* CLOSING CTA SECTION */}
@@ -13,18 +31,18 @@ export const ProductsCta: React.FC = () => {
                     <div className="flex items-center gap-2">
                         <span className="w-6 h-[3px] bg-[#f4691a] inline-block" />
                         <span className="text-sm uppercase tracking-wider text-[#f4691a] font-semibold">
-                            Brighter Star Drilling Fluids
+                            {tagline}
                         </span>
                     </div>
                     <blockquote className="text-2xl md:text-3xl font-extrabold text-white leading-snug">
-                        &ldquo;When the ground gets difficult, choose the products that have already crossed it.&rdquo;
+                        &ldquo;{heading}&rdquo;
                     </blockquote>
                     <p className="text-sm !text-white font-semibold">
-                        Competitive Pricing &nbsp;·&nbsp; Guaranteed Quality &nbsp;·&nbsp; Ample Stock &nbsp;·&nbsp; The First Choice for HDD
+                        {bullets.join(' · ')}
                     </p>
                     <div className="pt-4">
-                        <Link href="/contact" className="inline-flex px-8 py-4 rounded-xl bg-[#f4691a] text-[#052237] font-extrabold text-base no-underline hover:bg-white transition-all shadow-md">
-                            Contact Us / Request a Quote
+                        <Link href={buttonLink} className="inline-flex px-8 py-4 rounded-xl bg-[#f4691a] text-[#052237] font-extrabold text-base no-underline hover:bg-white transition-all shadow-md">
+                            {buttonText}
                         </Link>
                     </div>
                 </div>

@@ -1,6 +1,47 @@
 import { client } from './client';
 
 // =========================================
+// REUSABLE PROJECTION FRAGMENTS
+// =========================================
+
+// For fields of type `gallery` (has categoryTitle + items[] of galleryItem)
+const GALLERY_FIELDS = `{
+  categoryTitle,
+  "items": items[]{ "src": image.asset->url, title, description }
+}`;
+
+// For fields that are a bare array of `galleryItem` (no categoryTitle wrapper)
+const GALLERY_ITEMS_ARRAY_FIELDS = `[]{ "src": image.asset->url, title, description }`;
+
+// For fields of type `sectionBlock`
+const SECTION_BLOCK_FIELDS = `{
+  tagline,
+  heading,
+  headingColor,
+  body,
+  bullets,
+  highlightStat,
+  buttonText,
+  buttonLink,
+  "gallery": gallery${GALLERY_FIELDS}
+}`;
+
+// For fields of type `statItem`
+const STAT_ITEM_FIELDS = `{
+  number,
+  label,
+  "image": image.asset->url,
+  "gallery": gallery${GALLERY_FIELDS}
+}`;
+
+// For fields of type `seo`
+const SEO_FIELDS = `{
+  metaTitle,
+  metaDescription,
+  "ogImage": ogImage.asset->url
+}`;
+
+// =========================================
 // PROJECTS (CASE STUDIES)
 // =========================================
 
@@ -228,8 +269,17 @@ export async function getEquipmentPage() {
   const query = `*[_id == "equipmentPage"][0] {
     heroHeadline,
     heroSubtext,
+    heroSubtext2,
+    heroPrimaryBtnText,
+    heroBullets,
     "heroImage": heroImage.asset->url,
-    "supportImages": supportImages.items[]{ "src": image.asset->url }
+    capacitySection${SECTION_BLOCK_FIELDS},
+    capacityKeyStats[]{ label, description },
+    "capacityImages": capacityImages${GALLERY_ITEMS_ARRAY_FIELDS},
+    fleetSection${SECTION_BLOCK_FIELDS},
+    supportSection${SECTION_BLOCK_FIELDS},
+    "supportImages": supportImages${GALLERY_ITEMS_ARRAY_FIELDS},
+    seo${SEO_FIELDS}
   }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ['equipmentPage'] } });
@@ -273,17 +323,30 @@ export async function getAllResourceCategories() {
 
 export async function getHomePage() {
   const query = `*[_id == "homePage"][0] {
+    heroTagline,
+    heroHeadline,
+    heroBullets,
+    heroPrimaryBtnText,
+    heroPrimaryBtnLink,
+    heroSecondaryBtnText,
+    heroSecondaryBtnLink,
+    "heroSlides": heroSlides${GALLERY_FIELDS},
+    glanceTagline,
     glanceHeading,
-    glanceStats,
-    capabilitiesIntro,
-    "heroSlides": heroSlides.items[]{ "src": image.asset->url, title, description },
+    glanceBody,
+    glanceStats[]${STAT_ITEM_FIELDS},
+    capabilitiesSection${SECTION_BLOCK_FIELDS},
+    featuredSection${SECTION_BLOCK_FIELDS},
     "featuredProjects": featuredProjects[]->{
       title,
       "slug": slug.current,
       tagline,
       intro,
       "heroImage": heroImage.asset->url
-    }
+    },
+    equipmentSection${SECTION_BLOCK_FIELDS},
+    ctaSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
   }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ['homePage'] } });
@@ -294,7 +357,25 @@ export async function getHomePage() {
 }
 
 export async function getCompanyPage() {
-  const query = `*[_id == "companyPage"][0]`;
+  const query = `*[_id == "companyPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    heroSubtext2,
+    heroPrimaryBtnText,
+    heroPrimaryBtnLink,
+    whoWeAreSection${SECTION_BLOCK_FIELDS},
+    whoWeAreImages[]{ "image": image.asset->url, caption },
+    overviewCapabilitiesSection${SECTION_BLOCK_FIELDS},
+    deliveryBentoCards[]{ title, description, "image": image.asset->url },
+    experienceSection${SECTION_BLOCK_FIELDS},
+    "experienceImage": experienceImage.asset->url,
+    visionMissionSection${SECTION_BLOCK_FIELDS},
+    peopleScaleSection${SECTION_BLOCK_FIELDS},
+    peopleScaleStats[]${STAT_ITEM_FIELDS},
+    standardsSection${SECTION_BLOCK_FIELDS},
+    "standardsImage": standardsImage.asset->url,
+    seo${SEO_FIELDS}
+  }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ['companyPage'] } });
   } catch (err) {
@@ -303,8 +384,130 @@ export async function getCompanyPage() {
   }
 }
 
+export async function getCapabilitiesPage() {
+  const query = `*[_id == "capabilitiesPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    heroSubtext2,
+    "heroImage": heroImage.asset->url,
+    heroBullets,
+    coreCapabilitiesSection${SECTION_BLOCK_FIELDS},
+    approachSection${SECTION_BLOCK_FIELDS},
+    fleetSupportSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['capabilitiesPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getCapabilitiesPage):', err);
+    return null;
+  }
+}
+
+export async function getProjectsPage() {
+  const query = `*[_id == "projectsPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    heroBullets,
+    gridSection${SECTION_BLOCK_FIELDS},
+    featuredSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['projectsPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getProjectsPage):', err);
+    return null;
+  }
+}
+
+export async function getProductsPage() {
+  const query = `*[_id == "productsPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    heroBullets,
+    catalogSection${SECTION_BLOCK_FIELDS},
+    logisticsSection${SECTION_BLOCK_FIELDS},
+    matrixSection${SECTION_BLOCK_FIELDS},
+    ctaSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['productsPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getProductsPage):', err);
+    return null;
+  }
+}
+
+export async function getNewsInsightsPage() {
+  const query = `*[_id == "newsInsightsPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    articlesSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['newsInsightsPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getNewsInsightsPage):', err);
+    return null;
+  }
+}
+
+export async function getSafetyQualityPage() {
+  const query = `*[_id == "safetyQualityPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    safetySection${SECTION_BLOCK_FIELDS},
+    qualitySection${SECTION_BLOCK_FIELDS},
+    environmentalSection${SECTION_BLOCK_FIELDS},
+    certificationSection${SECTION_BLOCK_FIELDS},
+    futureSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['safetyQualityPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getSafetyQualityPage):', err);
+    return null;
+  }
+}
+
+export async function getContactPage() {
+  const query = `*[_id == "contactPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    contactPersons[]{ name, phone, email },
+    abujaOffice,
+    lagosOffice,
+    portHarcourtBase,
+    generalEmail,
+    formSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['contactPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getContactPage):', err);
+    return null;
+  }
+}
+
 export async function getGlobalSettings() {
-  const query = `*[_id == "globalSettings"][0]`;
+  const query = `*[_id == "globalSettings"][0] {
+    siteTitle,
+    "logo": logo.asset->url,
+    "favicon": favicon.asset->url,
+    footerContacts[]{ name, phone, email },
+    generalEmail,
+    socialLinks[]{ platform, url },
+    footerTagline,
+    footerHeading,
+    footerCtaText,
+    footerCtaLink,
+    defaultSeo${SEO_FIELDS}
+  }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ['globalSettings'] } });
   } catch (err) {
@@ -314,7 +517,15 @@ export async function getGlobalSettings() {
 }
 
 export async function getNavigationSettings() {
-  const query = `*[_id == "navigation"][0]`;
+  const query = `*[_id == "navigation"][0] {
+    companyMenu[]{ title, href, description },
+    capabilitiesMenu[]{ title, href, description },
+    productsMenu[]{ title, subtitle, href, description, "image": image.asset->url },
+    mainLinks[]{ title, href, insertProductsMenuAfter },
+    homeLink{ title, href },
+    contactCta{ text, href },
+    footerLinks[]{ title, href }
+  }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ['navigation'] } });
   } catch (err) {

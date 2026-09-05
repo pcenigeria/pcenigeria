@@ -69,16 +69,13 @@ function makeBlockContent(text: string) {
 
 async function saveDoc(doc: any) {
   console.log(`Publishing singleton document: ${doc._id}...`);
-  // 1. Create/Replace official published document
-  await client.createOrReplace(doc);
-
-  // 2. Delete any existing draft document overlay so Sanity Studio forces sync with published state
-  try {
-    await client.delete(`drafts.${doc._id}`);
-    console.log(`Deleted draft overlay for: drafts.${doc._id}`);
-  } catch (e) {
-    // ignore if draft doesn't exist
-  }
+  // Sanity's delete mutation is idempotent (a no-op if the draft doesn't exist), so the
+  // publish + draft-overlay-clear can go in one transaction instead of two round trips.
+  await client
+    .transaction()
+    .createOrReplace(doc)
+    .delete(`drafts.${doc._id}`)
+    .commit();
 }
 
 async function uploadLocalImage(relativePath?: string): Promise<any> {

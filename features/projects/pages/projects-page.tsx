@@ -1,12 +1,18 @@
 import React from 'react';
 import { ProjectsHome, FeaturedProjects, WhatWorks } from '../components';
+import { ProjectListItem } from '../types/project.types';
 
-export const ProjectsPage = () => {
+interface ProjectsPageProps {
+    sanityProjects?: ProjectListItem[];
+    sanityPage?: any;
+}
+
+export const ProjectsPage: React.FC<ProjectsPageProps> = ({ sanityProjects, sanityPage }) => {
     return (
         <div className="flex flex-col w-full">
-            <ProjectsHome />
-            <FeaturedProjects />
-            <WhatWorks />
+            <ProjectsHome sanityPage={sanityPage} />
+            <FeaturedProjects sanityProjects={sanityProjects} sanityPage={sanityPage} />
+            <WhatWorks sanityPage={sanityPage} />
         </div>
     );
 };

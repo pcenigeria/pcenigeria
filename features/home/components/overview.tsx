@@ -6,7 +6,18 @@ import { FadeInSlideUp, StaggerContainer, StaggerItem } from '@/shared/component
 import { ArrowsOut } from '@phosphor-icons/react';
 import { OverviewLightboxModal, GalleryCategory } from './overview-lightbox-modal';
 
-const OVERVIEW_GALLERIES: GalleryCategory[] = [
+interface OverviewProps {
+    sanityPage?: any;
+}
+
+interface OverviewStat {
+    number: string;
+    label: string;
+    image: string;
+    gallery: GalleryCategory;
+}
+
+const DEFAULT_OVERVIEW_GALLERIES: GalleryCategory[] = [
     {
         id: "teams",
         categoryTitle: "PCE Construction Teams & Field Engineers",
@@ -42,29 +53,50 @@ const OVERVIEW_GALLERIES: GalleryCategory[] = [
     }
 ];
 
-export const Overview = () => {
+const DEFAULT_STATS: OverviewStat[] = [
+    {
+        number: "150+",
+        label: "People across five specialist construction teams",
+        image: "/pictures/hero-slider/ob3-02-team.jpg",
+        gallery: DEFAULT_OVERVIEW_GALLERIES[0],
+    },
+    {
+        number: "1200t/500t/500t",
+        label: "Nigeria-based HDD rig and pipe-handling capability",
+        image: "/pictures/hero-slider/drilling-rig-cover-photo.jpg",
+        gallery: DEFAULT_OVERVIEW_GALLERIES[1],
+    },
+    {
+        number: "",
+        label: "Equipment & Materials in Nigeria",
+        image: "/pictures/equipment/main-equipments-cover-photo.jpg",
+        gallery: DEFAULT_OVERVIEW_GALLERIES[2],
+    }
+];
+
+export const Overview: React.FC<OverviewProps> = ({ sanityPage }) => {
     const [selectedGallery, setSelectedGallery] = useState<GalleryCategory | null>(null);
 
-    const stats = [
-        {
-            number: "150+",
-            label: "People across five specialist construction teams",
-            image: "/pictures/hero-slider/ob3-02-team.jpg",
-            galleryIndex: 0
-        },
-        {
-            number: "1200t/500t/500t",
-            label: "Nigeria-based HDD rig and pipe-handling capability",
-            image: "/pictures/hero-slider/drilling-rig-cover-photo.jpg",
-            galleryIndex: 1
-        },
-        {
-            number: "",
-            label: "Equipment & Materials in Nigeria",
-            image: "/pictures/equipment/main-equipments-cover-photo.jpg",
-            galleryIndex: 2
-        }
-    ];
+    const tagline = sanityPage?.glanceTagline || 'PCE AT A GLANCE';
+    const heading = sanityPage?.glanceHeading || 'Specialist People. Field-ready Resources in Nigeria. Proven Capability.';
+
+    const stats: OverviewStat[] = React.useMemo(() => {
+        const sanityStats = sanityPage?.glanceStats;
+        if (!sanityStats || sanityStats.length === 0) return DEFAULT_STATS;
+
+        return sanityStats.map((stat: any, idx: number) => ({
+            number: stat.number || '',
+            label: stat.label || '',
+            image: stat.image || DEFAULT_STATS[idx % DEFAULT_STATS.length].image,
+            gallery: stat.gallery?.items?.length
+                ? {
+                    id: `glance-stat-${idx}`,
+                    categoryTitle: stat.gallery.categoryTitle || stat.label,
+                    items: stat.gallery.items,
+                }
+                : DEFAULT_STATS[idx % DEFAULT_STATS.length].gallery,
+        }));
+    }, [sanityPage]);
 
     return (
         <section className="w-full bg-[var(--color-surface-tile-1)] section border-t border-[var(--color-surface-tile-3)]">
@@ -77,14 +109,14 @@ export const Overview = () => {
                         <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mb-6">
                             <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                             <span className="text-sm uppercase tracking-wider text-canvas-tint font-semibold">
-                                PCE AT A GLANCE
+                                {tagline}
                             </span>
                         </div>
 
                         {/* Headline */}
                         <div className="max-w-[1000px]">
                             <Text variant="display-lg" as="h2" intent="inverse" className="!font-extrabold leading-tight">
-                                Specialist People. Field-ready Resources in Nigeria. Proven Capability.
+                                {heading}
                             </Text>
                         </div>
                     </FadeInSlideUp>
@@ -94,7 +126,7 @@ export const Overview = () => {
                 <StaggerContainer className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                     {stats.map((stat, index) => {
                         const isLongStat = stat.number.length > 8;
-                        const gallery = OVERVIEW_GALLERIES[stat.galleryIndex];
+                        const gallery = stat.gallery;
                         return (
                             <StaggerItem key={index}>
                                 <div 

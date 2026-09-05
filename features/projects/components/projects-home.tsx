@@ -18,7 +18,11 @@ const PROJECTS_HERO_SLIDES = [
     { src: "/pictures/hero-slider/team-in-suits.jpg", alt: "PCE Executive & Management Team" },
 ];
 
-export const ProjectsHome = () => {
+interface ProjectsHomeProps {
+    sanityPage?: any;
+}
+
+export const ProjectsHome: React.FC<ProjectsHomeProps> = ({ sanityPage }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
@@ -83,8 +87,12 @@ export const ProjectsHome = () => {
                 {/* Headline */}
                 <FadeInSlideUp aboveFold delay={0} className="max-w-[1000px] mb-6">
                     <Text variant="hero" intent="inverse">
-                        Complex Crossings.<br />
-                        Delivered.
+                        {sanityPage?.heroHeadline || (
+                            <>
+                                Complex Crossings.<br />
+                                Delivered.
+                            </>
+                        )}
                     </Text>
                 </FadeInSlideUp>
 
@@ -92,7 +100,7 @@ export const ProjectsHome = () => {
                 <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
                     <FadeInSlideUp aboveFold delay={0.15} className="max-w-[800px]">
                         <Text variant="lead-airy" intent="inverse" className="!text-[16px] md:!text-[20px] !leading-relaxed">
-                            From the River Niger to major international HDD and pipeline projects, PCE's record spans difficult geology, large-diameter pipelines and technically demanding routes. Explore selected projects and the engineering behind them.
+                            {sanityPage?.heroSubtext || "From the River Niger to major international HDD and pipeline projects, PCE's record spans difficult geology, large-diameter pipelines and technically demanding routes. Explore selected projects and the engineering behind them."}
                         </Text>
                     </FadeInSlideUp>
 

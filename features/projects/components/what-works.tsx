@@ -2,7 +2,14 @@ import React from 'react';
 import { Text } from '@/shared/components/ui/text';
 import { FadeInSlideUp, StaggerContainer, StaggerItem } from '@/shared/components/ui/fade-in-slide-up';
 
-export const WhatWorks = () => {
+interface WhatWorksProps {
+    sanityPage?: any;
+}
+
+export const WhatWorks: React.FC<WhatWorksProps> = ({ sanityPage }) => {
+    const tagline = sanityPage?.gridSection?.tagline || 'WHAT CONNECTS THE WORK';
+    const heading = sanityPage?.gridSection?.heading || 'Different routes. The same engineering discipline.';
+
     const stats = [
         {
             title: "Specialist Engineering",
@@ -36,14 +43,14 @@ export const WhatWorks = () => {
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mb-6">
                         <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                         <span className="text-sm uppercase tracking-wider text-canvas-tint font-semibold">
-                            WHAT CONNECTS THE WORK
+                            {tagline}
                         </span>
                     </div>
 
                     {/* Headline */}
                     <div className="max-w-[1000px]">
                         <Text variant="display-lg" as="h2" intent="inverse" className="!font-extrabold leading-tight">
-                            Different routes. The same engineering discipline.
+                            {heading}
                         </Text>
                     </div>
                 </FadeInSlideUp>

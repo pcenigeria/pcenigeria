@@ -69,6 +69,27 @@ export default defineType({
       group: 'general',
     }),
     defineField({
+      name: 'footerHeading',
+      title: 'Footer Marketing Heading',
+      type: 'string',
+      group: 'general',
+      initialValue: 'Have a complex crossing or pipeline requirement?',
+    }),
+    defineField({
+      name: 'footerCtaText',
+      title: 'Footer CTA Button Text',
+      type: 'string',
+      group: 'general',
+      initialValue: 'Start a Project Enquiry',
+    }),
+    defineField({
+      name: 'footerCtaLink',
+      title: 'Footer CTA Button Link',
+      type: 'string',
+      group: 'general',
+      initialValue: '/contact',
+    }),
+    defineField({
       name: 'defaultSeo',
       title: 'Fallback Default SEO Metadata',
       type: 'seo',

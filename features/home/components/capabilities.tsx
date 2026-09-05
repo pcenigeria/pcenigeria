@@ -17,7 +17,11 @@ interface CapabilityCard {
     gallery: GalleryCategory;
 }
 
-const CAPABILITIES_LIST: CapabilityCard[] = [
+interface CapabilitiesProps {
+    sanityPage?: any;
+}
+
+const DEFAULT_CAPABILITIES_LIST: CapabilityCard[] = [
     {
         id: "hdd",
         number: "01",
@@ -99,12 +103,18 @@ const CAPABILITIES_LIST: CapabilityCard[] = [
     }
 ];
 
-export const Capabilities = () => {
+export const Capabilities: React.FC<CapabilitiesProps> = ({ sanityPage }) => {
     const [selectedGallery, setSelectedGallery] = useState<GalleryCategory | null>(null);
+
+    const section = sanityPage?.capabilitiesSection;
+    const tagline = section?.tagline || 'OUR CAPABILITIES';
+    const heading = section?.heading || 'Connected capability across the pipeline crossing lifecycle.';
+    const buttonText = section?.buttonText;
+    const buttonLink = section?.buttonLink;
 
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-20">
-            
+
             {/* Header Block */}
             <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 items-end">
                 {/* Left Column: Heading */}
@@ -113,27 +123,36 @@ export const Capabilities = () => {
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mb-6">
                         <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                         <span className="text-sm uppercase tracking-wider text-[var(--color-primary)] font-semibold">
-                            OUR CAPABILITIES
+                            {tagline}
                         </span>
                     </div>
 
                     {/* Headline */}
                     <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight">
-                        Connected capability across the pipeline crossing lifecycle.
+                        {heading}
                     </Text>
                 </FadeInSlideUp>
 
                 {/* Right Column: Narrative */}
-                <FadeInSlideUp delay={0.1} className="lg:col-span-5 flex justify-start lg:justify-end">
+                <FadeInSlideUp delay={0.1} className="lg:col-span-5 flex flex-col items-start lg:items-end gap-4 justify-start lg:justify-end">
                     <Text variant="body" intent="default" className="text-[var(--color-ink-muted-48)] leading-relaxed lg:max-w-[420px] text-base md:text-lg">
                         From understanding the route to engineering the crossing and delivering the line, PCE combines four specialist capabilities around complex pipeline projects.
                     </Text>
+                    {buttonText && buttonLink && (
+                        <Link
+                            href={buttonLink}
+                            className="inline-flex items-center gap-2 text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors text-sm uppercase tracking-wider font-semibold group/link"
+                        >
+                            {buttonText}
+                            <ArrowRight weight="bold" className="text-[var(--color-accent)] group-hover/link:translate-x-1 transition-transform" />
+                        </Link>
+                    )}
                 </FadeInSlideUp>
             </div>
 
             {/* Bento Grid of Cards */}
             <StaggerContainer className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {CAPABILITIES_LIST.map((cap, index) => {
+                {DEFAULT_CAPABILITIES_LIST.map((cap, index) => {
                     const colSpan = (index === 0 || index === 3) 
                         ? 'lg:col-span-7' 
                         : 'lg:col-span-5';

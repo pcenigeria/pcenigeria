@@ -1,9 +1,28 @@
 'use client';
 
 import React from 'react';
+import { PortableText } from '@portabletext/react';
 import { Text } from '@/shared/components/ui/text';
 
-export const StockLogistics: React.FC = () => {
+interface StockLogisticsProps {
+    section?: any;
+}
+
+const DEFAULT_HEADING = 'Ample Standing Stock in Nigeria';
+const DEFAULT_BODY = 'Brighter Star maintains a large standing inventory of drilling fluid materials inside Nigeria. Whatever your programme — bentonite, CMC, MMH, clay viscosity reducer or xanthan gum — the products you need are already in-country, palletised and ready for immediate dispatch.';
+
+const bodyComponents = {
+    block: {
+        normal: ({ children }: any) => (
+            <p className="text-base text-[#052237]/80 leading-relaxed font-medium">{children}</p>
+        ),
+    },
+};
+
+export const StockLogistics: React.FC<StockLogisticsProps> = ({ section }) => {
+    const heading = section?.heading || DEFAULT_HEADING;
+    const hasBody = Array.isArray(section?.body) && section.body.length > 0;
+
     const BENTO_STORE_ITEMS = [
         {
             title: 'BRSBENT SQ',
@@ -45,15 +64,19 @@ export const StockLogistics: React.FC = () => {
                     {/* Left Column: Heading with controllable max-width */}
                     <div className="lg:col-span-7">
                         <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight !text-[#052237] max-w-[700px]">
-                            Ample Standing Stock in Nigeria
+                            {heading}
                         </Text>
                     </div>
 
                     {/* Right Column: Subtext + Clean Elevated Badge Card (Top-Aligned with Heading) */}
                     <div className="lg:col-span-5 flex flex-col gap-5">
-                        <p className="text-base text-[#052237]/80 leading-relaxed font-medium">
-                            Brighter Star maintains a large standing inventory of drilling fluid materials inside Nigeria. Whatever your programme — bentonite, CMC, MMH, clay viscosity reducer or xanthan gum — the products you need are already in-country, palletised and ready for immediate dispatch.
-                        </p>
+                        {hasBody ? (
+                            <PortableText value={section.body} components={bodyComponents} />
+                        ) : (
+                            <p className="text-base text-[#052237]/80 leading-relaxed font-medium">
+                                {DEFAULT_BODY}
+                            </p>
+                        )}
 
                         {/* Clean Dispatch Card (No orange left border line) */}
                         <div className="p-6 rounded-2xl bg-[#052237] text-white shadow-sm flex flex-col gap-2">

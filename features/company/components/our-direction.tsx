@@ -5,9 +5,23 @@ import { Text } from '@/shared/components/ui/text';
 
 const LINE_HEIGHT = 600;
 
-export const OurDirection = () => {
+const DEFAULT_TAGLINE = 'Our Direction';
+const DEFAULT_HEADING = 'Engineering excellence with a clear ambition.';
+const DEFAULT_VISION_TEXT = 'To become a globally recognised leader in HDD and pipeline EPC, known for engineering excellence, safe delivery and sustainable practice.';
+const DEFAULT_MISSION_TEXT = 'To provide dependable engineering and construction solutions that exceed client expectations through innovation, efficiency and integrity.';
+
+interface OurDirectionProps {
+    section?: any;
+}
+
+export const OurDirection: React.FC<OurDirectionProps> = ({ section }) => {
     const timelineRef = useRef<HTMLDivElement>(null);
     const [fillHeight, setFillHeight] = useState(0);
+
+    const tagline = section?.tagline || DEFAULT_TAGLINE;
+    const heading = section?.heading || DEFAULT_HEADING;
+    const visionText = section?.bullets?.[0] || DEFAULT_VISION_TEXT;
+    const missionText = section?.bullets?.[1] || DEFAULT_MISSION_TEXT;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -39,14 +53,14 @@ export const OurDirection = () => {
                 <div className="flex items-center justify-center gap-2 mb-6">
                     <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                     <span className="text-sm uppercase tracking-wider text-white/80 font-semibold">
-                        Our Direction
+                        {tagline}
                     </span>
                 </div>
 
                 {/* Headline */}
                 <div className="max-w-[800px] text-center mx-auto">
                     <Text variant="display-lg" as="h2" intent="inverse" className="!font-extrabold leading-tight text-center">
-                        Engineering excellence with a clear ambition.
+                        {heading}
                     </Text>
                 </div>
             </div>
@@ -89,7 +103,7 @@ export const OurDirection = () => {
                             
                             {/* Headline (24px) */}
                             <Text variant="lead-airy" intent="inverse" className="!text-[24px] !font-normal leading-relaxed lg:text-right text-left max-w-[500px]">
-                                To become a globally recognised leader in HDD and pipeline EPC, known for engineering excellence, safe delivery and sustainable practice.
+                                {visionText}
                             </Text>
                         </div>
 
@@ -121,7 +135,7 @@ export const OurDirection = () => {
                             
                             {/* Headline (24px) */}
                             <Text variant="lead-airy" intent="inverse" className="!text-[24px] !font-normal leading-relaxed text-left max-w-[500px]">
-                                To provide dependable engineering and construction solutions that exceed client expectations through innovation, efficiency and integrity.
+                                {missionText}
                             </Text>
                         </div>
                     </div>

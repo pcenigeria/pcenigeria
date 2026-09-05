@@ -1,14 +1,16 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
 import { NewsDetailTemplate } from '@/features/news-insights/components/news-detail-template';
-import { getNewsBySlug, NEWS_DATA } from '@/features/news-insights/data/news-data';
+import { getNewsArticleBySlug, getAllNewsArticles } from '@/sanity/lib/queries';
 
 type PageProps = {
     params: Promise<{ slug: string }> | { slug: string };
 };
 
-export function generateStaticParams() {
-    return Object.keys(NEWS_DATA).map((slug) => ({
-        slug,
+export async function generateStaticParams() {
+    const articles = await getAllNewsArticles();
+    return articles.map((article: { slug: string }) => ({
+        slug: article.slug,
     }));
 }
 
@@ -22,7 +24,10 @@ async function resolveSlug(params: PageProps['params']): Promise<string> {
 
 export async function generateMetadata({ params }: PageProps) {
     const slug = await resolveSlug(params);
-    const article = getNewsBySlug(slug);
+    const article = await getNewsArticleBySlug(slug);
+
+    if (!article) return {};
+
     return {
         title: `${article.title} | PCE Nigeria News & Insights`,
         description: article.intro,
@@ -31,7 +36,14 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function Page({ params }: PageProps) {
     const slug = await resolveSlug(params);
-    const article = getNewsBySlug(slug);
+    const [article, allArticles] = await Promise.all([
+        getNewsArticleBySlug(slug),
+        getAllNewsArticles(),
+    ]);
 
-    return <NewsDetailTemplate article={article} />;
+    if (!article) {
+        notFound();
+    }
+
+    return <NewsDetailTemplate article={article} allArticles={allArticles} />;
 }

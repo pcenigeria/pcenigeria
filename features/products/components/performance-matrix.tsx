@@ -1,9 +1,30 @@
 'use client';
 
 import React from 'react';
+import { PortableText } from '@portabletext/react';
 import { Text } from '@/shared/components/ui/text';
 
-export const PerformanceMatrix: React.FC = () => {
+interface PerformanceMatrixProps {
+    section?: any;
+}
+
+const DEFAULT_TAGLINE = 'Performance Matrix';
+const DEFAULT_HEADING = 'Technical Specification & Performance Comparison';
+const DEFAULT_BODY = 'Compare physical properties, rheology modifications, filtration control, and environmental ratings across the five Brighter Star products:';
+
+const bodyComponents = {
+    block: {
+        normal: ({ children }: any) => (
+            <p className="text-base text-[#052237]/80 leading-relaxed font-medium max-w-[700px]">{children}</p>
+        ),
+    },
+};
+
+export const PerformanceMatrix: React.FC<PerformanceMatrixProps> = ({ section }) => {
+    const tagline = section?.tagline || DEFAULT_TAGLINE;
+    const heading = section?.heading || DEFAULT_HEADING;
+    const hasBody = Array.isArray(section?.body) && section.body.length > 0;
+
     const matrixData = [
         {
             product: 'BRSBENT SQ',
@@ -105,15 +126,19 @@ export const PerformanceMatrix: React.FC = () => {
                     <div className="flex items-center gap-2">
                         <span className="w-6 h-[3px] bg-[#f4691a] inline-block" />
                         <span className="text-sm uppercase tracking-wider text-[#052237] font-semibold">
-                            Performance Matrix
+                            {tagline}
                         </span>
                     </div>
                     <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight !text-[#052237] max-w-[900px]">
-                        Technical Specification & Performance Comparison
+                        {heading}
                     </Text>
-                    <p className="text-base text-[#052237]/80 leading-relaxed font-medium max-w-[700px]">
-                        Compare physical properties, rheology modifications, filtration control, and environmental ratings across the five Brighter Star products:
-                    </p>
+                    {hasBody ? (
+                        <PortableText value={section.body} components={bodyComponents} />
+                    ) : (
+                        <p className="text-base text-[#052237]/80 leading-relaxed font-medium max-w-[700px]">
+                            {DEFAULT_BODY}
+                        </p>
+                    )}
                 </div>
 
                 {/* Clean Performance Matrix Table Container */}

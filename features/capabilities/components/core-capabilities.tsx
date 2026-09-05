@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { Text } from '@/shared/components/ui/text';
 import { ArrowRight, ArrowsOut } from '@phosphor-icons/react';
-import { CAPABILITIES_CARDS } from '../data/capabilities-data';
+import { CAPABILITIES_CARDS as DEFAULT_CAPABILITIES_CARDS } from '../data/capabilities-data';
+import { CapabilityCard } from '../types/capability.types';
 import { CapabilityDrawer } from './capability-drawer';
 import { useCapabilityDrawer } from '../hooks/use-capability-drawer';
 import { FadeInSlideUp, StaggerContainer, StaggerItem } from '@/shared/components/ui/fade-in-slide-up';
@@ -59,33 +60,76 @@ const CAPABILITY_GALLERIES: Record<string, GalleryCategory> = {
     }
 };
 
-export const CoreCapabilities = () => {
+interface CoreCapabilitiesProps {
+    sanityCapabilities?: any[];
+    sanityPage?: any;
+}
+
+export const CoreCapabilities: React.FC<CoreCapabilitiesProps> = ({ sanityCapabilities, sanityPage }) => {
     const { activeId, isDrawerVisible, openCapability, closeCapability } = useCapabilityDrawer();
     const [selectedGallery, setSelectedGallery] = useState<GalleryCategory | null>(null);
 
+    const section = sanityPage?.coreCapabilitiesSection;
+    const tagline = section?.tagline || 'OUR CAPABILITIES';
+    const heading = section?.heading || 'Four Capabilities. One Project Objective.';
+
+    const capabilityCards: CapabilityCard[] = React.useMemo(() => {
+        if (!sanityCapabilities || sanityCapabilities.length === 0) {
+            return DEFAULT_CAPABILITIES_CARDS;
+        }
+
+        return sanityCapabilities.map((cap) => ({
+            id: cap.id,
+            number: cap.number,
+            title: cap.title,
+            description: cap.description,
+            image: cap.image,
+        }));
+    }, [sanityCapabilities]);
+
+    const capabilityGalleries: Record<string, GalleryCategory> = React.useMemo(() => {
+        if (!sanityCapabilities || sanityCapabilities.length === 0) {
+            return CAPABILITY_GALLERIES;
+        }
+
+        const galleries: Record<string, GalleryCategory> = {};
+        sanityCapabilities.forEach((cap) => {
+            if (cap.gallery && cap.gallery.length > 0) {
+                galleries[cap.id] = {
+                    id: cap.id,
+                    categoryTitle: cap.title,
+                    items: cap.gallery,
+                };
+            } else if (CAPABILITY_GALLERIES[cap.id]) {
+                galleries[cap.id] = CAPABILITY_GALLERIES[cap.id];
+            }
+        });
+        return galleries;
+    }, [sanityCapabilities]);
+
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-20 relative">
-            
+
             {/* Header Block */}
             <FadeInSlideUp className="w-full flex flex-col items-start">
                 {/* Tagline */}
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mb-6">
                     <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                     <span className="text-sm uppercase tracking-wider text-[var(--color-primary)] font-semibold">
-                        OUR CAPABILITIES
+                        {tagline}
                     </span>
                 </div>
 
                 {/* Headline */}
                 <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight max-w-[720px]">
-                    <span className="text-[var(--color-accent)]">Four Capabilities.</span> One Project Objective.
+                    {heading}
                 </Text>
             </FadeInSlideUp>
 
             {/* Grid of Cards */}
             <StaggerContainer className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 items-stretch">
-                {CAPABILITIES_CARDS.map((cap) => {
-                    const gallery = CAPABILITY_GALLERIES[cap.id];
+                {capabilityCards.map((cap) => {
+                    const gallery = capabilityGalleries[cap.id];
                     return (
                         <StaggerItem key={cap.id} className="w-full flex flex-col items-start gap-6">
                             
@@ -150,10 +194,11 @@ export const CoreCapabilities = () => {
 
 
             {/* Reusable Capability Slide-Over Drawer */}
-            <CapabilityDrawer 
+            <CapabilityDrawer
                 capabilityId={activeId}
                 isVisible={isDrawerVisible}
                 onClose={closeCapability}
+                capabilities={sanityCapabilities}
             />
 
             {/* Lightbox Gallery Modal */}

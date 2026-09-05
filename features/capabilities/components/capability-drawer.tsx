@@ -2,22 +2,36 @@
 
 import React from 'react';
 import { X } from '@phosphor-icons/react';
-import { CAPABILITIES_DETAILS } from '../data/capabilities-data';
+import { CAPABILITIES_DETAILS as DEFAULT_CAPABILITIES_DETAILS } from '../data/capabilities-data';
+import { CapabilityDetail } from '../types/capability.types';
 
 interface CapabilityDrawerProps {
     capabilityId: string | null;
     isVisible: boolean;
     onClose: () => void;
+    capabilities?: any[];
 }
 
 export const CapabilityDrawer: React.FC<CapabilityDrawerProps> = ({
     capabilityId,
     isVisible,
-    onClose
+    onClose,
+    capabilities
 }) => {
     if (!capabilityId) return null;
 
-    const detail = CAPABILITIES_DETAILS[capabilityId];
+    const sanityDetail = capabilities?.find((cap) => cap.id === capabilityId);
+    const detail: CapabilityDetail | undefined = sanityDetail
+        ? {
+              id: sanityDetail.id,
+              number: sanityDetail.number,
+              title: sanityDetail.title,
+              image: sanityDetail.image,
+              headline: sanityDetail.headline,
+              subtext: sanityDetail.subtext,
+              steps: sanityDetail.steps,
+          }
+        : DEFAULT_CAPABILITIES_DETAILS[capabilityId];
     if (!detail) return null;
 
     return (

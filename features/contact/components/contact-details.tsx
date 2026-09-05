@@ -4,8 +4,32 @@ import React, { useState } from "react";
 import { LinkedinLogo, FacebookLogo, InstagramLogo, YoutubeLogo } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 
-export function ContactDetails() {
+const DEFAULT_CONTACT_PERSONS = [
+  { name: "Wan Yang", phone: "+234 707 412 6596", email: "wanyang@pcenigeria.com" },
+  { name: "Xu Liangkui", phone: "+234 701 373 2816", email: "xuliangkui@pcenigeria.com" },
+];
+
+const DEFAULT_GENERAL_EMAIL = "info@pcenigeria.com";
+
+const DEFAULT_ABUJA_OFFICE = "House 45, Nelson Mandela Street, Asokoro, Abuja, Nigeria";
+const DEFAULT_LAGOS_OFFICE = "HyGroup Place 6 Ojulari Street, off Kusenla Road Ikate, Elegushi, Lekki, Lagos";
+const DEFAULT_PORT_HARCOURT_BASE = "East–West Road Opposite New Onne Link Road Ebubu, Eleme, Rivers State";
+
+interface ContactDetailsProps {
+  sanityPage?: any;
+}
+
+export function ContactDetails({ sanityPage }: ContactDetailsProps) {
   const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
+
+  const contactPersons =
+    sanityPage?.contactPersons && sanityPage.contactPersons.length > 0
+      ? sanityPage.contactPersons
+      : DEFAULT_CONTACT_PERSONS;
+  const generalEmail = sanityPage?.generalEmail || DEFAULT_GENERAL_EMAIL;
+  const abujaOffice = sanityPage?.abujaOffice || DEFAULT_ABUJA_OFFICE;
+  const lagosOffice = sanityPage?.lagosOffice || DEFAULT_LAGOS_OFFICE;
+  const portHarcourtBase = sanityPage?.portHarcourtBase || DEFAULT_PORT_HARCOURT_BASE;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -43,41 +67,28 @@ export function ContactDetails() {
           KEY CONTACTS
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1 p-5 rounded-xl bg-black/[0.02] border border-black/5">
-            <span className="font-bold text-lg text-[var(--color-ink)]">
-              Wan Yang
-            </span>
-            <a
-              href="tel:+2347074126596"
-              className="text-base font-semibold text-[var(--color-accent)] hover:underline no-underline"
+          {contactPersons.map((person: { name: string; phone: string; email: string }) => (
+            <div
+              key={person.email || person.name}
+              className="flex flex-col gap-1 p-5 rounded-xl bg-black/[0.02] border border-black/5"
             >
-              +234 707 412 6596
-            </a>
-            <a
-              href="mailto:wanyang@pcenigeria.com"
-              className="text-sm text-[var(--color-ink-muted-48)] hover:text-[var(--color-primary)] transition-colors no-underline"
-            >
-              wanyang@pcenigeria.com
-            </a>
-          </div>
-
-          <div className="flex flex-col gap-1 p-5 rounded-xl bg-black/[0.02] border border-black/5">
-            <span className="font-bold text-lg text-[var(--color-ink)]">
-              Xu Liangkui
-            </span>
-            <a
-              href="tel:+2347013732816"
-              className="text-base font-semibold text-[var(--color-accent)] hover:underline no-underline"
-            >
-              +234 701 373 2816
-            </a>
-            <a
-              href="mailto:xuliangkui@pcenigeria.com"
-              className="text-sm text-[var(--color-ink-muted-48)] hover:text-[var(--color-primary)] transition-colors no-underline"
-            >
-              xuliangkui@pcenigeria.com
-            </a>
-          </div>
+              <span className="font-bold text-lg text-[var(--color-ink)]">
+                {person.name}
+              </span>
+              <a
+                href={`tel:${person.phone.replace(/\s+/g, "")}`}
+                className="text-base font-semibold text-[var(--color-accent)] hover:underline no-underline"
+              >
+                {person.phone}
+              </a>
+              <a
+                href={`mailto:${person.email}`}
+                className="text-sm text-[var(--color-ink-muted-48)] hover:text-[var(--color-primary)] transition-colors no-underline"
+              >
+                {person.email}
+              </a>
+            </div>
+          ))}
         </div>
       </motion.div>
 
@@ -87,10 +98,10 @@ export function ContactDetails() {
           GENERAL INQUIRIES
         </h3>
         <a
-          href="mailto:info@pcenigeria.com"
+          href={`mailto:${generalEmail}`}
           className="text-lg lg:text-xl text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors w-fit font-medium no-underline"
         >
-          info@pcenigeria.com
+          {generalEmail}
         </a>
       </motion.div>
 
@@ -107,7 +118,7 @@ export function ContactDetails() {
                 Abuja - Head Office
               </span>
               <p className="!text-[20px] text-[var(--color-ink)] leading-relaxed">
-                House 45, Nelson Mandela Street, Asokoro, Abuja, Nigeria
+                {abujaOffice}
               </p>
             </div>
 
@@ -117,7 +128,7 @@ export function ContactDetails() {
                 Lagos
               </span>
               <p className="!text-[20px] text-[var(--color-ink)] leading-relaxed">
-                HyGroup Place 6 Ojulari Street, off Kusenla Road Ikate, Elegushi, Lekki, Lagos
+                {lagosOffice}
               </p>
             </div>
 
@@ -127,7 +138,7 @@ export function ContactDetails() {
                 Port Harcourt Operations Base
               </span>
               <p className="!text-[20px] text-[var(--color-ink)] leading-relaxed">
-                East–West Road Opposite New Onne Link Road Ebubu, Eleme, Rivers State
+                {portHarcourtBase}
               </p>
             </div>
           </div>

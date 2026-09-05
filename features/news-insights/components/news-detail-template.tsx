@@ -2,20 +2,33 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { PortableText } from '@portabletext/react';
 import { ArrowLeft, ArrowRight, Clock, User, Calendar } from '@phosphor-icons/react';
-import { NewsArticleDetail } from '../types/news.types';
-import { NEWS_DATA } from '../data/news-data';
+import { SanityNewsArticleDetail, NewsArticleSummary } from '../types/news.types';
 
 interface NewsDetailTemplateProps {
-    article: NewsArticleDetail;
+    article: SanityNewsArticleDetail;
+    allArticles?: NewsArticleSummary[];
 }
 
-export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article }) => {
+const HEADING_COLOR_CLASSES: Record<string, string> = {
+    navy: 'text-[var(--color-ink)]',
+    blue: 'text-[var(--color-primary)]',
+    orange: 'text-[var(--color-accent)]',
+};
+
+const sectionBodyComponents = {
+    block: {
+        normal: ({ children }: any) => <p>{children}</p>,
+    },
+};
+
+export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article, allArticles }) => {
     // Calculate Next Article for footer navigation
-    const articleKeys = Object.keys(NEWS_DATA);
-    const currentIndex = article.slug ? articleKeys.indexOf(article.slug) : -1;
-    const nextKey = currentIndex !== -1 ? articleKeys[(currentIndex + 1) % articleKeys.length] : articleKeys[0];
-    const nextArticle = NEWS_DATA[nextKey];
+    const currentIndex = allArticles?.findIndex((a) => a.slug === article.slug) ?? -1;
+    const nextArticle = allArticles && allArticles.length > 0 && currentIndex !== -1
+        ? allArticles[(currentIndex + 1) % allArticles.length]
+        : undefined;
 
     return (
         <article className="w-full bg-[var(--color-canvas)] text-[var(--color-ink)] min-h-screen pb-24">
@@ -81,22 +94,6 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article 
                     </div>
                 )}
 
-                {/* Key Article Specs / Highlights Grid */}
-                {article.specs && article.specs.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 my-2 bg-black/[0.02] p-5 rounded-lg border border-black/5">
-                        {article.specs.map((spec) => (
-                            <div key={spec.label} className="flex flex-col gap-1">
-                                <span className="text-[11px] uppercase tracking-wider text-[var(--color-ink-muted-48)] font-bold">
-                                    {spec.label}
-                                </span>
-                                <span className="text-sm sm:text-base font-semibold text-[var(--color-ink)]">
-                                    {spec.value}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
                 {/* Dynamic Content Sections */}
                 {article.sections && article.sections.length > 0 && (
                     <div className="flex flex-col gap-12 pt-4">
@@ -113,7 +110,7 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article 
 
                                         {/* Section Subheading */}
                                         {section.heading && (
-                                            <h2 className={`!text-[26px] sm:!text-[40px] !font-bold !leading-tight tracking-tight ${section.headingColor || 'text-[var(--color-ink)]'}`}>
+                                            <h2 className={`!text-[26px] sm:!text-[40px] !font-bold !leading-tight tracking-tight ${HEADING_COLOR_CLASSES[section.headingColor || ''] || 'text-[var(--color-ink)]'}`}>
                                                 {section.heading}
                                             </h2>
                                         )}
@@ -121,9 +118,7 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article 
                                         {/* Section Paragraphs */}
                                         {section.body && section.body.length > 0 && (
                                             <div className="flex flex-col gap-4 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed font-normal pt-2">
-                                                {section.body.map((paragraph, pIdx) => (
-                                                    <p key={pIdx}>{paragraph}</p>
-                                                ))}
+                                                <PortableText value={section.body} components={sectionBodyComponents} />
 
                                                 {/* Section Bullets */}
                                                 {section.bullets && section.bullets.length > 0 && (
@@ -163,18 +158,18 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article 
                         <div className="grid grid-cols-12 gap-4 w-full">
                             {article.bentoImages[0] && (
                                 <div className="col-span-12 md:col-span-8 h-[280px] sm:h-[360px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5">
-                                    <div 
+                                    <div
                                         className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
-                                        style={{ backgroundImage: `url("${article.bentoImages[0]}")` }}
+                                        style={{ backgroundImage: `url("${article.bentoImages[0].src}")` }}
                                     />
                                 </div>
                             )}
 
                             {article.bentoImages[1] && (
                                 <div className="col-span-12 md:col-span-4 h-[280px] sm:h-[360px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5">
-                                    <div 
+                                    <div
                                         className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
-                                        style={{ backgroundImage: `url("${article.bentoImages[1]}")` }}
+                                        style={{ backgroundImage: `url("${article.bentoImages[1].src}")` }}
                                     />
                                 </div>
                             )}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from '@phosphor-icons/react';
 import { FadeInSlideUp, StaggerContainer, StaggerItem } from '@/shared/components/ui/fade-in-slide-up';
+import { NewsArticleSummary } from '../types/news.types';
 
 interface NewsCardItem {
     id: string;
@@ -16,7 +17,7 @@ interface NewsCardItem {
     image: string;
 }
 
-const newsItems: NewsCardItem[] = [
+const DEFAULT_NEWS_ITEMS: NewsCardItem[] = [
     {
         id: '1',
         slug: 'ob3-river-niger-hdd-crossing-completion-report',
@@ -55,8 +56,32 @@ const newsItems: NewsCardItem[] = [
     },
 ];
 
-export const NewsCards = () => {
+interface NewsCardsProps {
+    sanityArticles?: NewsArticleSummary[];
+    articlesSection?: {
+        tagline?: string;
+        heading?: string;
+    };
+}
+
+export const NewsCards: React.FC<NewsCardsProps> = ({ sanityArticles, articlesSection }) => {
     const [activeTab, setActiveTab] = useState<string>('all');
+
+    const newsItems: NewsCardItem[] = React.useMemo(() => {
+        if (!sanityArticles || sanityArticles.length === 0) {
+            return DEFAULT_NEWS_ITEMS;
+        }
+
+        return sanityArticles.map((article, idx) => ({
+            id: article._id,
+            slug: article.slug,
+            category: article.category,
+            date: article.date || '',
+            title: article.title,
+            description: article.intro || '',
+            image: article.heroImage || DEFAULT_NEWS_ITEMS[idx % DEFAULT_NEWS_ITEMS.length].image,
+        }));
+    }, [sanityArticles]);
 
     const tabs = [
         { id: 'all', label: 'All' },
@@ -70,7 +95,23 @@ export const NewsCards = () => {
 
     return (
         <section className="w-full bg-[var(--color-canvas-tint)] section flex flex-col items-start gap-8 py-16 lg:py-24">
-            
+
+            {/* Section Heading */}
+            {(articlesSection?.tagline || articlesSection?.heading) && (
+                <FadeInSlideUp className="flex flex-col gap-2">
+                    {articlesSection?.tagline && (
+                        <span className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--color-primary)]">
+                            {articlesSection.tagline}
+                        </span>
+                    )}
+                    {articlesSection?.heading && (
+                        <h2 className="!text-[28px] lg:!text-[36px] font-extrabold text-[var(--color-primary)] leading-tight">
+                            {articlesSection.heading}
+                        </h2>
+                    )}
+                </FadeInSlideUp>
+            )}
+
             {/* Tab Bar */}
             <FadeInSlideUp className="w-full flex flex-row flex-nowrap overflow-x-auto gap-3 pb-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {tabs.map((tab) => (

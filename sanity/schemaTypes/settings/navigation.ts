@@ -74,6 +74,47 @@ export default defineType({
           fields: [
             defineField({ name: 'title', title: 'Menu Title', type: 'string' }),
             defineField({ name: 'href', title: 'Target Path', type: 'string' }),
+            defineField({
+              name: 'insertProductsMenuAfter',
+              title: 'Insert Products Mega-Menu After This Link',
+              type: 'boolean',
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: 'homeLink',
+      title: 'Home Link',
+      type: 'object',
+      group: 'header',
+      fields: [
+        defineField({ name: 'title', title: 'Link Title', type: 'string', initialValue: 'Home' }),
+        defineField({ name: 'href', title: 'Target Path', type: 'string', initialValue: '/' }),
+      ],
+    }),
+    defineField({
+      name: 'contactCta',
+      title: 'Header Contact CTA Button',
+      type: 'object',
+      group: 'header',
+      fields: [
+        defineField({ name: 'text', title: 'Button Text', type: 'string', initialValue: 'Contact Us' }),
+        defineField({ name: 'href', title: 'Target Path', type: 'string', initialValue: '/contact' }),
+      ],
+    }),
+    defineField({
+      name: 'footerLinks',
+      title: 'Footer Quick Links',
+      type: 'array',
+      group: 'footer',
+      of: [
+        {
+          type: 'object',
+          title: 'Footer Link',
+          fields: [
+            defineField({ name: 'title', title: 'Link Title', type: 'string' }),
+            defineField({ name: 'href', title: 'Target Path', type: 'string' }),
           ],
         },
       ],

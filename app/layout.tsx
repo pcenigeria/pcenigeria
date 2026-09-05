@@ -5,6 +5,7 @@ import "./globals.css";
 import { LayoutShell } from "../shared/components/layout";
 import { SmoothScrollProvider } from "../shared/components/smooth-scroll/smooth-scroll-provider";
 import { PageTransitionContent } from "../shared/components/ui/page-transition";
+import { getNavigationSettings, getGlobalSettings, getContactPage } from "../sanity/lib/queries";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -190,11 +191,17 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [navigation, globalSettings, contactPage] = await Promise.all([
+    getNavigationSettings(),
+    getGlobalSettings(),
+    getContactPage(),
+  ]);
+
   return (
     <html lang="en">
       <head>
@@ -208,7 +215,9 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageTransitionContent />
           </Suspense>
-          <LayoutShell>{children}</LayoutShell>
+          <LayoutShell navigation={navigation} globalSettings={globalSettings} contactPage={contactPage}>
+            {children}
+          </LayoutShell>
         </SmoothScrollProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
-'use client'
-
 import { HomePage } from "@/features/home"
+import { getHomePage } from "@/sanity/lib/queries"
 
-export default function Home() {
-    return <HomePage />
+export default async function Home() {
+    const sanityPage = await getHomePage();
+    return <HomePage sanityPage={sanityPage} />
 }
