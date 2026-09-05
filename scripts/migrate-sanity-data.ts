@@ -1155,14 +1155,14 @@ async function migrateEquipmentCategories() {
           number: '02',
           title: 'GD-5000L HDD Rig',
           description: 'Large-scale drilling capacity for specialist HDD operations.',
-          imagePath: '/pictures/home-page/equipment-02.jpg',
+          imagePath: '/pictures/equipment/gd-5000.jpg',
         },
         {
           id: 'gd-12000',
           number: '03',
           title: 'GD-12000L HDD Rig',
           description: 'Heavy-duty drilling capacity for major HDD installations.',
-          imagePath: '/pictures/hero-slider/drilling-rig-cover-photo.jpg',
+          imagePath: '/pictures/equipment/xcmg-500.jpg',
         },
         {
           id: 'pipe-handle',

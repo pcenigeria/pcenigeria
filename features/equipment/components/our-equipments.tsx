@@ -45,14 +45,14 @@ const DEFAULT_CATEGORIES: EquipmentCategory[] = [
                 number: "02",
                 title: "GD-5000L HDD Rig",
                 description: "Large-scale drilling capacity for specialist HDD operations.",
-                image: "/pictures/home-page/equipment-02.jpg"
+                image: "/pictures/equipment/gd-5000.jpg"
             },
             {
                 id: "gd-12000",
                 number: "03",
                 title: "GD-12000L HDD Rig",
                 description: "Heavy-duty drilling capacity for major HDD installations.",
-                image: "/pictures/hero-slider/drilling-rig-cover-photo.jpg"
+                image: "/pictures/equipment/xcmg-500.jpg"
             },
             {
                 id: "pipe-handle",
