@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { SiteHeader, SiteFooter } from "../shared/components/layout";
+import { LayoutShell } from "../shared/components/layout";
 import { SmoothScrollProvider } from "../shared/components/smooth-scroll/smooth-scroll-provider";
 import { PageTransitionContent } from "../shared/components/ui/page-transition";
 
@@ -208,9 +208,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageTransitionContent />
           </Suspense>
-          <SiteHeader />
-          <main className="flex-1 flex flex-col">{children}</main>
-          <SiteFooter />
+          <LayoutShell>{children}</LayoutShell>
         </SmoothScrollProvider>
       </body>
     </html>
