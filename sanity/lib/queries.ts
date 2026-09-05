@@ -363,6 +363,7 @@ export async function getCompanyPage() {
     heroSubtext2,
     heroPrimaryBtnText,
     heroPrimaryBtnLink,
+    "heroImage": heroImage.asset->url,
     whoWeAreSection${SECTION_BLOCK_FIELDS},
     whoWeAreImages[]{ "image": image.asset->url, caption },
     overviewCapabilitiesSection${SECTION_BLOCK_FIELDS},
@@ -459,6 +460,7 @@ export async function getSafetyQualityPage() {
   const query = `*[_id == "safetyQualityPage"][0] {
     heroHeadline,
     heroSubtext,
+    "heroImage": heroImage.asset->url,
     safetySection${SECTION_BLOCK_FIELDS},
     qualitySection${SECTION_BLOCK_FIELDS},
     environmentalSection${SECTION_BLOCK_FIELDS},

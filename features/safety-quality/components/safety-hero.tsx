@@ -14,6 +14,7 @@ const DEFAULT_HERO_SUBTEXT = 'Safety, quality, efficiency and integrity guide PC
 export const SafetyHero: React.FC<SafetyHeroProps> = ({ sanityPage }) => {
     const headline = sanityPage?.heroHeadline || DEFAULT_HERO_HEADLINE;
     const subtext = sanityPage?.heroSubtext || DEFAULT_HERO_SUBTEXT;
+    const bgImage = sanityPage?.heroImage || '/pictures/safety/safety-hero.jpg';
 
     return (
         <section className="relative w-full min-h-screen flex items-end overflow-hidden bg-[var(--bg-tile-dark)]">
@@ -21,7 +22,7 @@ export const SafetyHero: React.FC<SafetyHeroProps> = ({ sanityPage }) => {
             <div className="absolute inset-0 z-0">
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center opacity-60"
-                    style={{ backgroundImage: 'url("/pictures/safety/safety-hero.jpg")' }}
+                    style={{ backgroundImage: `url("${bgImage}")` }}
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-tile-dark)] via-[var(--bg-tile-dark)]/40 to-transparent" />

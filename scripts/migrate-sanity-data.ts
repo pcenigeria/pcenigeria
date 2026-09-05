@@ -678,6 +678,7 @@ async function migratePageSingletons() {
 
   // 2. Company Page Singleton
   // Upload company page images
+  const companyHeroImg = await uploadLocalImage('/pictures/company/company-hero.jpg');
   const companyOb3Img = await uploadLocalImage('/pictures/company/ob3-wilding-main-pipeline.jpg');
   const companySpecEngImg = await uploadLocalImage('/pictures/company/specialist-enginering.jpg');
   const companyEpcImg = await uploadLocalImage('/pictures/company/integrated-pipeline-epc.jpg');
@@ -696,6 +697,7 @@ async function migratePageSingletons() {
     heroSubtext2: 'From early assessment and engineering through construction, pre-commissioning and commissioning, we bring technical expertise and field resources together around demanding pipeline projects.',
     heroPrimaryBtnText: 'Explore Capabilities',
     heroPrimaryBtnLink: '/capabilities',
+    heroImage: companyHeroImg,
     // Matches features/company/components/who-we-are.tsx
     whoWeAreSection: {
       _type: 'sectionBlock',
@@ -772,6 +774,10 @@ async function migratePageSingletons() {
       body: makeBlockContent(
         'Our Vision: To become a globally recognised leader in HDD and pipeline EPC, known for engineering excellence, safe delivery and sustainable practice.\n\nOur Mission: To provide dependable engineering and construction solutions that exceed client expectations through innovation, efficiency and integrity.'
       ),
+      bullets: [
+        'To become a globally recognised leader in HDD and pipeline EPC, known for engineering excellence, safe delivery and sustainable practice.',
+        'To provide dependable engineering and construction solutions that exceed client expectations through innovation, efficiency and integrity.'
+      ],
     },
     // Matches features/company/components/people-scale.tsx
     peopleScaleSection: {
@@ -811,19 +817,64 @@ async function migratePageSingletons() {
   await saveDoc(companyDoc);
 
   // 3. Capabilities Page Singleton
-  // Matches features/capabilities/components/capabilities-hero.tsx and core-capabilities.tsx
+  // Matches features/capabilities/components/capabilities-hero.tsx, our-approach.tsx, core-capabilities.tsx, and how-we-work.tsx
+  const capHeroImg = await uploadLocalImage('/pictures/capabilities/hero-image.jpg');
+  const capApproachImg = await uploadLocalImage('/pictures/company/pipeline.jpg');
+
   const capabilitiesDoc = {
     _type: 'capabilitiesPage',
     _id: 'capabilitiesPage',
     heroHeadline: 'Integrated capability for complex pipeline delivery.',
     heroSubtext: 'PCE combines specialist HDD, pipeline EPC, deep-pipeline location technology and technical resources around demanding pipeline projects.',
     heroSubtext2: 'From early assessment and engineering through construction, testing and commissioning, our capabilities are built around the requirements of the route, the crossing and the line.',
+    heroImage: capHeroImg,
+    heroBullets: [
+      'Horizontal Directional Drilling (HDD) up to 48-inch pipeline diameter',
+      '52km Pipeline EPC turnkey construction',
+      '3D Buried Pipeline Detection System (BPDS)',
+      'Equipment yard & technical fleet in Nigeria',
+    ],
     coreCapabilitiesSection: {
       _type: 'sectionBlock',
       tagline: 'OUR CAPABILITIES',
       heading: 'Four Capabilities. One Project Objective.',
       headingColor: 'orange',
       body: makeBlockContent('PCE delivers complex pipeline and HDD crossing projects through four integrated capabilities, each supported by specialist engineering, technology and field resources.'),
+    },
+    approachSection: {
+      _type: 'sectionBlock',
+      tagline: 'Our Approach',
+      heading: 'The route, the crossing and the line considered together.',
+      headingColor: 'navy',
+      body: makeBlockContent("Complex pipeline projects rarely depend on one discipline. Ground conditions affect engineering. Engineering determines equipment. Equipment affects execution. And every stage must work within the project's safety, quality and programme requirements. PCE brings these considerations together from assessment through delivery."),
+      buttonText: 'Explore Our Projects',
+      buttonLink: '/projects',
+      gallery: capApproachImg ? {
+        _type: 'gallery',
+        categoryTitle: 'Our Approach',
+        items: [
+          {
+            _key: genKey('galitem'),
+            _type: 'galleryItem',
+            image: capApproachImg,
+            title: 'Pipeline Route Assessment',
+          },
+        ],
+      } : undefined,
+    },
+    fleetSupportSection: {
+      _type: 'sectionBlock',
+      tagline: 'How We Work',
+      heading: 'A clear path from assessment to commissioning.',
+      headingColor: 'navy',
+      body: makeBlockContent('A structured five-step methodology from initial route assessment through engineering, equipment preparation, construction execution, and commissioning.'),
+      bullets: [
+        '01. Understand — Assess the route, ground conditions, crossing constraints and project requirements.',
+        '02. Engineer — Develop the technical method, crossing design, programme and execution plan.',
+        '03. Prepare — Mobilise the people, equipment, tools and materials required for the work.',
+        '04. Deliver — Execute construction with technical, safety and quality oversight.',
+        '05. Verify — Test, document, pre-commission, commission and hand over the completed work.',
+      ],
     },
     capabilitiesOrder: [
       { _key: genKey('capref'), _type: 'reference', _ref: 'capability-hdd' },
@@ -842,9 +893,10 @@ async function migratePageSingletons() {
 
   // 4. Equipment Page Singleton
   // Upload equipment capacity section images
-  const eqCapImg1 = await uploadLocalImage('/pictures/equipment/86c3ba14ac08b1e273a3104b60a24efc.jpg');
-  const eqCapImg2 = await uploadLocalImage('/pictures/equipment/8e21cc64655f27a26e938c224b26b924.jpg');
-  const eqCapImg3 = await uploadLocalImage('/pictures/equipment/908122977b82673480d072587ad56daf.jpg');
+  const eqHeroImg = await uploadLocalImage('/pictures/equipment/main-equipments-cover-photo.jpg');
+  const eqCapImg1 = await uploadLocalImage('/pictures/equipment/xcmg-500.jpg');
+  const eqCapImg2 = await uploadLocalImage('/pictures/equipment/gd-5000.jpg');
+  const eqCapImg3 = await uploadLocalImage('/pictures/equipment/gd-12000l-hdd-rig.jpg');
   const eqSupportImg1 = await uploadLocalImage('/pictures/equipment/91903d3f483647597b5364f08e4e7007.jpg');
   const eqSupportImg2 = await uploadLocalImage('/pictures/equipment/e4718ab6567102f62eba9b2f0406e17f.jpg');
   const eqSupportImg3 = await uploadLocalImage('/pictures/home-page/equipment-08.jpg');
@@ -857,6 +909,7 @@ async function migratePageSingletons() {
     heroSubtext: 'PCE deploys large-scale HDD rigs, pipe-handling equipment, drilling-fluid systems, guidance technology and supporting plant for demanding pipeline crossings.',
     heroSubtext2: 'Our resources are selected and configured around the route, ground conditions, pipeline and crossing method.',
     heroPrimaryBtnText: 'Discuss Your Crossing',
+    heroImage: eqHeroImg,
     // Matches features/equipment/components/equipment-capacity.tsx
     capacitySection: {
       _type: 'sectionBlock',
@@ -874,10 +927,18 @@ async function migratePageSingletons() {
       { _key: genKey('ks'), label: '3', description: 'F5 walkover systems' },
     ],
     capacityImages: [
-      ...(eqCapImg1 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg1, title: 'HDD Rig Fleet 1' }] : []),
-      ...(eqCapImg2 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg2, title: 'HDD Rig Fleet 2' }] : []),
-      ...(eqCapImg3 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg3, title: 'HDD Rig Fleet 3' }] : []),
+      ...(eqCapImg1 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg1, title: '500t HDD Rig' }] : []),
+      ...(eqCapImg2 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg2, title: 'GD-5000L HDD Rig' }] : []),
+      ...(eqCapImg3 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg3, title: 'XCMG HDD Rig Fleet' }] : []),
     ],
+    // Matches features/equipment/components/our-equipments.tsx
+    fleetSection: {
+      _type: 'sectionBlock',
+      tagline: 'OUR EQUIPMENT',
+      heading: 'Large-scale Equipment Configured For Demanding Crossings.',
+      headingColor: 'orange',
+      body: makeBlockContent('Successful HDD execution depends on more than rig capacity. It requires the right combination of drilling power, guidance, fluid management, bore-preparation tools and pipe-handling resources. PCE brings these systems together around the requirements of the crossing.'),
+    },
     // Matches features/equipment/components/support.tsx
     supportSection: {
       _type: 'sectionBlock',
@@ -911,11 +972,14 @@ async function migratePageSingletons() {
 
   // 5. Safety Quality Page Singleton
   // Matches features/safety-quality/components/safety-hero.tsx
+  const safetyHeroImg = await uploadLocalImage('/pictures/safety/safety-hero.jpg');
+
   const safetyDoc = {
     _type: 'safetyQualityPage',
     _id: 'safetyQualityPage',
     heroHeadline: 'Dependable execution begins with clear standards.',
     heroSubtext: 'Safety, quality, efficiency and integrity guide PCE from early assessment through construction, testing and commissioning. Responsible delivery means protecting people, maintaining technical standards and considering the environments and communities around the work.',
+    heroImage: safetyHeroImg,
     // Matches features/safety-quality/components/safety.tsx
     safetySection: {
       _type: 'sectionBlock',
@@ -941,6 +1005,8 @@ async function migratePageSingletons() {
       body: makeBlockContent(
         'PCE applies quality control across the full project lifecycle — from engineering development through pipeline fabrication, construction, testing and commissioning.'
       ),
+      buttonText: 'EXPLORE PIPELINE EPC',
+      buttonLink: '/capabilities',
       bullets: [
         'Engineering — Develop the technical basis, method and execution requirements.',
         'Fabrication — Prepare pipeline components and assemblies according to project requirements.',
@@ -948,6 +1014,23 @@ async function migratePageSingletons() {
         'Hydrotesting — Test completed pipeline sections as required before operation.',
         'Coating — Protect pipeline surfaces and completed work according to project requirements.',
         'Pre-Commissioning & Commissioning — Verify and prepare completed systems for handover and operation.',
+      ],
+    },
+    // Matches features/safety-quality/components/environmental-care.tsx
+    environmentalSection: {
+      _type: 'sectionBlock',
+      tagline: 'ENVIRONMENTAL CARE',
+      heading: 'Progress beneath the surface. Less disturbance above it.',
+      headingColor: 'navy',
+      body: makeBlockContent(
+        'Horizontal Directional Drilling allows pipelines to cross beneath rivers, roads and other obstacles without continuous open-cut excavation across the crossing route. For suitable projects, this can reduce direct surface disturbance while enabling the required pipeline connection.\n\nEnvironmental considerations form part of PCE\'s wider commitment to responsible project delivery.'
+      ),
+      buttonText: 'Explore HDD Capability',
+      buttonLink: '/capabilities',
+      bullets: [
+        'Closed-loop slurry recycling to prevent drilling fluid discharge into rivers',
+        'Eco-friendly biodegradable drilling fluid additives',
+        'Complete land restoration and post-drilling site cleanup',
       ],
     },
     // Matches features/safety-quality/components/certification.tsx
@@ -959,20 +1042,20 @@ async function migratePageSingletons() {
       body: makeBlockContent(
         "PCE's registrations and certifications support execution across the project lifecycle.\n\nStandards & Certifications: NMDPRA | ISO | Technical Certification\n\nSpecific certification details and applicable project documentation should be confirmed with PCE as part of the qualification or project-enquiry process."
       ),
+      bullets: ['NMDPRA', 'ISO', 'Technical Certification'],
     },
-    // Matches features/safety-quality/components/environmental-care.tsx
-    environmentalSection: {
+    // Matches features/safety-quality/components/our-future.tsx
+    futureSection: {
       _type: 'sectionBlock',
-      tagline: 'ENVIRONMENTAL CARE',
-      heading: 'Protecting sensitive river basins and coastal ecosystems.',
+      tagline: 'OUR FUTURE & RESPONSIBILITY',
+      heading: 'Sustainable Impact Beyond the Project',
       headingColor: 'navy',
       body: makeBlockContent(
-        'We prioritize environmental preservation by deploying closed-loop mud recycling plants that reclaim up to 95% of drilling fluid, preventing slurry discharge into rivers and wetlands.\n\nFollowing drilling completion, our teams execute comprehensive site restoration and environmental remediation.'
+        "PCE's approach to responsible delivery extends beyond technical completion. We recognise the importance of protecting people, respecting communities and considering the environments in which our projects are executed.\n\nPCE's future direction includes reducing its carbon footprint and developing more environmentally considerate storage solutions as we expand into new regions."
       ),
       bullets: [
-        'Closed-loop slurry recycling to prevent drilling fluid discharge into rivers',
-        'Eco-friendly biodegradable drilling fluid additives',
-        'Complete land restoration and post-drilling site cleanup',
+        'Protecting more than the project — recognising the importance of protecting people, respecting communities and considering the environments in which projects are executed.',
+        'Growing with sustainable impact — reducing carbon footprint and developing environmentally considerate solutions as company expands.',
       ],
     },
     seo: {
@@ -1348,7 +1431,7 @@ async function migrateEquipmentCategories() {
           number: '01',
           title: 'XCMG 500-ton HDD Rig',
           description: 'High-capacity HDD equipment for demanding crossing requirements.',
-          imagePath: '/pictures/equipment/009061ab6e7649c67058fc722baea717.jpg',
+          imagePath: '/pictures/equipment/xcmg-500.jpg',
         },
         {
           id: 'gd-5000',
@@ -1362,7 +1445,7 @@ async function migrateEquipmentCategories() {
           number: '03',
           title: 'GD-12000L HDD Rig',
           description: 'Heavy-duty drilling capacity for major HDD installations.',
-          imagePath: '/pictures/equipment/xcmg-500.jpg',
+          imagePath: '/pictures/equipment/gd-12000l-hdd-rig.jpg',
         },
         {
           id: 'pipe-handle',

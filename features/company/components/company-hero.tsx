@@ -17,6 +17,7 @@ interface CompanyHeroProps {
     heroSubtext2?: string;
     heroPrimaryBtnText?: string;
     heroPrimaryBtnLink?: string;
+    heroImage?: string;
 }
 
 export const CompanyHero: React.FC<CompanyHeroProps> = ({
@@ -25,6 +26,7 @@ export const CompanyHero: React.FC<CompanyHeroProps> = ({
     heroSubtext2,
     heroPrimaryBtnText,
     heroPrimaryBtnLink,
+    heroImage,
 }) => {
     return (
         <section className="relative w-full min-h-screen flex items-end overflow-hidden bg-[var(--bg-tile-dark)]">
@@ -32,7 +34,7 @@ export const CompanyHero: React.FC<CompanyHeroProps> = ({
             <div className="absolute inset-0 z-0">
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center opacity-60"
-                    style={{ backgroundImage: 'url("/pictures/company/company-hero.jpg")' }}
+                    style={{ backgroundImage: `url("${heroImage || '/pictures/company/company-hero.jpg'}")` }}
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-tile-dark)] via-[var(--bg-tile-dark)]/40 to-transparent" />

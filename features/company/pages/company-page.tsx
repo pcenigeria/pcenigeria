@@ -14,6 +14,7 @@ export const CompanyPage: React.FC<CompanyPageProps> = ({ sanityPage }) => {
                 heroSubtext2={sanityPage?.heroSubtext2}
                 heroPrimaryBtnText={sanityPage?.heroPrimaryBtnText}
                 heroPrimaryBtnLink={sanityPage?.heroPrimaryBtnLink}
+                heroImage={sanityPage?.heroImage}
             />
             <WhoWeAre section={sanityPage?.whoWeAreSection} images={sanityPage?.whoWeAreImages} />
             <OverviewCapabilities section={sanityPage?.overviewCapabilitiesSection} cards={sanityPage?.deliveryBentoCards} />

@@ -24,6 +24,7 @@ interface EquipmentCategory {
 
 interface OurEquipmentsProps {
     sanityCategories?: any[];
+    sanityPage?: any;
 }
 
 const DEFAULT_CATEGORIES: EquipmentCategory[] = [
@@ -38,7 +39,7 @@ const DEFAULT_CATEGORIES: EquipmentCategory[] = [
                 number: "01",
                 title: "XCMG 500-ton HDD Rig",
                 description: "High-capacity HDD equipment for demanding crossing requirements.",
-                image: "/pictures/equipment/009061ab6e7649c67058fc722baea717.jpg"
+                image: "/pictures/equipment/xcmg-500.jpg"
             },
             {
                 id: "gd-5000",
@@ -52,7 +53,7 @@ const DEFAULT_CATEGORIES: EquipmentCategory[] = [
                 number: "03",
                 title: "GD-12000L HDD Rig",
                 description: "Heavy-duty drilling capacity for major HDD installations.",
-                image: "/pictures/equipment/xcmg-500.jpg"
+                image: "/pictures/equipment/gd-12000l-hdd-rig.jpg"
             },
             {
                 id: "pipe-handle",
@@ -199,7 +200,14 @@ const DEFAULT_CATEGORIES: EquipmentCategory[] = [
     }
 ];
 
-export const OurEquipments: React.FC<OurEquipmentsProps> = ({ sanityCategories }) => {
+export const OurEquipments: React.FC<OurEquipmentsProps> = ({ sanityCategories, sanityPage }) => {
+    const fleetSection = sanityPage?.fleetSection;
+    const tagline = fleetSection?.tagline || 'OUR EQUIPMENT';
+    const heading = fleetSection?.heading || 'Large-scale Equipment Configured For Demanding Crossings.';
+    const body = (Array.isArray(fleetSection?.body) && fleetSection.body[0]?.children?.[0]?.text)
+        ? fleetSection.body[0].children[0].text
+        : 'Successful HDD execution depends on more than rig capacity. It requires the right combination of drilling power, guidance, fluid management, bore-preparation tools and pipe-handling resources. PCE brings these systems together around the requirements of the crossing.';
+
     const categoriesToDisplay: EquipmentCategory[] = React.useMemo(() => {
         if (!sanityCategories || sanityCategories.length === 0) {
             return DEFAULT_CATEGORIES;
@@ -236,20 +244,20 @@ export const OurEquipments: React.FC<OurEquipmentsProps> = ({ sanityCategories }
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3 mb-6">
                         <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                         <span className="text-sm uppercase tracking-wider text-[var(--color-primary)] font-semibold">
-                            OUR EQUIPMENT
+                            {tagline}
                         </span>
                     </div>
 
                     {/* Headline */}
                     <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight">
-                        <span className="text-[var(--color-accent)]">Large-scale Equipment</span> Configured For Demanding Crossings.
+                        {heading}
                     </Text>
                 </div>
 
                 {/* Right Column: Narrative */}
                 <div className="lg:col-span-5 flex justify-start lg:justify-end">
                     <Text variant="body" intent="default" className="text-[var(--color-ink-muted-48)] leading-relaxed lg:max-w-[460px] text-base md:text-lg">
-                        Successful HDD execution depends on more than rig capacity. It requires the right combination of drilling power, guidance, fluid management, bore-preparation tools and pipe-handling resources. PCE brings these systems together around the requirements of the crossing.
+                        {body}
                     </Text>
                 </div>
             </FadeInSlideUp>

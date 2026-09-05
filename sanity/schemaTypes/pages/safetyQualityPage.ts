@@ -22,6 +22,13 @@ export default defineType({
       initialValue: 'Safety, Quality & Corporate Responsibility',
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Background Image',
+      type: 'image',
+      group: 'hero',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'heroSubtext',
       title: 'Hero Banner Subtext',
       type: 'text',

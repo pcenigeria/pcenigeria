@@ -24,6 +24,13 @@ export default defineType({
       initialValue: 'Built for complex pipeline delivery.',
     }),
     defineField({
+      name: 'heroImage',
+      title: 'Hero Background Image',
+      type: 'image',
+      group: 'hero',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'heroSubtext',
       title: 'Hero Banner Subtext (First Paragraph)',
       type: 'text',
