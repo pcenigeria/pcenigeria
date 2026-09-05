@@ -48,10 +48,10 @@ function genKey(prefix = 'k'): string {
   return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
-function makeBlockContent(text: string) {
-  if (!text) return [];
-  const paragraphs = text.split('\n\n');
-  return paragraphs.map((p) => ({
+function makeBlockContent(input: string | string[]): any[] {
+  if (!input) return [];
+  const paragraphs = Array.isArray(input) ? input : input.split('\n\n');
+  return paragraphs.filter(Boolean).map((p) => ({
     _key: genKey('blk'),
     _type: 'block',
     style: 'normal',
@@ -78,8 +78,12 @@ async function saveDoc(doc: any) {
     .commit();
 }
 
+const imageAssetCache = new Map<string, any>();
 async function uploadLocalImage(relativePath?: string): Promise<any> {
   if (!relativePath || !relativePath.startsWith('/')) return null;
+  if (imageAssetCache.has(relativePath)) {
+    return imageAssetCache.get(relativePath);
+  }
   const fullPath = path.join(process.cwd(), 'public', relativePath);
   if (!fs.existsSync(fullPath)) {
     console.warn(`File not found: ${fullPath}`);
@@ -91,21 +95,27 @@ async function uploadLocalImage(relativePath?: string): Promise<any> {
     const asset = await client.assets.upload('image', stream, {
       filename: path.basename(fullPath),
     });
-    return {
+    const result = {
       _type: 'image',
       asset: {
         _type: 'reference',
         _ref: asset._id,
       },
     };
+    imageAssetCache.set(relativePath, result);
+    return result;
   } catch (err) {
     console.error(`Failed to upload ${relativePath}:`, err);
     return null;
   }
 }
 
+const fileAssetCache = new Map<string, any>();
 async function uploadLocalFile(relativePath?: string): Promise<any> {
   if (!relativePath || !relativePath.startsWith('/')) return null;
+  if (fileAssetCache.has(relativePath)) {
+    return fileAssetCache.get(relativePath);
+  }
   const fullPath = path.join(process.cwd(), 'public', relativePath);
   if (!fs.existsSync(fullPath)) {
     console.warn(`File not found: ${fullPath}`);
@@ -117,19 +127,20 @@ async function uploadLocalFile(relativePath?: string): Promise<any> {
     const asset = await client.assets.upload('file', stream, {
       filename: path.basename(fullPath),
     });
-    return {
+    const result = {
       _type: 'file',
       asset: {
         _type: 'reference',
         _ref: asset._id,
       },
     };
+    fileAssetCache.set(relativePath, result);
+    return result;
   } catch (err) {
     console.error(`Failed to upload file ${relativePath}:`, err);
     return null;
   }
 }
-
 
 async function migrateProjects() {
   console.log('\n--- Migrating Projects / Case Studies ---');
@@ -168,20 +179,32 @@ async function migrateProjects() {
       category: proj.category || 'HDD',
       heroImage: heroImageAsset,
       intro: proj.intro || '',
+      specs: proj.specs?.map((spec: any) => ({
+        _key: genKey('spec'),
+        _type: 'specRow',
+        label: spec.label || '',
+        value: spec.value || '',
+      })),
       sections: proj.sections?.map((sec: any) => ({
         _key: genKey('sec'),
         _type: 'sectionBlock',
         tagline: sec.tagline || '',
         heading: sec.heading || '',
         headingColor: sec.headingColor || 'navy',
-        body: makeBlockContent(sec.heading || ''),
+        body: makeBlockContent(sec.body || sec.heading || ''),
         bullets: sec.bullets || [],
+        highlightStat: sec.highlightStat
+          ? {
+              value: sec.highlightStat.value || '',
+              label: sec.highlightStat.label || '',
+            }
+          : undefined,
       })),
-      bentoImages: {
+      bentoImages: bentoItems.length > 0 ? {
         _type: 'gallery',
         categoryTitle: 'Project Gallery',
         items: bentoItems,
-      },
+      } : undefined,
     };
 
     await saveDoc(doc);
@@ -194,6 +217,21 @@ async function migrateNews() {
   for (const article of articlesList) {
     const heroImageAsset = await uploadLocalImage(article.heroImage);
 
+    const bentoItems = [];
+    if (article.bentoImages && Array.isArray(article.bentoImages)) {
+      for (const bImg of article.bentoImages) {
+        const itemImg = await uploadLocalImage(bImg);
+        if (itemImg) {
+          bentoItems.push({
+            _key: genKey('bento'),
+            _type: 'galleryItem',
+            image: itemImg,
+            title: article.title,
+          });
+        }
+      }
+    }
+
     const doc = {
       _type: 'newsArticle',
       _id: `news-${article.slug}`,
@@ -205,6 +243,26 @@ async function migrateNews() {
       author: article.author || 'PCE Media Team',
       heroImage: heroImageAsset,
       intro: article.intro || '',
+      sections: article.sections?.map((sec: any) => ({
+        _key: genKey('sec'),
+        _type: 'sectionBlock',
+        tagline: sec.tagline || '',
+        heading: sec.heading || '',
+        headingColor: sec.headingColor || 'navy',
+        body: makeBlockContent(sec.body || sec.heading || ''),
+        bullets: sec.bullets || [],
+        highlightStat: sec.highlightStat
+          ? {
+              value: sec.highlightStat.value || '',
+              label: sec.highlightStat.label || '',
+            }
+          : undefined,
+      })),
+      bentoImages: bentoItems.length > 0 ? {
+        _type: 'gallery',
+        categoryTitle: 'Article Gallery',
+        items: bentoItems,
+      } : undefined,
     };
 
     await saveDoc(doc);
@@ -217,6 +275,38 @@ async function migrateProducts() {
     const primaryImg = await uploadLocalImage(prod.image);
     const secondaryImg = await uploadLocalImage(prod.secondaryImage);
     const heroImg = await uploadLocalImage(prod.heroImage);
+    const tdsAsset = prod.tdsUrl ? await uploadLocalFile(prod.tdsUrl) : null;
+    const sdsAsset = prod.sdsUrl ? await uploadLocalFile(prod.sdsUrl) : null;
+
+    const galleryItems = [];
+    if (prod.galleryImages && Array.isArray(prod.galleryImages)) {
+      for (const gImg of prod.galleryImages) {
+        const itemImg = await uploadLocalImage(gImg);
+        if (itemImg) {
+          galleryItems.push({
+            _key: genKey('gallery'),
+            _type: 'galleryItem',
+            image: itemImg,
+            title: prod.title,
+          });
+        }
+      }
+    }
+
+    const technicalItems = [];
+    if (prod.technicalImages && Array.isArray(prod.technicalImages)) {
+      for (const tImg of prod.technicalImages) {
+        const itemImg = await uploadLocalImage(tImg);
+        if (itemImg) {
+          technicalItems.push({
+            _key: genKey('tech'),
+            _type: 'galleryItem',
+            image: itemImg,
+            title: prod.title,
+          });
+        }
+      }
+    }
 
     const doc = {
       _type: 'product',
@@ -236,9 +326,84 @@ async function migrateProducts() {
       image: primaryImg,
       secondaryImage: secondaryImg,
       heroImage: heroImg,
+      intro: prod.intro || '',
       executiveStandard: prod.executiveStandard || '',
       mainFunctions: prod.mainFunctions || [],
       features: prod.features || [],
+      applications: prod.applications?.map((app: any) => ({
+        _key: genKey('app'),
+        title: app.title || '',
+        desc: app.desc || '',
+        icon: app.icon || '',
+      })),
+      specRows: prod.specs?.map((spec: any) => ({
+        _key: genKey('spec'),
+        _type: 'specRow',
+        label: spec.label || '',
+        value: spec.value || '',
+      })),
+      specTables: prod.specTables?.map((tbl: any) => ({
+        _key: genKey('tbl'),
+        title: tbl.title || '',
+        headers: tbl.headers || [],
+        rows: tbl.rows?.map((r: string[]) => ({
+          _key: genKey('row'),
+          cells: r,
+        })) || [],
+      })),
+      howItsUsed: prod.howItsUsed ? {
+        description: prod.howItsUsed.suitability || prod.howItsUsed.application || (prod.howItsUsed.mixingSteps ? prod.howItsUsed.mixingSteps.join(' ') : ''),
+        recommendedDosage: prod.howItsUsed.dosage || '',
+        mixingInstructions: Array.isArray(prod.howItsUsed.mixingSteps)
+          ? prod.howItsUsed.mixingSteps.join('\n')
+          : (prod.howItsUsed.precaution || ''),
+      } : undefined,
+      tdsFile: tdsAsset,
+      sdsFile: sdsAsset,
+      sections: prod.sections?.map((sec: any) => ({
+        _key: genKey('sec'),
+        _type: 'sectionBlock',
+        tagline: sec.tagline || '',
+        heading: sec.heading || '',
+        headingColor: sec.headingColor || 'navy',
+        body: makeBlockContent(sec.body || sec.heading || ''),
+        bullets: sec.bullets || [],
+      })),
+      safetyAtAGlance: prod.safetyAtAGlance ? {
+        hazardRating: prod.safetyAtAGlance.ghsHazard || prod.safetyAtAGlance.hazardClass || '',
+        handlingPrecautions: prod.safetyAtAGlance.cautionStrip || (prod.safetyAtAGlance.ppe ? prod.safetyAtAGlance.ppe.map((p: any) => `${p.type}: ${p.recommendation}`).join('; ') : ''),
+        recommendedPpe: prod.safetyAtAGlance.ppe ? prod.safetyAtAGlance.ppe.map((p: any) => `${p.type}: ${p.recommendation}`) : [],
+      } : undefined,
+      storageInfo: prod.storageInfo || '',
+      sdsSections: prod.sdsSections?.map((s: any) => ({
+        _key: genKey('sds'),
+        sectionNumber: String(s.num || s.sectionNumber || ''),
+        title: s.title || '',
+        content: s.content || '',
+      })),
+      supplyDetails: prod.supplyDetails ? {
+        packaging: prod.supplyDetails.find((d: any) => d.label?.toLowerCase().includes('pack') || d.label?.toLowerCase().includes('bag') || d.label?.toLowerCase().includes('small'))?.value || (Array.isArray(prod.supplyDetails) ? prod.supplyDetails[0]?.value : ''),
+        minimumOrder: prod.supplyDetails.find((d: any) => d.label?.toLowerCase().includes('minimum') || d.label?.toLowerCase().includes('tanker'))?.value || '',
+        leadTime: prod.supplyDetails.find((d: any) => d.label?.toLowerCase().includes('lead') || d.label?.toLowerCase().includes('shelf'))?.value || '',
+        logisticsHubs: prod.supplyDetails.filter((d: any) => d.label?.toLowerCase().includes('hub') || d.label?.toLowerCase().includes('storage')).map((d: any) => `${d.label}: ${d.value}`),
+      } : undefined,
+      salesContacts: prod.salesContacts?.map((c: any) => ({
+        _key: genKey('contact'),
+        _type: 'contactPerson',
+        name: c.name || '',
+        phone: c.phone || '',
+        email: c.email || '',
+      })),
+      galleryImages: galleryItems.length > 0 ? {
+        _type: 'gallery',
+        categoryTitle: 'Product Photo Gallery',
+        items: galleryItems,
+      } : undefined,
+      technicalImages: technicalItems.length > 0 ? {
+        _type: 'gallery',
+        categoryTitle: 'Technical Diagrams',
+        items: technicalItems,
+      } : undefined,
     };
 
     await saveDoc(doc);
