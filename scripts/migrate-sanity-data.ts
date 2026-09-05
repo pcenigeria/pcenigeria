@@ -892,11 +892,7 @@ async function migratePageSingletons() {
 
 
   // 4. Equipment Page Singleton
-  // Upload equipment capacity section images
   const eqHeroImg = await uploadLocalImage('/pictures/equipment/main-equipments-cover-photo.jpg');
-  const eqCapImg1 = await uploadLocalImage('/pictures/equipment/xcmg-500.jpg');
-  const eqCapImg2 = await uploadLocalImage('/pictures/equipment/gd-5000.jpg');
-  const eqCapImg3 = await uploadLocalImage('/pictures/equipment/gd-12000l-hdd-rig.jpg');
   const eqSupportImg1 = await uploadLocalImage('/pictures/equipment/91903d3f483647597b5364f08e4e7007.jpg');
   const eqSupportImg2 = await uploadLocalImage('/pictures/equipment/e4718ab6567102f62eba9b2f0406e17f.jpg');
   const eqSupportImg3 = await uploadLocalImage('/pictures/home-page/equipment-08.jpg');
@@ -910,27 +906,6 @@ async function migratePageSingletons() {
     heroSubtext2: 'Our resources are selected and configured around the route, ground conditions, pipeline and crossing method.',
     heroPrimaryBtnText: 'Discuss Your Crossing',
     heroImage: eqHeroImg,
-    // Matches features/equipment/components/equipment-capacity.tsx
-    capacitySection: {
-      _type: 'sectionBlock',
-      tagline: 'Equipment Capacity',
-      heading: 'Scale matters. Control matters more.',
-      headingColor: 'navy',
-      body: makeBlockContent('Large equipment creates capacity. Disciplined engineering, guidance, drilling-fluid management and field coordination turn that capacity into a successful crossing.'),
-      buttonText: 'Explore Our HDD Capability',
-      buttonLink: '/capabilities',
-    },
-    capacityKeyStats: [
-      { _key: genKey('ks'), label: '500t', description: 'HDD rig capacity' },
-      { _key: genKey('ks'), label: '500t', description: 'Pipe-handling capacity' },
-      { _key: genKey('ks'), label: '3', description: 'ParaTrack 2 systems' },
-      { _key: genKey('ks'), label: '3', description: 'F5 walkover systems' },
-    ],
-    capacityImages: [
-      ...(eqCapImg1 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg1, title: '500t HDD Rig' }] : []),
-      ...(eqCapImg2 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg2, title: 'GD-5000L HDD Rig' }] : []),
-      ...(eqCapImg3 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg3, title: 'XCMG HDD Rig Fleet' }] : []),
-    ],
     // Matches features/equipment/components/our-equipments.tsx
     fleetSection: {
       _type: 'sectionBlock',
@@ -1238,6 +1213,13 @@ async function migratePageSingletons() {
   await saveDoc(contactDoc);
 
   // 11. Navigation Singleton
+  const pNavImg0 = await uploadLocalImage('/pictures/product-image/bent/cover-photo.jpg');
+  const pNavImg1 = await uploadLocalImage('/pictures/product-image/bent/cover-photo.jpg');
+  const pNavImg2 = await uploadLocalImage('/pictures/product-image/brscmc-pack.png');
+  const pNavImg3 = await uploadLocalImage('/pictures/product-image/brsmmh-pack.png');
+  const pNavImg4 = await uploadLocalImage('/pictures/product-image/brsvr-pack.png');
+  const pNavImg5 = await uploadLocalImage('/pictures/product-image/brsxtg-pack.png');
+
   const navDoc = {
     _type: 'navigation',
     _id: 'navigation',
@@ -1265,12 +1247,12 @@ async function migratePageSingletons() {
       { _key: genKey('capnav'), title: 'Technical Support', href: '/capabilities#support', description: 'Rig maintenance & field technical services' },
     ],
     productsMenu: [
-      { _key: genKey('pnav'), title: 'Products Overview', subtitle: 'Drilling Mud Portfolio', href: '/products', description: 'Brighter Star Drilling Fluids' },
-      { _key: genKey('pnav'), title: 'BRSBENT SQ', subtitle: 'Activated Bentonite', href: '/products/brsbent-sq', description: 'High-yield API grade bentonite' },
-      { _key: genKey('pnav'), title: 'BRSCMC', subtitle: 'Carboxymethyl Cellulose', href: '/products/brscmc', description: 'Fluid loss control polymer' },
-      { _key: genKey('pnav'), title: 'BRSMMH', subtitle: 'Mixed Metal Hydroxide', href: '/products/brsmmh', description: 'Inorganic rheology modifier' },
-      { _key: genKey('pnav'), title: 'BRSVR', subtitle: 'Viscosifier Polymer', href: '/products/brsvr', description: 'High-viscosity polymer' },
-      { _key: genKey('pnav'), title: 'BRSXTG', subtitle: 'Xanthan Gum', href: '/products/brsxtg', description: 'Premium biopolymer viscosifier' },
+      { _key: genKey('pnav'), title: 'Products Overview', subtitle: 'Drilling Mud Portfolio', href: '/products', description: 'Brighter Star Drilling Fluids', ...(pNavImg0 ? { image: pNavImg0 } : {}) },
+      { _key: genKey('pnav'), title: 'BRSBENT SQ', subtitle: 'Activated Bentonite', href: '/products/brsbent-sq', description: 'High-yield API grade bentonite', ...(pNavImg1 ? { image: pNavImg1 } : {}) },
+      { _key: genKey('pnav'), title: 'BRSCMC', subtitle: 'Carboxymethyl Cellulose', href: '/products/brscmc', description: 'Fluid loss control polymer', ...(pNavImg2 ? { image: pNavImg2 } : {}) },
+      { _key: genKey('pnav'), title: 'BRSMMH', subtitle: 'Mixed Metal Hydroxide', href: '/products/brsmmh', description: 'Inorganic rheology modifier', ...(pNavImg3 ? { image: pNavImg3 } : {}) },
+      { _key: genKey('pnav'), title: 'BRSVR', subtitle: 'Viscosifier Polymer', href: '/products/brsvr', description: 'High-viscosity polymer', ...(pNavImg4 ? { image: pNavImg4 } : {}) },
+      { _key: genKey('pnav'), title: 'BRSXTG', subtitle: 'Xanthan Gum', href: '/products/brsxtg', description: 'Premium biopolymer viscosifier', ...(pNavImg5 ? { image: pNavImg5 } : {}) },
     ],
   };
   await saveDoc(navDoc);

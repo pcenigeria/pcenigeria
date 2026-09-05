@@ -29,7 +29,7 @@ export const ProductsHero: React.FC<ProductsHeroProps> = ({ sanityPage }) => {
                     />
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight whitespace-nowrap">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight max-w-5xl">
                     {headline}
                 </h1>
 

@@ -6,9 +6,8 @@ export default defineType({
   type: 'document',
   groups: [
     { name: 'hero', title: '1. Hero Banner', default: true },
-    { name: 'capacity', title: '2. Scale Matters (Capacity Stats)' },
-    { name: 'fleet', title: '3. Equipment Fleet Categories' },
-    { name: 'support', title: '4. Technical Support Section' },
+    { name: 'fleet', title: '2. Equipment Fleet Categories' },
+    { name: 'support', title: '3. Technical Support Section' },
     { name: 'seo', title: 'SEO Metadata' },
   ],
   fields: [
@@ -58,42 +57,7 @@ export default defineType({
       options: { hotspot: true },
     }),
 
-    // --- 2. CAPACITY STATS SECTION ---
-    defineField({
-      name: 'capacitySection',
-      title: '"Scale Matters. Control Matters More." Section Block',
-      description: 'Heading, body text, and CTA for the capacity/stats section',
-      type: 'sectionBlock',
-      group: 'capacity',
-    }),
-    defineField({
-      name: 'capacityKeyStats',
-      title: 'Capacity Key Stats (Displayed as stat lines)',
-      type: 'array',
-      group: 'capacity',
-      of: [
-        {
-          type: 'object',
-          title: 'Key Stat',
-          fields: [
-            defineField({ name: 'label', title: 'Stat Value (e.g. "500t")', type: 'string' }),
-            defineField({ name: 'description', title: 'Stat Description', type: 'string' }),
-          ],
-        },
-      ],
-      options: { sortable: true },
-    }),
-    defineField({
-      name: 'capacityImages',
-      title: 'Capacity Section Slideshow Images',
-      description: 'Images used in the looping slideshow on this section',
-      type: 'array',
-      group: 'capacity',
-      of: [{ type: 'galleryItem' }],
-      options: { sortable: true },
-    }),
-
-    // --- 3. EQUIPMENT FLEET ---
+    // --- 2. EQUIPMENT FLEET ---
     defineField({
       name: 'fleetSection',
       title: 'Equipment Fleet Section Block',

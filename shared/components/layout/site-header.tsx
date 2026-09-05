@@ -145,7 +145,14 @@ export const SiteHeader = ({ navigation, globalSettings }: SiteHeaderProps) => {
     const capabilitySubLinks = navigation?.capabilitiesMenu?.length
         ? navigation.capabilitiesMenu
         : DEFAULT_CAPABILITY_SUB_LINKS;
-    const productSubLinks = navigation?.productsMenu?.length ? navigation.productsMenu : DEFAULT_PRODUCT_SUB_LINKS;
+    const rawProductSubLinks = navigation?.productsMenu?.length ? navigation.productsMenu : DEFAULT_PRODUCT_SUB_LINKS;
+    const productSubLinks = rawProductSubLinks.map((p, idx) => {
+        const fallback = DEFAULT_PRODUCT_SUB_LINKS.find((def) => def.href === p.href) || DEFAULT_PRODUCT_SUB_LINKS[idx] || DEFAULT_PRODUCT_SUB_LINKS[0];
+        return {
+            ...p,
+            image: p.image || fallback.image,
+        };
+    });
     const homeLink = navigation?.homeLink?.href ? navigation.homeLink : DEFAULT_HOME_LINK;
     const contactCta = navigation?.contactCta?.href ? navigation.contactCta : DEFAULT_CONTACT_CTA;
     const logoSrc = globalSettings?.logo || DEFAULT_LOGO_SRC;
@@ -234,9 +241,15 @@ export const SiteHeader = ({ navigation, globalSettings }: SiteHeaderProps) => {
                                         {/* Product Thumbnail */}
                                         <div className="w-9 h-9 shrink-0 rounded-lg overflow-hidden bg-white border border-black/10 flex items-center justify-center">
                                             <img
-                                                src={product.image}
+                                                src={product.image || DEFAULT_PRODUCT_SUB_LINKS[idx]?.image || DEFAULT_PRODUCT_SUB_LINKS[0].image}
                                                 alt={product.title}
                                                 className="w-full h-full object-contain p-0.5"
+                                                onError={(e) => {
+                                                    const fallback = DEFAULT_PRODUCT_SUB_LINKS.find((def) => def.href === product.href) || DEFAULT_PRODUCT_SUB_LINKS[idx] || DEFAULT_PRODUCT_SUB_LINKS[0];
+                                                    if (fallback?.image && e.currentTarget.src !== fallback.image) {
+                                                        e.currentTarget.src = fallback.image;
+                                                    }
+                                                }}
                                             />
                                         </div>
                                         <div>
@@ -257,9 +270,14 @@ export const SiteHeader = ({ navigation, globalSettings }: SiteHeaderProps) => {
                     <div className="col-span-5 flex items-center justify-center">
                         <div className="w-full h-full min-h-[300px] rounded-xl overflow-hidden shadow-sm bg-[#f2f4f7] border border-black/5 flex items-center justify-center p-4">
                             <img
-                                src={hoveredProductImage}
+                                src={hoveredProductImage || DEFAULT_PRODUCT_SUB_LINKS[0].image}
                                 alt="Featured Product"
                                 className="max-w-full max-h-full object-contain transition-all duration-300 rounded-lg"
+                                onError={(e) => {
+                                    if (e.currentTarget.src !== DEFAULT_PRODUCT_SUB_LINKS[0].image) {
+                                        e.currentTarget.src = DEFAULT_PRODUCT_SUB_LINKS[0].image;
+                                    }
+                                }}
                             />
                         </div>
                     </div>
