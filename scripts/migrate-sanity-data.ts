@@ -985,40 +985,31 @@ async function migratePageSingletons() {
 
 
   // 6. Projects Page Singleton
-  const routeImg1 = await uploadLocalImage('/pictures/hero-slider/akk-cover-photo.jpg');
-  const routeImg2 = await uploadLocalImage('/pictures/hero-slider/offshore-hdd-project.jpg');
-  const routeImg3 = await uploadLocalImage('/pictures/hero-slider/drilling-rig-03.jpg');
-
   const projectsDoc = {
     _type: 'projectsPage',
     _id: 'projectsPage',
-    introHeadline: 'Featured HDD & Pipeline Projects',
-    introSubtext: 'Explore our completed river crossings, offshore landfalls, and major pipeline EPC construction projects across Nigeria, Thailand, and China.',
-    heroSlides: {
-      _type: 'gallery',
-      categoryTitle: 'Featured Projects Gallery',
-      items: heroItems,
-    },
-    routeCards: [
-      {
-        _key: genKey('route'),
-        title: 'Major River Crossings',
-        description: 'Trenchless installation under wide rivers like River Niger and Escravos River with pullback forces up to 1,200 tons.',
-        image: routeImg1,
-      },
-      {
-        _key: genKey('route'),
-        title: 'Wetland & Swamp Terrain',
-        description: 'Specialized amphibious drilling equipment and mud recycling barges engineered for mangrove swamps.',
-        image: routeImg2,
-      },
-      {
-        _key: genKey('route'),
-        title: 'Hard Rock & Mixed Geology',
-        description: 'High-torque mud motors, roller cone hole openers, and high-pressure mud pumps for deep granite formations.',
-        image: routeImg3,
-      },
+    heroHeadline: 'Landmark HDD Crossings & Pipeline EPC Projects',
+    heroSubtext: 'Explore our completed river crossings, offshore landfalls, and major pipeline EPC construction projects across Nigeria, Thailand, and China.',
+    heroBullets: [
+      '2,000m 48" River Niger HDD Crossing (OB3 Pipeline)',
+      '1,565m 40" River Niger Specialist Crossing (AKK Pipeline)',
+      '52km Pipeline EPC with 30+ km Continuous HDD (Thailand)',
+      '4,060m Long-Distance Intersecting HDD Crossing (China)',
     ],
+    gridSection: {
+      _type: 'sectionBlock',
+      tagline: 'WHAT CONNECTS THE WORK',
+      heading: 'Different routes. The same engineering discipline.',
+      headingColor: 'navy',
+      body: makeBlockContent('Across varied geography, ground conditions and pipeline parameters, PCE applies consistent engineering discipline to every project.'),
+    },
+    featuredSection: {
+      _type: 'sectionBlock',
+      tagline: 'FEATURED CROSSINGS & EPC',
+      heading: 'Complex Crossings. Completed.',
+      headingColor: 'navy',
+      body: makeBlockContent('PCE has executed major HDD crossings and pipeline EPC infrastructure across Nigeria, Thailand and China. Each project represents a technical response to specific ground conditions, river dynamics and installation requirements.'),
+    },
     seo: {
       _type: 'seo',
       metaTitle: 'Projects & Case Studies — PCE Nigeria',
@@ -1031,9 +1022,15 @@ async function migratePageSingletons() {
   const productsDoc = {
     _type: 'productsPage',
     _id: 'productsPage',
-    heroHeadline: 'Brighter Star Drilling Fluids & Mud Additives',
+    heroHeadline: 'Specialty Drilling Chemicals & Lantic Bentonite Products',
     heroSubtext: 'High-performance viscosifiers, fluid loss control polymers, and shale stabilizers formulated for HDD and deep drilling applications.',
-    aboutSection: {
+    heroBullets: [
+      'API-Grade Activated Bentonite with Marsh Viscosity ≥ 100 sec',
+      'High-Purity Sodium Carboxymethyl Cellulose (BRSCMC)',
+      'Mixed Metal Hydroxide (BRSMMH) for Unstable Gravel & Sand',
+      'Strategic Chemical Reserves in Port Harcourt & Lagos',
+    ],
+    catalogSection: {
       _type: 'sectionBlock',
       tagline: 'DRILLING FLUIDS PORTFOLIO',
       heading: 'Engineered mud chemicals for unstable soil and rock formations.',
@@ -1062,6 +1059,22 @@ async function migratePageSingletons() {
         '24/7 technical field support and mud testing laboratory',
       ],
     },
+    matrixSection: {
+      _type: 'sectionBlock',
+      tagline: 'PERFORMANCE MATRIX',
+      heading: 'Chemical Compatibility & Formulation Standards.',
+      headingColor: 'navy',
+      body: makeBlockContent('Our drilling fluid formulations are engineered to maintain rheological stability across diverse formation geologies, temperature ranges, and salinity levels.'),
+    },
+    ctaSection: {
+      _type: 'sectionBlock',
+      tagline: 'TECHNICAL CONSULTATION',
+      heading: 'Need a Custom Mud Formulation for Your Crossing?',
+      headingColor: 'navy',
+      body: makeBlockContent('Our mud engineers analyze core samples and geotechnical data to formulate optimal mud systems tailored to your specific bore profile.'),
+      buttonText: 'Consult Our Engineers',
+      buttonLink: '/contact',
+    },
     seo: {
       _type: 'seo',
       metaTitle: 'Drilling Fluids & Products — PCE Nigeria',
@@ -1074,8 +1087,15 @@ async function migratePageSingletons() {
   const newsDoc = {
     _type: 'newsInsightsPage',
     _id: 'newsInsightsPage',
-    heroHeadline: 'News & Technical Insights',
+    heroHeadline: 'News, Project Reports & Technical Insights',
     heroSubtext: 'Latest announcements, project completion milestones, and technical articles from PCE Engineering.',
+    articlesSection: {
+      _type: 'sectionBlock',
+      tagline: 'TECHNICAL INTELLIGENCE',
+      heading: 'Field Reports, Technical Analysis & Industry Milestones.',
+      headingColor: 'navy',
+      body: makeBlockContent('Read our latest case study reports, engineering execution reviews, and technical insights on trenchless river crossings and pipeline construction.'),
+    },
     seo: {
       _type: 'seo',
       metaTitle: 'News & Technical Insights — PCE Nigeria',
@@ -1088,8 +1108,15 @@ async function migratePageSingletons() {
   const resourcesDoc = {
     _type: 'resourcesPage',
     _id: 'resourcesPage',
-    heroHeadline: 'Resources & Downloads',
+    heroHeadline: 'Technical Resources, TDS & SDS Data Sheets',
     heroSubtext: 'Download corporate profiles, technical specification sheets (TDS), safety data sheets (SDS), and product manuals.',
+    downloadsSection: {
+      _type: 'sectionBlock',
+      tagline: 'DOWNLOAD LIBRARY',
+      heading: 'Certified Engineering Manuals & Material Safety Data.',
+      headingColor: 'navy',
+      body: makeBlockContent('Access official documentation, QA/QC certifications, technical specifications, and safety guidelines for PCE drilling services and Brighter Star fluid products.'),
+    },
     seo: {
       _type: 'seo',
       metaTitle: 'Resources & Downloads — PCE Nigeria',
@@ -1098,19 +1125,27 @@ async function migratePageSingletons() {
   };
   await saveDoc(resourcesDoc);
 
-  // 10. Contact Page Singleton (Updated with Wan Yang & Xu Liangkui numbers)
+  // 10. Contact Page Singleton
   const contactDoc = {
     _type: 'contactPage',
     _id: 'contactPage',
-    heroHeadline: 'Get in Touch with Our Engineering Team',
+    heroHeadline: 'Contact PCE Nigeria Limited',
     heroSubtext: 'Contact PCE Nigeria for project inquiries, technical consultations, or mud chemical orders.',
-    officeAddress: 'Port Harcourt & Lagos Offices, Nigeria',
-    phoneNumbers: ['+234 707 412 6596', '+234 701 373 2816'],
-    emailAddresses: ['info@pcenigeria.com', 'wanyang@pcenigeria.com', 'xuliangkui@pcenigeria.com'],
-    socialLinks: [
-      { _key: genKey('soc'), platform: 'LinkedIn', url: 'https://linkedin.com/company/pcenigeria' },
-      { _key: genKey('soc'), platform: 'Twitter', url: 'https://twitter.com/pcenigeria' },
+    contactPersons: [
+      { _key: genKey('cp'), name: 'Wan Yang', phone: '+234 707 412 6596', email: 'wanyang@pcenigeria.com' },
+      { _key: genKey('cp'), name: 'Xu Liangkui', phone: '+234 701 373 2816', email: 'xuliangkui@pcenigeria.com' },
     ],
+    abujaOffice: 'House 45, Nelson Mandela Street, Asokoro, Abuja, Nigeria',
+    lagosOffice: 'HyGroup Place 6 Ojulari St, off Kusenla Rd Ikate, Lekki, Lagos, Nigeria',
+    portHarcourtBase: 'East-West Road Opp. New Onne Link Rd Ebubu, Eleme, Rivers State, Nigeria',
+    generalEmail: 'info@pcenigeria.com',
+    formSection: {
+      _type: 'sectionBlock',
+      tagline: 'DIRECT INQUIRY',
+      heading: 'Send a Message to Our Technical Team',
+      headingColor: 'navy',
+      body: makeBlockContent('Fill out the form below for commercial inquiries, project feasibility reviews, or technical fluid orders. Our team responds within 24 business hours.'),
+    },
     seo: {
       _type: 'seo',
       metaTitle: 'Contact Us — PCE Nigeria',
