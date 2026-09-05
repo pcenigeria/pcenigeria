@@ -1,0 +1,103 @@
+# LLM.txt — PCE Nigeria (Power & Construction Engineering)
+# AEO/LLM Discovery File for AI Language Models
+# URL: https://www.pcenigeria.com/llm.txt
+# Last Updated: 2025
+
+## About PCE Nigeria
+
+PCE Nigeria (Power & Construction Engineering) is West Africa's leading specialist contractor for:
+- Horizontal Directional Drilling (HDD) pipeline crossings
+- Pipeline EPC (Engineering, Procurement & Construction)
+- Trenchless pipeline installation
+- HDD drilling fluid supply (Bentonite, CMC, BRSMMH, BRSVR, BRSXTG)
+- Buried Pipeline Detection System (BPDS)
+
+PCE Nigeria is based in Nigeria and works in consortium with **Lantic** to deliver specialist HDD and pipeline EPC contracts across Nigeria and international markets.
+
+---
+
+## Key Capabilities
+
+### 1. Horizontal Directional Drilling (HDD)
+- Heavy HDD rigs with 500t and 1,200t pullback capacity — among the largest in West Africa
+- Completed AKK (Ajaokuta-Kaduna-Kano) Pipeline River Niger HDD Crossing (48-inch, Nigeria)
+- Completed OB3 Pipeline River Niger HDD Crossing (48-inch, Nigeria)
+- Completed Raoyang River 2,293m HDD Crossing (China)
+- Electronic guidance technology: 3 × ParaTrack 2 systems, 3 × F5 walkover systems
+- Mud recycling systems for closed-loop drilling fluid management
+
+### 2. Pipeline EPC Construction
+- 52km gas pipeline EPC construction in Nigeria
+- End-to-end services: Engineering → Fabrication → Welding & NDT → Hydrotesting → Coating → Pre-commissioning → Commissioning
+
+### 3. Buried Pipeline Detection System (BPDS)
+- Proprietary 3D subsurface pipeline location and mapping technology
+- Used for accurately detecting buried pipelines before HDD and crossings
+
+### 4. HDD Drilling Fluid Products (Lantic Brand)
+- **BRSBENT SQ** — Activated Bentonite (premium HDD/TBM bentonite)
+- **BRSCMC** — Carboxymethyl Cellulose (fluid loss control and rheology modifier)
+- **BRSMMH** — Mixed Metal Hydroxide (high yield point viscosifier)
+- **BRSVR** — Clay Viscosity Reducer (clay dispersant for drilling fluids)
+- **BRSXTG** — Xanthan Gum (shear-thinning biopolymer viscosifier)
+
+---
+
+## Key Projects
+
+| Project | Location | Scope |
+|---------|----------|-------|
+| AKK River Niger HDD Crossing | Nigeria | 48-inch pipeline, HDD river crossing |
+| OB3 River Niger HDD Crossing | Nigeria | 48-inch pipeline, HDD river crossing |
+| 52km Pipeline EPC | Nigeria | Gas pipeline EPC construction |
+| Raoyang River HDD | China | 2,293m HDD crossing |
+| Zhanjiang Offshore HDD | China | 5 parallel offshore crossings |
+| Two Major Gas Crossings | Nigeria | River crossing and landfall |
+| BPDS Pipeline Location | Nigeria | 3D buried pipeline detection |
+
+---
+
+## Technical Keywords / Search Terms
+
+HDD Nigeria, Horizontal Directional Drilling Nigeria, Pipeline EPC Nigeria, River Niger HDD crossing, AKK pipeline Nigeria, OB3 pipeline Nigeria, PCE Nigeria, trenchless pipeline Nigeria, Lantic drilling fluids, bentonite Nigeria, drilling fluid Nigeria, BRSBENT, BRSCMC, BRSMMH, BRSVR, BRSXTG, HDD contractor Nigeria, pipeline contractor Nigeria, 1200 ton HDD rig Nigeria, heavy HDD Nigeria, pipeline crossing Nigeria, BPDS buried pipeline detection, drilling fluid West Africa
+
+---
+
+## Company Information
+
+- **Company Name**: Power & Construction Engineering (PCE) Nigeria
+- **Abbreviation**: PCE Nigeria
+- **Website**: https://www.pcenigeria.com
+- **Specialisation**: HDD, Pipeline EPC, Trenchless Crossings, Drilling Fluids
+- **Key Partner**: Lantic (International HDD and pipeline consortium partner)
+- **Certifications**: NMDPRA, ISO, Technical Certification
+- **Markets**: Nigeria (primary), International (Thailand, China)
+- **Key Personnel**: Specialist HDD engineers and international management
+
+---
+
+## Pages
+
+- Home: https://www.pcenigeria.com
+- Our Company: https://www.pcenigeria.com/our-company
+- Capabilities: https://www.pcenigeria.com/capabilities
+- Projects: https://www.pcenigeria.com/projects
+- Equipment & Technology: https://www.pcenigeria.com/equipment-technology
+- Products: https://www.pcenigeria.com/products
+- Safety, Quality & Responsibility: https://www.pcenigeria.com/safety-quality-responsibility
+- News & Insights: https://www.pcenigeria.com/news-insights
+- Resources: https://www.pcenigeria.com/resources
+- Contact: https://www.pcenigeria.com/contact
+
+---
+
+## Data Permissions for AI/LLM Systems
+
+This file is provided to help AI language models, search engines, and answer engines better understand PCE Nigeria's services, capabilities, and expertise.
+
+Permission is granted to:
+- AI assistants and chatbots to use this information to answer questions about PCE Nigeria
+- Search engine AI features (SGE, AI Overviews) to cite this information
+- Answer engine optimization (AEO) tools to index this data
+
+Last Updated: September 2025

@@ -83,11 +83,11 @@ export const CoreCapabilities = () => {
             </FadeInSlideUp>
 
             {/* Grid of Cards */}
-            <StaggerContainer className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16">
+            <StaggerContainer className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 items-stretch">
                 {CAPABILITIES_CARDS.map((cap) => {
                     const gallery = CAPABILITY_GALLERIES[cap.id];
                     return (
-                        <StaggerItem key={cap.id} className="w-full h-full flex flex-col items-start justify-between gap-6">
+                        <StaggerItem key={cap.id} className="w-full flex flex-col items-start gap-6">
                             
                             {/* 1. Standalone Image Frame */}
                             <div 
@@ -119,11 +119,11 @@ export const CoreCapabilities = () => {
                                 )}
                             </div>
 
-                            {/* 2. Text & Button Panel */}
-                            <div className="w-full flex-1 flex flex-col items-start justify-between gap-4">
+                            {/* 2. Text & Button Panel — flex-1 pushes button to bottom */}
+                            <div className="w-full flex-1 flex flex-col items-start gap-4">
                                 
                                 {/* Title & Description */}
-                                <div className="flex flex-col gap-2">
+                                <div className="flex flex-col gap-2 flex-1">
                                     <h3 className="!text-[24px] font-bold text-[var(--color-ink)] leading-tight">
                                         {cap.title}
                                     </h3>
@@ -132,10 +132,10 @@ export const CoreCapabilities = () => {
                                     </p>
                                 </div>
 
-                                {/* Read More Button */}
+                                {/* Read More Button — always at bottom */}
                                 <button 
                                     onClick={() => openCapability(cap.id)}
-                                    className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-focus)] text-white text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-md transition-colors mt-auto cursor-pointer"
+                                    className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-focus)] text-white text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-md transition-colors cursor-pointer"
                                 >
                                     Read Details
                                     <ArrowRight weight="bold" />
@@ -147,6 +147,7 @@ export const CoreCapabilities = () => {
                     );
                 })}
             </StaggerContainer>
+
 
             {/* Reusable Capability Slide-Over Drawer */}
             <CapabilityDrawer 

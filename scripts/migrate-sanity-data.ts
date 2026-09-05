@@ -399,10 +399,11 @@ async function migratePageSingletons() {
   ];
 
   const glanceStatsPopulated = [];
+  // These EXACTLY match the stats array in features/home/components/overview.tsx
   const statDefs = [
     { number: '150+', label: 'People across five specialist construction teams', coverPath: '/pictures/hero-slider/ob3-02-team.jpg', galIdx: 0 },
     { number: '1200t/500t/500t', label: 'Nigeria-based HDD rig and pipe-handling capability', coverPath: '/pictures/hero-slider/drilling-rig-cover-photo.jpg', galIdx: 1 },
-    { number: '20+ Years', label: 'Continuous trenchless operations & project excellence', coverPath: '/pictures/equipment/main-equipments-cover-photo.jpg', galIdx: 2 },
+    { number: '', label: 'Equipment & Materials in Nigeria', coverPath: '/pictures/equipment/main-equipments-cover-photo.jpg', galIdx: 2 },
   ];
 
   for (const def of statDefs) {
@@ -514,68 +515,131 @@ async function migratePageSingletons() {
   await saveDoc(homeDoc);
 
   // 2. Company Page Singleton
-  const bentoImg1 = await uploadLocalImage('/pictures/hero-slider/drilling-rig-cover-photo.jpg');
-  const bentoImg2 = await uploadLocalImage('/pictures/hero-slider/drilling-rig-03.jpg');
-  const bentoImg3 = await uploadLocalImage('/pictures/hero-slider/ob3-construction-team.jpg');
+  // Upload company page images
+  const companyOb3Img = await uploadLocalImage('/pictures/company/ob3-wilding-main-pipeline.jpg');
+  const companySpecEngImg = await uploadLocalImage('/pictures/company/specialist-enginering.jpg');
+  const companyEpcImg = await uploadLocalImage('/pictures/company/integrated-pipeline-epc.jpg');
+  const companyGlobalImg = await uploadLocalImage('/pictures/company/global-resources.jpg');
+  const companyStdImg = await uploadLocalImage('/pictures/company/standards.jpg');
+  const companyExpImg = await uploadLocalImage('/pictures/company/experience.jpg');
+  const companySpecPipe1Img = await uploadLocalImage('/pictures/company/specialist-pipe.jpg');
+  const companySpecPipe2Img = await uploadLocalImage('/pictures/company/specialist-pipe-2.jpg');
 
   const companyDoc = {
     _type: 'companyPage',
     _id: 'companyPage',
-    heroHeadline: 'Engineering excellence beneath difficult crossings.',
-    heroSubtext: 'PCE combines heavy HDD rigs, specialized mud recycling systems, and experienced field personnel for high-stakes pipeline installations.',
+    // Matches features/company/components/company-hero.tsx
+    heroHeadline: 'Built for complex pipeline delivery.',
+    heroSubtext: 'PCE Nigeria provides integrated pipeline construction and EPC services, with specialist capability in Horizontal Directional Drilling.',
+    heroSubtext2: 'From early assessment and engineering through construction, pre-commissioning and commissioning, we bring technical expertise and field resources together around demanding pipeline projects.',
+    heroPrimaryBtnText: 'Explore Capabilities',
+    heroPrimaryBtnLink: '/capabilities',
+    // Matches features/company/components/who-we-are.tsx
     whoWeAreSection: {
       _type: 'sectionBlock',
-      tagline: 'WHO WE ARE',
-      heading: 'Leading trenchless crossing contractor in West Africa.',
+      tagline: 'Who We Are',
+      heading: 'Specialist capability for demanding pipeline HDD Crossing and EPC work.',
       headingColor: 'navy',
       body: makeBlockContent(
-        'PCE combines heavy HDD rigs, specialized mud recycling systems, and experienced field personnel for high-stakes pipeline installations.\n\nWith over 20 years of continuous trenchless operations across Nigeria and international projects, we deliver complex river crossings and sea landfalls safely and on schedule.'
+        'Complex crossings leave little room for disconnected delivery.\n\nPCE combines pipeline engineering and construction, specialist HDD capability, deep-pipeline location technology and technical resources to support projects from assessment through execution.\n\nOur approach is guided by safety, quality, efficiency and integrity.'
       ),
-      bullets: [
-        'Over 20 years of continuous trenchless drilling experience',
-        'Fleet of 500-ton and 1200-ton heavy HDD rigs',
-        'Proven track record across River Niger, wetland, and coastal environments',
-      ],
+      buttonText: 'Explore Our Projects',
+      buttonLink: '/projects',
     },
+    whoWeAreImages: [
+      ...(companySpecPipe2Img ? [{ _key: genKey('img'), _type: 'object', image: companySpecPipe2Img, caption: 'Specialist Pipe - Bottom Left' }] : []),
+      ...(companySpecPipe1Img ? [{ _key: genKey('img'), _type: 'object', image: companySpecPipe1Img, caption: 'Specialist Pipe - Top Right' }] : []),
+    ],
+    // Matches features/company/components/overview-capabilities.tsx
+    overviewCapabilitiesSection: {
+      _type: 'sectionBlock',
+      tagline: 'Our Capabilities',
+      heading: 'Local delivery capability. Specialist international experience.',
+      headingColor: 'navy',
+      body: makeBlockContent(
+        'PCE Nigeria works in consortium with Lantic on specialist HDD and pipeline delivery, bringing together local operating knowledge, engineering expertise, equipment resources and international project experience.'
+      ),
+      buttonText: 'See How We Work',
+      buttonLink: '/capabilities',
+    },
+    // Matches bento grid cards in overview-capabilities.tsx
     deliveryBentoCards: [
       {
         _key: genKey('bento'),
-        title: 'Heavy HDD Rig Fleet',
-        description: 'Pullback capacities up to 1,200 tons for large-diameter oil and gas pipelines.',
-        image: bentoImg1,
+        title: 'Local Operating Knowledge',
+        description: 'Project experience and field resources supporting execution in Nigeria.',
+        image: companyOb3Img,
       },
       {
         _key: genKey('bento'),
-        title: 'Mud Recycling & Solids Control',
-        description: 'High-volume closed-loop slurry recovery systems minimizing environmental impact.',
-        image: bentoImg2,
+        title: 'Specialist HDD Engineering',
+        description: 'Precision directional drilling for complex riverbed, roadway, and shoreline crossings.',
+        image: companySpecEngImg,
       },
       {
         _key: genKey('bento'),
-        title: 'Experienced Drilling Team',
-        description: 'Over two decades of river crossings, sea landfalls, and hard rock directional drilling.',
-        image: bentoImg3,
+        title: 'Integrated Pipeline EPC',
+        description: 'End-to-end execution covering engineering, pipeline fabrication, pre-commissioning, and testing.',
+        image: companyEpcImg,
+      },
+      {
+        _key: genKey('bento'),
+        title: 'Global Consortium Resources',
+        description: 'Combined equipment fleets, materials logistics, and international project support through the Lantic partnership.',
+        image: companyGlobalImg,
       },
     ],
-    visionMissionSection: {
+    // Matches features/company/components/experience.tsx
+    experienceSection: {
       _type: 'sectionBlock',
-      tagline: 'OUR VISION & MISSION',
-      heading: 'Delivering world-class trenchless solutions with safety and precision.',
+      tagline: 'Experience',
+      heading: 'Local execution backed by international project experience.',
       headingColor: 'navy',
       body: makeBlockContent(
-        "Our mission is to expand West Africa's energy infrastructure through sustainable engineering, cutting-edge directional drilling, and zero-harm environmental stewardship.\n\nWe strive to set the industry standard for pipeline integrity, technical excellence, and workforce safety."
+        "PCE's project record brings together complex pipeline and HDD experience in Nigeria and international markets.\n\nFrom major River Niger crossings in Nigeria to pipeline and HDD projects in Thailand and China, that experience informs how we approach difficult geology, critical infrastructure and demanding execution requirements."
       ),
-      bullets: [
-        'Zero-harm safety policy across all operations',
-        'Executing complex river & sea landfalls on schedule',
-        'Pioneering heavy HDD equipment and closed-loop mud recycling in Africa',
-      ],
+      buttonText: 'Explore Our Projects',
+      buttonLink: '/projects',
+    },
+    // Matches features/company/components/our-direction.tsx
+    visionMissionSection: {
+      _type: 'sectionBlock',
+      tagline: 'Our Direction',
+      heading: 'Engineering excellence with a clear ambition.',
+      headingColor: 'navy',
+      body: makeBlockContent(
+        'Our Vision: To become a globally recognised leader in HDD and pipeline EPC, known for engineering excellence, safe delivery and sustainable practice.\n\nOur Mission: To provide dependable engineering and construction solutions that exceed client expectations through innovation, efficiency and integrity.'
+      ),
+    },
+    // Matches features/company/components/people-scale.tsx
+    peopleScaleSection: {
+      _type: 'sectionBlock',
+      tagline: 'People & Scale',
+      heading: 'The capability starts with the people behind it.',
+      headingColor: 'inverse',
+      body: makeBlockContent('Specialist expertise, international management experience and field capacity support PCE\'s pipeline and HDD delivery.'),
     },
     peopleScaleStats: [
-      { _key: genKey('stat'), _type: 'statItem', number: '200+', label: 'Engineers & HDD Specialists' },
-      { _key: genKey('stat'), _type: 'statItem', number: '30+', label: 'Major River Crossings Completed' },
-      { _key: genKey('stat'), _type: 'statItem', number: '100%', label: 'Project Success & Safety Record' },
+      { _key: genKey('stat'), _type: 'statItem', number: '150+', label: 'People across five construction teams' },
+      { _key: genKey('stat'), _type: 'statItem', number: '8', label: 'HDD experts' },
+      { _key: genKey('stat'), _type: 'statItem', number: '20+', label: 'International management personnel' },
+      { _key: genKey('stat'), _type: 'statItem', number: '10+', label: 'Technicians' },
+      { _key: genKey('stat'), _type: 'statItem', number: '24+', label: 'Operations staff' },
     ],
+    // Matches features/company/components/standards.tsx
+    standardsSection: {
+      _type: 'sectionBlock',
+      tagline: 'Standards & Responsibility',
+      heading: 'Delivery guided by safety, quality and responsibility.',
+      headingColor: 'navy',
+      body: makeBlockContent(
+        "PCE's registrations, certifications and operating standards support compliant execution across the project lifecycle.\n\nOur approach places safety, environmental care and social responsibility alongside technical performance and delivery."
+      ),
+      buttonText: 'Explore Safety & Quality',
+      buttonLink: '/safety-quality-responsibility',
+    },
+    standardsImage: companyStdImg,
+    experienceImage: companyExpImg,
     seo: {
       _type: 'seo',
       metaTitle: 'Our Company — PCE Nigeria',
@@ -585,11 +649,20 @@ async function migratePageSingletons() {
   await saveDoc(companyDoc);
 
   // 3. Capabilities Page Singleton
+  // Matches features/capabilities/components/capabilities-hero.tsx and core-capabilities.tsx
   const capabilitiesDoc = {
     _type: 'capabilitiesPage',
     _id: 'capabilitiesPage',
-    heroHeadline: 'Our Core Engineering Capabilities',
-    heroSubtext: 'Comprehensive trenchless drilling, pipeline EPC construction, BPDS subsurface detection, and equipment technical support.',
+    heroHeadline: 'Integrated capability for complex pipeline delivery.',
+    heroSubtext: 'PCE combines specialist HDD, pipeline EPC, deep-pipeline location technology and technical resources around demanding pipeline projects.',
+    heroSubtext2: 'From early assessment and engineering through construction, testing and commissioning, our capabilities are built around the requirements of the route, the crossing and the line.',
+    coreCapabilitiesSection: {
+      _type: 'sectionBlock',
+      tagline: 'OUR CAPABILITIES',
+      heading: 'Four Capabilities. One Project Objective.',
+      headingColor: 'orange',
+      body: makeBlockContent('PCE delivers complex pipeline and HDD crossing projects through four integrated capabilities, each supported by specialist engineering, technology and field resources.'),
+    },
     capabilitiesOrder: [
       { _key: genKey('capref'), _type: 'reference', _ref: 'capability-hdd' },
       { _key: genKey('capref'), _type: 'reference', _ref: 'capability-epc' },
@@ -604,27 +677,68 @@ async function migratePageSingletons() {
   };
   await saveDoc(capabilitiesDoc);
 
+
   // 4. Equipment Page Singleton
+  // Upload equipment capacity section images
+  const eqCapImg1 = await uploadLocalImage('/pictures/equipment/86c3ba14ac08b1e273a3104b60a24efc.jpg');
+  const eqCapImg2 = await uploadLocalImage('/pictures/equipment/8e21cc64655f27a26e938c224b26b924.jpg');
+  const eqCapImg3 = await uploadLocalImage('/pictures/equipment/908122977b82673480d072587ad56daf.jpg');
+  const eqSupportImg1 = await uploadLocalImage('/pictures/equipment/91903d3f483647597b5364f08e4e7007.jpg');
+  const eqSupportImg2 = await uploadLocalImage('/pictures/equipment/e4718ab6567102f62eba9b2f0406e17f.jpg');
+  const eqSupportImg3 = await uploadLocalImage('/pictures/home-page/equipment-08.jpg');
+
   const equipmentDoc = {
     _type: 'equipmentPage',
     _id: 'equipmentPage',
-    heroHeadline: 'Equipment & Rig Fleet',
-    heroSubtext: 'Heavy-duty HDD drilling rigs, high-volume mud circulation systems, and continuous electronic tracking equipment.',
-    introCopy: 'PCE operates a fleet of heavy HDD rigs up to 1,200 tons pullback capacity, supported by mud recycling plants and guidance technology.',
+    // Matches features/equipment/components/et-hero.tsx
+    heroHeadline: 'The Right Equipment Changes What Is Possible.',
+    heroSubtext: 'PCE deploys large-scale HDD rigs, pipe-handling equipment, drilling-fluid systems, guidance technology and supporting plant for demanding pipeline crossings.',
+    heroSubtext2: 'Our resources are selected and configured around the route, ground conditions, pipeline and crossing method.',
+    heroPrimaryBtnText: 'Discuss Your Crossing',
+    // Matches features/equipment/components/equipment-capacity.tsx
+    capacitySection: {
+      _type: 'sectionBlock',
+      tagline: 'Equipment Capacity',
+      heading: 'Scale matters. Control matters more.',
+      headingColor: 'navy',
+      body: makeBlockContent('Large equipment creates capacity. Disciplined engineering, guidance, drilling-fluid management and field coordination turn that capacity into a successful crossing.'),
+      buttonText: 'Explore Our HDD Capability',
+      buttonLink: '/capabilities',
+    },
+    capacityKeyStats: [
+      { _key: genKey('ks'), label: '500t', description: 'HDD rig capacity' },
+      { _key: genKey('ks'), label: '500t', description: 'Pipe-handling capacity' },
+      { _key: genKey('ks'), label: '3', description: 'ParaTrack 2 systems' },
+      { _key: genKey('ks'), label: '3', description: 'F5 walkover systems' },
+    ],
+    capacityImages: [
+      ...(eqCapImg1 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg1, title: 'HDD Rig Fleet 1' }] : []),
+      ...(eqCapImg2 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg2, title: 'HDD Rig Fleet 2' }] : []),
+      ...(eqCapImg3 ? [{ _key: genKey('ceq'), _type: 'galleryItem', image: eqCapImg3, title: 'HDD Rig Fleet 3' }] : []),
+    ],
+    // Matches features/equipment/components/support.tsx
     supportSection: {
       _type: 'sectionBlock',
-      tagline: 'TECHNICAL SUPPORT & MAINTENANCE',
-      heading: 'Full lifecycle rig maintenance, mud system calibration, and spare parts supply.',
+      tagline: 'TECHNICAL SUPPORT',
+      heading: 'Equipment backed by HDD expertise.',
       headingColor: 'navy',
       body: makeBlockContent(
-        'PCE provides end-to-end technical support for directional drilling equipment, including mud pump overhauls, hydraulic system diagnostics, and guidance system calibration.\n\nOur dedicated engineering workshops in Port Harcourt maintain extensive inventories of genuine OEM spare parts for rapid field deployment.'
+        'The value of specialist equipment depends on how it is selected, configured and used. Support is aligned with project requirements, equipment configuration and availability.\n\nPCE supports HDD requirements with:'
       ),
       bullets: [
-        'On-site field engineers and hydraulic technicians available 24/7',
-        'Comprehensive spare parts inventory maintained in Nigeria',
-        'Custom rig refurbishment, mud pump overhaul, and guidance system calibration',
+        'Crossing proposals and technical planning',
+        'Equipment configuration support',
+        'HDD rigs, pumps and recycling systems',
+        'Reamers, drill bits and mud motors',
+        'Bentonite and specialist additives',
+        'Technical execution guidance',
       ],
     },
+    supportImages: [
+      ...(eqSupportImg1 ? [{ _key: genKey('si'), _type: 'galleryItem', image: eqSupportImg1, title: 'Equipment Support 1' }] : []),
+      ...(eqSupportImg2 ? [{ _key: genKey('si'), _type: 'galleryItem', image: eqSupportImg2, title: 'Equipment Support 2' }] : []),
+      ...(eqSupportImg3 ? [{ _key: genKey('si'), _type: 'galleryItem', image: eqSupportImg3, title: 'Equipment Support 3' }] : []),
+    ],
     seo: {
       _type: 'seo',
       metaTitle: 'Equipment & Rig Fleet — PCE Nigeria',
@@ -634,53 +748,57 @@ async function migratePageSingletons() {
   await saveDoc(equipmentDoc);
 
   // 5. Safety Quality Page Singleton
+  // Matches features/safety-quality/components/safety-hero.tsx
   const safetyDoc = {
     _type: 'safetyQualityPage',
     _id: 'safetyQualityPage',
-    heroHeadline: 'Safety, Quality & Responsibility',
-    heroSubtext: 'Zero-harm policy, strict quality control procedures, ISO-compliant operations, and environmental protection standards.',
+    heroHeadline: 'Dependable execution begins with clear standards.',
+    heroSubtext: 'Safety, quality, efficiency and integrity guide PCE from early assessment through construction, testing and commissioning. Responsible delivery means protecting people, maintaining technical standards and considering the environments and communities around the work.',
+    // Matches features/safety-quality/components/safety.tsx
     safetySection: {
       _type: 'sectionBlock',
-      tagline: 'SAFETY & HSE',
-      heading: 'Uncompromising HSE standards across all drilling and field sites.',
+      tagline: 'Safety',
+      heading: 'Protecting people through every stage of delivery.',
       headingColor: 'navy',
       body: makeBlockContent(
-        'Safety is embedded in every phase of our operations. From daily toolbox talks to comprehensive job hazard analyses, PCE ensures a secure work environment for all personnel and host communities.\n\nOur field crews undergo rigorous safety training and adhere strictly to international offshore and onshore drilling protocols.'
+        'Complex pipeline work brings people, heavy equipment, technical interfaces and changing field conditions together. PCE places safety across the project lifecycle—from assessment and engineering through mobilisation, construction, testing and commissioning.\n\nSafety is treated as part of how the work is planned and delivered—not as a separate activity at the end.'
       ),
       bullets: [
-        'Daily toolbox safety talks and job hazard analysis (JHA)',
-        'Personal Protective Equipment (PPE) compliance and certified rigging gear',
-        'Spill response containment and emergency action protocols',
+        'Understand the Work — Consider project conditions, technical requirements and potential field risks before execution.',
+        'Prepare for Execution — Align personnel, equipment and site requirements with the planned work.',
+        'Maintain Field Awareness — Respond to changing site conditions and information as execution progresses.',
+        'Complete with Control — Carry safety and technical requirements through testing, completion and handover.',
       ],
     },
+    // Matches features/safety-quality/components/quality.tsx
     qualitySection: {
       _type: 'sectionBlock',
-      tagline: 'QUALITY CONTROL',
-      heading: 'Rigorous engineering quality assurance and pipeline integrity testing.',
+      tagline: 'QUALITY',
+      heading: 'Quality from engineering through testing and handover.',
       headingColor: 'navy',
       body: makeBlockContent(
-        'Quality control at PCE follows strict ISO 9001 standards. We perform non-destructive testing, ultrasonic weld inspections, and continuous mud property monitoring to guarantee pipeline structural integrity.\n\nEvery drill pipe, high-pressure hose, and reamer is tracked and inspected before site mobilization.'
+        'PCE applies quality control across the full project lifecycle — from engineering development through pipeline fabrication, construction, testing and commissioning.'
       ),
       bullets: [
-        'Ultrasonic weld testing, magnetic particle inspection, and hydro-testing',
-        'Real-time mud viscosity and mud weight monitoring',
-        'Complete material certification and drill pipe traceability',
+        'Engineering — Develop the technical basis, method and execution requirements.',
+        'Fabrication — Prepare pipeline components and assemblies according to project requirements.',
+        'Welding & NDT — Execute welding and non-destructive testing as part of pipeline construction.',
+        'Hydrotesting — Test completed pipeline sections as required before operation.',
+        'Coating — Protect pipeline surfaces and completed work according to project requirements.',
+        'Pre-Commissioning & Commissioning — Verify and prepare completed systems for handover and operation.',
       ],
     },
-    certificationsSection: {
+    // Matches features/safety-quality/components/certification.tsx
+    certificationSection: {
       _type: 'sectionBlock',
-      tagline: 'CERTIFICATIONS & COMPLIANCE',
-      heading: 'Certified compliance with international energy and environmental standards.',
+      tagline: 'STANDARDS & CERTIFICATION',
+      heading: 'Supporting compliant project delivery.',
       headingColor: 'navy',
       body: makeBlockContent(
-        'PCE operates in full compliance with Nigerian and international regulatory frameworks. We maintain active registrations with NIPEX, NUPRC (DPR), and NCDMB, upholding strict Nigerian Content standards.\n\nOur integrated management system aligns with ISO 9001, ISO 14001, and ISO 45001 standards.'
+        "PCE's registrations and certifications support execution across the project lifecycle.\n\nStandards & Certifications: NMDPRA | ISO | Technical Certification\n\nSpecific certification details and applicable project documentation should be confirmed with PCE as part of the qualification or project-enquiry process."
       ),
-      bullets: [
-        'NIPEX registered oilfield service contractor',
-        'ISO 9001, ISO 14001, and ISO 45001 compliant operating management system',
-        'Full DPR (NUPRC) and NCDMB regulatory permits',
-      ],
     },
+    // Matches features/safety-quality/components/environmental-care.tsx
     environmentalSection: {
       _type: 'sectionBlock',
       tagline: 'ENVIRONMENTAL CARE',
@@ -702,6 +820,7 @@ async function migratePageSingletons() {
     },
   };
   await saveDoc(safetyDoc);
+
 
   // 6. Projects Page Singleton
   const routeImg1 = await uploadLocalImage('/pictures/hero-slider/akk-cover-photo.jpg');

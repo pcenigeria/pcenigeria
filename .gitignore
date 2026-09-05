@@ -47,6 +47,8 @@ notes*
 # local animations / scratch assets
 /animation
 animation/
+/scratch
+scratch/
 
 # products md files
 md-files-products

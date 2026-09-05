@@ -366,17 +366,27 @@ export const SiteHeader = () => {
                                                         href={product.href}
                                                         onClick={() => setIsProductsMenuOpen(false)}
                                                         onMouseEnter={() => setHoveredProductImage(product.image)}
-                                                        className={`group p-2 rounded-xl transition-colors no-underline block ${
+                                                        className={`group p-2 rounded-xl transition-colors no-underline flex items-center gap-3 ${
                                                             idx === 0 
                                                                 ? 'bg-[#052237]/5 hover:bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/15' 
                                                                 : 'hover:bg-[#052237]/5'
                                                         }`}
                                                     >
-                                                        <div className={`text-sm font-bold transition-colors ${idx === 0 ? 'text-[var(--color-primary)]' : 'text-[#052237] group-hover:text-[var(--color-primary)]'}`}>
-                                                            {product.title}
+                                                        {/* Product Thumbnail */}
+                                                        <div className="w-9 h-9 shrink-0 rounded-lg overflow-hidden bg-white border border-black/10 flex items-center justify-center">
+                                                            <img 
+                                                                src={product.image} 
+                                                                alt={product.title}
+                                                                className="w-full h-full object-contain p-0.5"
+                                                            />
                                                         </div>
-                                                        <div className="text-xs text-[var(--color-ink-muted-48)] leading-snug line-clamp-1">
-                                                            {product.subtitle}
+                                                        <div>
+                                                            <div className={`text-sm font-bold transition-colors ${idx === 0 ? 'text-[var(--color-primary)]' : 'text-[#052237] group-hover:text-[var(--color-primary)]'}`}>
+                                                                {product.title}
+                                                            </div>
+                                                            <div className="text-xs text-[var(--color-ink-muted-48)] leading-snug line-clamp-1">
+                                                                {product.subtitle}
+                                                            </div>
                                                         </div>
                                                     </Link>
                                                 ))}
