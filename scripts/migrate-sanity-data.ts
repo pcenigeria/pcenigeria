@@ -48,6 +48,32 @@ function genKey(prefix = 'k'): string {
   return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
+function makeBlockContent(text: string) {
+  if (!text) return [];
+  const paragraphs = text.split('\n\n');
+  return paragraphs.map((p) => ({
+    _key: genKey('blk'),
+    _type: 'block',
+    style: 'normal',
+    children: [
+      {
+        _key: genKey('span'),
+        _type: 'span',
+        text: p.trim(),
+        marks: [],
+      },
+    ],
+    markDefs: [],
+  }));
+}
+
+async function saveDoc(doc: any) {
+  console.log(`Saving document (published & draft): ${doc._id}...`);
+  await client.createOrReplace(doc);
+  const draftDoc = { ...doc, _id: `drafts.${doc._id}` };
+  await client.createOrReplace(draftDoc);
+}
+
 async function uploadLocalImage(relativePath?: string): Promise<any> {
   if (!relativePath || !relativePath.startsWith('/')) return null;
   const fullPath = path.join(process.cwd(), 'public', relativePath);
@@ -117,6 +143,7 @@ async function migrateProjects() {
         tagline: sec.tagline || '',
         heading: sec.heading || '',
         headingColor: sec.headingColor || 'navy',
+        body: makeBlockContent(sec.heading || ''),
         bullets: sec.bullets || [],
       })),
       bentoImages: {
@@ -126,8 +153,7 @@ async function migrateProjects() {
       },
     };
 
-    console.log(`Creating project document: ${proj.title}...`);
-    await client.createOrReplace(doc);
+    await saveDoc(doc);
   }
 }
 
@@ -150,8 +176,7 @@ async function migrateNews() {
       intro: article.intro || '',
     };
 
-    console.log(`Creating news article document: ${article.title}...`);
-    await client.createOrReplace(doc);
+    await saveDoc(doc);
   }
 }
 
@@ -185,8 +210,7 @@ async function migrateProducts() {
       features: prod.features || [],
     };
 
-    console.log(`Creating product document: ${prod.title}...`);
-    await client.createOrReplace(doc);
+    await saveDoc(doc);
   }
 }
 
@@ -209,15 +233,14 @@ async function migrateCapabilities() {
       steps: detail?.steps || [],
     };
 
-    console.log(`Creating capability document: ${card.title}...`);
-    await client.createOrReplace(doc);
+    await saveDoc(doc);
   }
 }
 
 async function migratePageSingletons() {
   console.log('\n--- Migrating Page Singletons & Global Settings ---');
 
-  // 1. Home Page Singleton
+  // Common hero slideshow images
   const heroSlidePaths = [
     { src: "/pictures/hero-slider/ob3-construction-team.jpg", title: "OB3 River Niger HDD Crossing Completion Team" },
     { src: "/pictures/hero-slider/akk-cover-photo.jpg", title: "AKK Pipeline Crossing Project" },
@@ -239,6 +262,7 @@ async function migratePageSingletons() {
     }
   }
 
+  // 1. Home Page Singleton
   const homeDoc = {
     _type: 'homePage',
     _id: 'homePage',
@@ -264,8 +288,7 @@ async function migratePageSingletons() {
       metaDescription: 'West Africa premier trenchless HDD river crossing contractor, pipeline EPC builder, and drilling fluids supplier.',
     },
   };
-  console.log('Creating homePage singleton...');
-  await client.createOrReplace(homeDoc);
+  await saveDoc(homeDoc);
 
   // 2. Company Page Singleton
   const bentoImg1 = await uploadLocalImage('/pictures/hero-slider/drilling-rig-cover-photo.jpg');
@@ -282,6 +305,9 @@ async function migratePageSingletons() {
       tagline: 'WHO WE ARE',
       heading: 'Leading trenchless crossing contractor in West Africa.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'PCE combines heavy HDD rigs, specialized mud recycling systems, and experienced field personnel for high-stakes pipeline installations.\n\nWith over 20 years of continuous trenchless operations across Nigeria and international projects, we deliver complex river crossings and sea landfalls safely and on schedule.'
+      ),
       bullets: [
         'Over 20 years of continuous trenchless drilling experience',
         'Fleet of 500-ton and 1200-ton heavy HDD rigs',
@@ -310,13 +336,16 @@ async function migratePageSingletons() {
     ],
     visionMissionSection: {
       _type: 'sectionBlock',
-      tagline: 'VISION & MISSION',
+      tagline: 'OUR VISION & MISSION',
       heading: 'Delivering world-class trenchless solutions with safety and precision.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        "Our mission is to expand West Africa's energy infrastructure through sustainable engineering, cutting-edge directional drilling, and zero-harm environmental stewardship.\n\nWe strive to set the industry standard for pipeline integrity, technical excellence, and workforce safety."
+      ),
       bullets: [
-        'Zero-harm safety commitment across all drilling operations',
-        'Executing complex energy infrastructure on schedule',
-        'Pioneering sustainable closed-loop mud recycling systems in Africa',
+        'Zero-harm safety policy across all operations',
+        'Executing complex river & sea landfalls on schedule',
+        'Pioneering heavy HDD equipment and closed-loop mud recycling in Africa',
       ],
     },
     peopleScaleStats: [
@@ -330,8 +359,7 @@ async function migratePageSingletons() {
       metaDescription: 'Learn about PCE Nigeria, our 20+ years of trenchless engineering history, leadership, and heavy HDD fleet.',
     },
   };
-  console.log('Creating companyPage singleton...');
-  await client.createOrReplace(companyDoc);
+  await saveDoc(companyDoc);
 
   // 3. Capabilities Page Singleton
   const capabilitiesDoc = {
@@ -351,8 +379,7 @@ async function migratePageSingletons() {
       metaDescription: 'Trenchless HDD river crossings, deep pipeline EPC, BPDS subsurface detection, and technical support.',
     },
   };
-  console.log('Creating capabilitiesPage singleton...');
-  await client.createOrReplace(capabilitiesDoc);
+  await saveDoc(capabilitiesDoc);
 
   // 4. Equipment Page Singleton
   const equipmentDoc = {
@@ -366,6 +393,9 @@ async function migratePageSingletons() {
       tagline: 'TECHNICAL SUPPORT & MAINTENANCE',
       heading: 'Full lifecycle rig maintenance, mud system calibration, and spare parts supply.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'PCE provides end-to-end technical support for directional drilling equipment, including mud pump overhauls, hydraulic system diagnostics, and guidance system calibration.\n\nOur dedicated engineering workshops in Port Harcourt maintain extensive inventories of genuine OEM spare parts for rapid field deployment.'
+      ),
       bullets: [
         'On-site field engineers and hydraulic technicians available 24/7',
         'Comprehensive spare parts inventory maintained in Nigeria',
@@ -378,8 +408,7 @@ async function migratePageSingletons() {
       metaDescription: '500t and 1200t heavy HDD drilling rigs, mud recycling systems, and electronic tracking fleet.',
     },
   };
-  console.log('Creating equipmentPage singleton...');
-  await client.createOrReplace(equipmentDoc);
+  await saveDoc(equipmentDoc);
 
   // 5. Safety Quality Page Singleton
   const safetyDoc = {
@@ -392,6 +421,9 @@ async function migratePageSingletons() {
       tagline: 'SAFETY & HSE',
       heading: 'Uncompromising HSE standards across all drilling and field sites.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'Safety is embedded in every phase of our operations. From daily toolbox talks to comprehensive job hazard analyses, PCE ensures a secure work environment for all personnel and host communities.\n\nOur field crews undergo rigorous safety training and adhere strictly to international offshore and onshore drilling protocols.'
+      ),
       bullets: [
         'Daily toolbox safety talks and job hazard analysis (JHA)',
         'Personal Protective Equipment (PPE) compliance and certified rigging gear',
@@ -403,6 +435,9 @@ async function migratePageSingletons() {
       tagline: 'QUALITY CONTROL',
       heading: 'Rigorous engineering quality assurance and pipeline integrity testing.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'Quality control at PCE follows strict ISO 9001 standards. We perform non-destructive testing, ultrasonic weld inspections, and continuous mud property monitoring to guarantee pipeline structural integrity.\n\nEvery drill pipe, high-pressure hose, and reamer is tracked and inspected before site mobilization.'
+      ),
       bullets: [
         'Ultrasonic weld testing, magnetic particle inspection, and hydro-testing',
         'Real-time mud viscosity and mud weight monitoring',
@@ -414,6 +449,9 @@ async function migratePageSingletons() {
       tagline: 'CERTIFICATIONS & COMPLIANCE',
       heading: 'Certified compliance with international energy and environmental standards.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'PCE operates in full compliance with Nigerian and international regulatory frameworks. We maintain active registrations with NIPEX, NUPRC (DPR), and NCDMB, upholding strict Nigerian Content standards.\n\nOur integrated management system aligns with ISO 9001, ISO 14001, and ISO 45001 standards.'
+      ),
       bullets: [
         'NIPEX registered oilfield service contractor',
         'ISO 9001, ISO 14001, and ISO 45001 compliant operating management system',
@@ -425,6 +463,9 @@ async function migratePageSingletons() {
       tagline: 'ENVIRONMENTAL CARE',
       heading: 'Protecting sensitive river basins and coastal ecosystems.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'We prioritize environmental preservation by deploying closed-loop mud recycling plants that reclaim up to 95% of drilling fluid, preventing slurry discharge into rivers and wetlands.\n\nFollowing drilling completion, our teams execute comprehensive site restoration and environmental remediation.'
+      ),
       bullets: [
         'Closed-loop slurry recycling to prevent drilling fluid discharge into rivers',
         'Eco-friendly biodegradable drilling fluid additives',
@@ -437,8 +478,7 @@ async function migratePageSingletons() {
       metaDescription: 'HSE safety standards, ISO quality compliance, and environmental protection practices at PCE Nigeria.',
     },
   };
-  console.log('Creating safetyQualityPage singleton...');
-  await client.createOrReplace(safetyDoc);
+  await saveDoc(safetyDoc);
 
   // 6. Projects Page Singleton
   const routeImg1 = await uploadLocalImage('/pictures/hero-slider/akk-cover-photo.jpg');
@@ -452,7 +492,7 @@ async function migratePageSingletons() {
     introSubtext: 'Explore our completed river crossings, offshore landfalls, and major pipeline EPC construction projects across Nigeria, Thailand, and China.',
     heroSlides: {
       _type: 'gallery',
-      categoryTitle: 'Projects Gallery',
+      categoryTitle: 'Featured Projects Gallery',
       items: heroItems,
     },
     routeCards: [
@@ -481,8 +521,7 @@ async function migratePageSingletons() {
       metaDescription: 'Discover our HDD river crossings, offshore landfalls, and pipeline EPC projects across Africa and Asia.',
     },
   };
-  console.log('Creating projectsPage singleton...');
-  await client.createOrReplace(projectsDoc);
+  await saveDoc(projectsDoc);
 
   // 7. Products Page Singleton
   const productsDoc = {
@@ -495,6 +534,9 @@ async function migratePageSingletons() {
       tagline: 'DRILLING FLUIDS PORTFOLIO',
       heading: 'Engineered mud chemicals for unstable soil and rock formations.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'Brighter Star drilling fluid additives are custom-formulated to meet the demands of deep horizontal directional drilling. From high-yield API bentonite to specialized biopolymers, our products optimize hole stability and fluid loss control.'
+      ),
       bullets: [
         'BRSBENT SQ high-yield API activated bentonite',
         'BRSCMC fluid loss control polymer for filtration reduction',
@@ -507,6 +549,9 @@ async function migratePageSingletons() {
       tagline: 'STOCK & LOGISTICS',
       heading: 'Strategic warehouses in Port Harcourt and Lagos for rapid site delivery.',
       headingColor: 'navy',
+      body: makeBlockContent(
+        'PCE maintains large chemical stock buffers in Port Harcourt and Lagos to support rapid field deployment across West Africa. Our technical mud engineers provide on-site mud testing and rheology optimization.'
+      ),
       bullets: [
         'Sufficient stock reserves maintained in Nigeria for instant field delivery',
         'Moisture-proof multi-wall bags and palletized packaging',
@@ -519,8 +564,7 @@ async function migratePageSingletons() {
       metaDescription: 'Brighter Star premium drilling mud chemicals, bentonite, CMC, and polymer additives.',
     },
   };
-  console.log('Creating productsPage singleton...');
-  await client.createOrReplace(productsDoc);
+  await saveDoc(productsDoc);
 
   // 8. News & Insights Page Singleton
   const newsDoc = {
@@ -534,8 +578,7 @@ async function migratePageSingletons() {
       metaDescription: 'Latest news, project milestones, and technical articles from PCE Nigeria.',
     },
   };
-  console.log('Creating newsInsightsPage singleton...');
-  await client.createOrReplace(newsDoc);
+  await saveDoc(newsDoc);
 
   // 9. Resources Page Singleton
   const resourcesDoc = {
@@ -549,8 +592,7 @@ async function migratePageSingletons() {
       metaDescription: 'Download technical data sheets, safety data sheets, product manuals, and corporate brochures.',
     },
   };
-  console.log('Creating resourcesPage singleton...');
-  await client.createOrReplace(resourcesDoc);
+  await saveDoc(resourcesDoc);
 
   // 10. Contact Page Singleton
   const contactDoc = {
@@ -571,8 +613,7 @@ async function migratePageSingletons() {
       metaDescription: 'Get in touch with PCE Nigeria for HDD engineering projects, technical support, and product inquiries.',
     },
   };
-  console.log('Creating contactPage singleton...');
-  await client.createOrReplace(contactDoc);
+  await saveDoc(contactDoc);
 
   // 11. Navigation Singleton
   const navDoc = {
@@ -610,8 +651,7 @@ async function migratePageSingletons() {
       { _key: genKey('pnav'), title: 'BRSXTG', subtitle: 'Xanthan Gum', href: '/products/brsxtg', description: 'Premium biopolymer viscosifier' },
     ],
   };
-  console.log('Creating navigation singleton...');
-  await client.createOrReplace(navDoc);
+  await saveDoc(navDoc);
 
   // 12. Global Settings Singleton
   const settingsDoc = {
@@ -634,8 +674,7 @@ async function migratePageSingletons() {
       metaDescription: 'West Africa premier trenchless HDD river crossing contractor, pipeline EPC builder, and drilling fluids supplier.',
     },
   };
-  console.log('Creating globalSettings singleton...');
-  await client.createOrReplace(settingsDoc);
+  await saveDoc(settingsDoc);
 }
 
 async function runMigration() {
@@ -645,7 +684,7 @@ async function runMigration() {
     await migrateProducts();
     await migrateCapabilities();
     await migratePageSingletons();
-    console.log('\n✅ Full migration completed successfully! All singletons and collections populated with valid keys.');
+    console.log('\n✅ Full migration completed successfully! All singletons and collections populated with valid keys and rich body content (published & draft).');
   } catch (err) {
     console.error('\n❌ Migration failed:', err);
   }
