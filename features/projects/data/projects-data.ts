@@ -165,9 +165,9 @@ export const PROJECTS_DATA: Record<string, ProjectDetail> = {
         date: "APRIL 2024",
         location: "Guangdong, China",
         category: "PARALLEL HDD",
-        heroImage: "/pictures/case-study/guangong-china/cover-photo.jpg",
+        heroImage: "/pictures/case-study/zhanjiang-offshore/cover-photo.jpg",
         bentoImages: [
-            "/pictures/case-study/guangong-china/cover-photo.jpg"
+            "/pictures/case-study/zhanjiang-offshore/cover-photo.jpg"
         ],
         intro: "Five parallel HDD crossings for steel gas pipelines through clay, sand and rock.",
         specs: [
@@ -209,9 +209,9 @@ export const PROJECTS_DATA: Record<string, ProjectDetail> = {
         date: "2019",
         location: "Zhanjiang, China",
         category: "INTERSECTING HDD",
-        heroImage: "/pictures/case-study/zhanjiang-offshore/cover-photo.jpg",
+        heroImage: "/pictures/case-study/guangong-china/cover-photo.jpg",
         bentoImages: [
-            "/pictures/case-study/zhanjiang-offshore/cover-photo.jpg",
+            "/pictures/case-study/guangong-china/cover-photo.jpg",
             "/pictures/case-study/zhanjiang-offshore/02.jpg",
             "/pictures/case-study/zhanjiang-offshore/03.jpg",
             "/pictures/case-study/zhanjiang-offshore/04.jpg"

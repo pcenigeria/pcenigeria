@@ -3,6 +3,191 @@ import { ProductDetail } from '../types';
 export const PRODUCTS_DATA: ProductDetail[] = [
 
     {
+        id: 'brsbent-sq',
+        slug: 'brsbent-sq',
+        title: 'BRSBENT SQ',
+        subtitle: 'Activated Bentonite',
+        eyebrow: 'HDD Drilling Fluid Material',
+        description: 'Premium drilling fluid material for HDD, slurry TBM and deep foundation applications',
+        image: '/pictures/product-image/bent/cover-photo.jpg',
+        heroImage: '/pictures/product-image/bent/cover-photo.jpg',
+        galleryImages: [
+            '/pictures/product-image/bent/cover-photo.jpg',
+            '/pictures/product-image/bent/bent-bag.png',
+            '/pictures/product-image/bent/bent-pack.png',
+            '/pictures/product-image/bent/bent-stock.png',
+            '/pictures/product-image/bent/bent-store.png'
+        ],
+        quickFacts: ['Highly Thixotropic', 'Marsh Viscosity ≥ 100 sec', 'Available in 25kg–1,400kg', 'Bulk Tanker Available'],
+        tdsUrl: '/resources/BRSBENT_SQ_Product_Data_Sheet.pdf',
+        sdsUrl: '/resources/BRSBENT_SQ_Safety_Data_Sheet.pdf',
+        overviewText: 'BRSBENT SQ is a versatile activated bentonite with strong thixotropic properties, ideal for all freshwater based drilling systems. It suits slurry TBM, deep foundations, and HDD projects, with adjustable rheology for optimal performance in diverse drilling applications.',
+        mainFunctions: [
+            'Ensures borehole / trench stability',
+            'Builds impermeable membrane / filter cake',
+            'Promotes smooth circulation',
+            'Facilitates efficient separation'
+        ],
+        features: [
+            'For robust drilling fluid systems',
+            'Highly thixotropic with enhanced gel strengths',
+            'Good interaction with most SM additives',
+            'Well-balanced rheology and predictability'
+        ],
+        howItsUsed: {
+            dosage: '40–60 kg/m³ of water',
+            mixingSteps: [
+                'Check the water quality (pH and EC) and pretreat with pH CONTROL® if needed.',
+                'Add the calculated amount of selected BRSBENT® SQ slowly into the mixer.',
+                'Mix the slurry intensely for at least 30 minutes.',
+                'Hydrate the slurry in the activation tanks with circulation for 4 hours to achieve optimum rheology.'
+            ],
+            precaution: 'Mix for at least 30 minutes with a high shear mixer; develops optimum rheology within 4 hours hydration time. For more information, contact your representative.'
+        },
+        supplyDetails: [
+            { label: 'Small Bags', value: '25 kg' },
+            { label: 'Jumbo Bags', value: '1,000 kg · 1,200 kg · 1,400 kg' },
+            { label: 'Bulk Tanker', value: '22 ± 2 MT' }
+        ],
+        storageInfo: 'Keep the product in its original packaging at normal temperature and protect it from humidity. A loss of rheological and filtrate properties may result from inadequate storage.',
+        specTestConditions: 'Tested at 50 g/l · Mixer type GS-3S · Rotation speed 1,100 rpm · Mixing time 5 minutes · Water: tap water · Swelling time: 4 hours.',
+        specTables: [
+            {
+                title: 'Product Specification',
+                headers: ['Fluid Property', 'Unit', 'Value'],
+                rows: [
+                    ['Marsh Viscosity', 'sec', '≥ 100'],
+                    ['Filtrate, 30 Minutes', 'ml', '≤ 15'],
+                    ['Decantation After 24 Hours', '%', '≤ 0.5'],
+                    ['Six-speed Rotational Viscometer', 'mPa·s', '≥ 80']
+                ]
+            },
+            {
+                title: 'Physical Properties',
+                headers: ['Property', 'Typical Value'],
+                rows: [
+                    ['Colour', 'Depends on the raw clay'],
+                    ['Specific Weight', 'Approx. 2.6 g/cm³'],
+                    ['Bulk Density', '900 – 1,100 kg/m³'],
+                    ['Swelling Volume, ASTM D5890', '≥ 25 ml / 2 g'],
+                    ['WSA (75 μm), API 13B-1', '≤ 1%'],
+                    ['Moisture, API 13B-1', '≤ 13%']
+                ]
+            }
+        ],
+        safetyAtAGlance: {
+            ghsHazard: 'Not classified as a hazardous substance under GHS / OSHA Hazard Communication Standards. The product is a non combustible mineral no fire or dust explosion hazard. In practice, the hazards are: mild dust irritation to respiratory tract, skin and eyes; a slip hazard from spilled or wetted powder, which forms an extremely slippery film; and naturally occurring quartz content (1–2%), so prolonged inhalation of dust should be avoided.',
+            ratingSystemName: 'NFPA 704',
+            ratings: [
+                { label: 'Health', value: '0', color: 'bg-blue-500/10', textColor: 'text-blue-500' },
+                { label: 'Flammability', value: '0', color: 'bg-red-500/10', textColor: 'text-red-500' },
+                { label: 'Instability', value: '0', color: 'bg-yellow-500/10', textColor: 'text-yellow-500' }
+            ],
+            ppe: [
+                { type: 'Eyes', recommendation: 'Chemical safety goggles (OSHA 29 CFR 1910.133 or EN 166)' },
+                { type: 'Skin / hands', recommendation: 'Impervious rubber gloves (nitrile or latex), protective clothing' },
+                { type: 'Respiratory', recommendation: 'NIOSH/MSHA-approved dust mask (EN 149 P1/P2) in dusty conditions' },
+                { type: 'Footwear', recommendation: 'Safety shoes' }
+            ],
+            physicalChemical: [
+                { property: 'Appearance', value: 'Greyish white free flowing powder' },
+                { property: 'Odor / Taste', value: 'Odorless / Tasteless' },
+                { property: 'Solubility', value: 'Insoluble in water swells and forms a colloidal suspension' },
+                { property: 'Autoignition temperature', value: 'Not applicable does not burn' },
+                { property: 'Biodegradability', value: 'Not applicable inorganic mineral' }
+            ]
+        },
+        sdsTitle: 'Safety Data Sheet BRSBENT SQ',
+        sdsSections: [
+            {
+                num: 1,
+                title: 'Identification',
+                content: 'Product identifier: BRSBENT SQ. Chemical name: Bentonite (sodium montmorillonite clay), HDD drilling grade. Recommended use: Base material of HDD drilling fluids viscosifier and filtration control material for cooling, lubrication, cuttings carrying, and borehole wall protection. Manufacturer/Supplier: Brighter Star Drilling Fluids, www.pcenigeria.com.'
+            },
+            {
+                num: 2,
+                title: 'Hazards Identification',
+                content: 'Not classified as a hazardous substance under GHS/OSHA Hazard Communication Standards. Minor hazards in practice:\nDust irritation inhalation, skin contact, or eye contact with bentonite dust may cause mild irritation to the respiratory tract, skin, and eyes; ingestion may irritate the digestive tract.\nNon combustible mineral the product is an inorganic clay and does not burn; no fire or dust explosion hazard.\nSlip hazard spilled powder, or powder wetted with water, forms an extremely slippery film on floors and work surfaces.\nQuartz content the product contains 1–2% naturally occurring quartz; avoid prolonged inhalation of dust.'
+            },
+            {
+                num: 3,
+                title: 'Composition / Information on Ingredients',
+                content: 'Chemical characterization: Naturally occurring mineral (mixture).\n\nMontmorillonite (content 85–90%) CAS No. 1318-93-0\nQuartz (content 1–2%) CAS No. 7631-86-9\nFunctional additives, trade secret (content 6–8%)'
+            },
+            {
+                num: 4,
+                title: 'First Aid Measures',
+                content: 'Eye contact: Rinse immediately with plenty of clean water for at least 15 minutes, occasionally lifting the upper and lower eyelids. Remove contact lenses if present. Seek medical attention if irritation persists.\nSkin contact: Remove contaminated clothing and shoes. Wash the affected area thoroughly with soap and plenty of water. Launder clothing before reuse. Seek medical advice if irritation develops or persists.\nInhalation: Move the victim to fresh air immediately and keep at rest in a comfortable breathing position. If breathing is difficult, administer oxygen; if not breathing, give artificial respiration. Seek medical attention.\nIngestion: Do NOT induce vomiting. Rinse mouth thoroughly with water. If conscious and alert, drink 2–4 cupfuls of water or milk. Never give anything by mouth to an unconscious person. Seek medical attention.\n\nNote to physician: Treat symptomatically and supportively. No specific antidote is known.'
+            },
+            {
+                num: 5,
+                title: 'Fire Fighting Measures',
+                content: 'Suitable extinguishing media: The product itself does not burn. Use extinguishing measures appropriate to local circumstances and the surrounding environment (water spray, dry chemical, carbon dioxide, or foam). Unsuitable media: Not applicable non combustible. Autoignition temperature: Not applicable. NFPA rating: Health 0 · Flammability 0 · Instability 0. Hazardous combustion products: None known. Protection of firefighters: Wear self-contained breathing apparatus (SCBA) in pressure-demand mode and full protective gear. Fight fire from upwind. Precaution: Product wetted during fire fighting forms a slippery slurry take care to avoid slip hazards.'
+            },
+            {
+                num: 6,
+                title: 'Accidental Release Measures',
+                content: 'Isolate the spill area and keep unauthorized personnel away.\nVentilate the area and wear appropriate PPE (dust mask, gloves, goggles, protective clothing).\nAvoid generating dust dry sweeping is not recommended. Use a vacuum with a HEPA filter, or pre-dampen with water before sweeping.\nCollect the material into clean, sealed containers for recycling or disposal.\nPrevent the product from entering drains, sewers, surface water, or groundwater.\nClean the affected surface with water as appropriate caution: wet bentonite forms an extremely slippery film.\nDispose of contaminated material in accordance with local environmental regulations.'
+            },
+            {
+                num: 7,
+                title: 'Handling and Storage',
+                content: 'Handling: Avoid dust formation at all times and provide adequate local exhaust ventilation where dust may be generated. Do not breathe dust; avoid contact with eyes, skin, and clothing. Handle gently using scoops, funnels, or spoons; avoid shaking or vigorous stirring that disperses dust. Prohibit eating, drinking, and smoking in handling areas; wash hands thoroughly with soap and water after handling. Keep containers tightly closed when not in use. Access limited to trained personnel only.\nStorage: Store in a cool, dry, clean, and well ventilated place away from direct sunlight, at 5–40 °C and relative humidity ≤ 80% (ideally < 50%). Bentonite is hygroscopic moisture ingress causes caking and loss of swelling performance. Keep containers tightly closed; after opening, reseal the inner PE bag immediately. No smoking in storage areas. Stack bags on pallets off the ground and do not stack excessively high. Do not store together with toxic, harmful, or odor emitting substances; keep away from food, feed, and drinking water.\nShelf life: 24 months from the date of manufacture under proper sealed storage conditions.'
+            },
+            {
+                num: 8,
+                title: 'Exposure Controls / Personal Protection',
+                content: 'Eyes: Chemical safety goggles compliant with OSHA 29 CFR 1910.133 or EN 166; full goggles recommended in dusty environments\nSkin / hands: Impervious rubber gloves (nitrile or latex preferred); protective clothing or aprons; long sleeves\nRespiratory: NIOSH/MSHA-approved dust mask or respirator (EN 149 P1/P2 or equivalent) when dust levels are significant or ventilation is inadequate\nFootwear: Safety shoes\nFacilities: Emergency eyewash fountain and safety shower must be accessible in the immediate work area\n\nHygiene measures: Wash hands thoroughly with soap and water after handling and before eating or drinking. Launder contaminated clothing before reuse.'
+            },
+            {
+                num: 9,
+                title: 'Physical and Chemical Properties',
+                content: 'Appearance: Greyish white free flowing powder\nOdor: Odorless\nTaste: Tasteless\nSolubility: Insoluble in water swells and forms a colloidal suspension; insoluble in ethanol, ether, acetone, and other organic solvents\nAutoignition temperature: Not applicable the product itself does not burn\nHygroscopicity: Hygroscopic cakes on moisture ingress; swelling performance decreases'
+            },
+            {
+                num: 10,
+                title: 'Stability and Reactivity',
+                content: 'Chemical stability: Stable under recommended storage conditions. Incompatible materials: No known incompatible materials. Conditions to avoid: Dust formation and moisture ingress. Hazardous decomposition products: None known the product is thermally stable; in the event of fire see Section 5. Hazardous reactions: No known hazardous reactions under normal conditions.'
+            },
+            {
+                num: 11,
+                title: 'Toxicological Information',
+                content: 'Acute toxicity: Non toxic; not classified. Irritation: Dust may cause mild irritation to the respiratory tract, skin, and eyes; ingestion may irritate the digestive tract. Medical treatment: Treat symptomatically and supportively; no specific antidote is known.'
+            },
+            {
+                num: 12,
+                title: 'Ecological Information',
+                content: 'Biodegradability: Not applicable inorganic mineral; not biodegradable. Environmental precautions: Prevent the product from entering drains, sewers, surface water, or groundwater; spills must be contained and properly disposed of.'
+            },
+            {
+                num: 13,
+                title: 'Disposal Considerations',
+                content: 'Dispose of the product and its container in accordance with local, regional, and national regulations.\nUncontaminated residual product may be landfilled where permitted.\nDo NOT discharge bentonite powder or slurry into drains, sewers, or waterways it swells and may block pipework.\nEmpty containers should be cleaned of residual powder before disposal or recycling.'
+            },
+            {
+                num: 14,
+                title: 'Transport Information',
+                content: 'Not classified as a hazardous substance; not regulated as a dangerous good for transport.'
+            },
+            {
+                num: 15,
+                title: 'Regulatory Information',
+                content: 'GHS / OSHA HCS: Not classified as a hazardous substance. NFPA 704: Health 0 · Flammability 0 · Instability 0.'
+            },
+            {
+                num: 16,
+                title: 'Other Information',
+                content: 'Remark: The above safety precautions are compiled from industry standard SDS references for Bentonite. For formal export documentation, regulatory submission, or batch specific compliance, always refer to the official SDS issued by the manufacturer for the exact grade and batch parameters such as montmorillonite content, swelling index, and impurity profile may vary between grades and manufacturers.\nDisclaimer: The information contained in this Safety Data Sheet is provided for reference only and is based on the current state of knowledge. It describes the product with regard to safety requirements and does not guarantee any specific properties. In all cases, the actual conditions of use shall prevail. To the fullest extent permitted by applicable law, Brighter Star Drilling Fluids assumes no responsibility or liability for any results, losses, or damages arising from the use of, or reliance on, this document.'
+            }
+        ],
+        salesContacts: [
+            { name: 'Ms. Jannifer', phone: '+234-09136099052', email: 'info@pcenigeria.com' },
+            { name: 'Mr. Tom', phone: '+234-07074126596', email: 'wanyang@pcenigeria.com' },
+            { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' }
+        ]
+    },
+
+    {
         id: 'brscmc',
         slug: 'brscmc',
         title: 'BRSCMC',
@@ -16,6 +201,8 @@ export const PRODUCTS_DATA: ProductDetail[] = [
             '/pictures/product-image/brscmc/brscmc-warehouse.jpg',
         ],
         quickFacts: ['High Filtration Control', 'Rapid Dissolution', 'Salt Tolerant', '25kg Multi-Wall Bags'],
+        tdsUrl: '/resources/BRSCMC_Technical_Data_Sheet.pdf',
+        sdsUrl: '/resources/BRSCMC_Safety_Data_Sheet.pdf',
         alsoKnownAs: 'Carboxymethylcellulose, CMC, Sodium CMC, Cellulose Gum.',
         overviewText: 'BRSCMC is an anionic cellulose ether with a macromolecular structure. It is an odorless, tasteless, and non toxic white or slightly yellowish free flowing powder that dissolves readily in water to form a high viscosity colloidal solution.',
         whatItDoes: 'In drilling fluids, BRSCMC acts as a viscosifier, flow control agent, and filtration reducer. It provides strong cuttings suspension capacity, cleans the borehole, stabilizes the wellbore, protects the drill bit, and forms a thin, low permeability filter cake.',
@@ -94,94 +281,6 @@ export const PRODUCTS_DATA: ProductDetail[] = [
     },
 
     {
-        id: 'brsvr',
-        slug: 'brsvr',
-        title: 'BRSVR',
-        subtitle: 'Clay Viscosity Reducer',
-        eyebrow: 'HDD Drilling Fluid Additive',
-        description: 'Clay Stripper and Clay Dispersing Solution for Drilling Fluids',
-        image: '/pictures/product-image/brsvr-pack.png',
-        galleryImages: [
-            '/pictures/product-image/brsvr-pack.png',
-            '/pictures/product-image/brsvr/brsvr.png',
-            '/pictures/product-image/brsvr/brsvr-liquid.png',
-            '/pictures/product-image/brsvr/brsvr-store.jpg',
-        ],
-        quickFacts: ['Cuts Torque Up To 90%', 'Liquid Concentrate', 'Non Flammable', 'Not a Regulated Dangerous Good'],
-        overviewText: 'BRSVR is a liquid drilling mud additive specially formulated as an engineering mud aid for clayey and highly cohesive clay formations. It is suitable for directional drilling, pipe jacking, shield tunneling, and general drilling operations.',
-        whatItDoes: 'Disperses clay and prevents clay from sticking to and blinding the drill bit. Rapidly reduces construction torque in clay formations. Reduces the internal forces of the clay system, improves drilling efficiency, and stabilizes the borehole. Prevents bit balling and pipe sticking.',
-        howItsUsed: {
-            application: 'Add this product directly into clean water, stir until fully dispersed, and then inject the solution into the clay formation.',
-            dosage: 'Add 0.5–2.0 kg of BRSVR per cubic meter of clean water. Use a higher dosage at the beginning of the operation; the dosage may be reduced appropriately once the torque has decreased.',
-            precaution: 'If this product accidentally comes into contact with skin or eyes during use, immediately rinse the affected area with plenty of clean water.'
-        },
-        supplyDetails: [
-            { label: 'Packaging', value: '25 kg per plastic drum.' },
-            { label: 'Storage', value: 'Store in a cool, well ventilated, and dry place. Avoid prolonged exposure to direct sunlight.' },
-            { label: 'Transport', value: 'Not regulated as a dangerous good for transport. Handle packages gently to prevent damage to the containers.' }
-        ],
-        specTables: [
-            {
-                title: 'Composition',
-                headers: ['Component', 'Content (% by weight)'],
-                rows: [
-                    ['Styrene acrylic emulsion', '44.16'],
-                    ['VAE emulsion', '27.69'],
-                    ['Water', '14.05'],
-                    ['Sodium persulfate', '5.30'],
-                    ['Methyl methacrylate', '4.10'],
-                    ['Film forming aid (coalescent)', '2.00'],
-                    ['Composite thickener', '1.50'],
-                    ['Composite dispersant', '0.30'],
-                    ['Composite defoamer', '0.30'],
-                    ['Emulsifier', '0.20']
-                ]
-            },
-            {
-                title: 'Physical & Chemical Properties',
-                headers: ['Property', 'Value'],
-                rows: [
-                    ['Appearance', 'Viscous liquid'],
-                    ['Odor', 'Odorless'],
-                    ['Molecular formula', 'Unknown (mixture)'],
-                    ['pH', 'Alkaline'],
-                    ['Relative density', '1.2–1.4 g/cm³'],
-                    ['Upper explosion limit', 'None'],
-                    ['Lower explosion limit', 'None'],
-                    ['Solubility', 'Readily soluble in water']
-                ]
-            }
-        ],
-        safetyAtAGlance: {
-            ghsHazard: 'Not classified as a hazardous substance or dangerous good. Not flammable; not explosive. Essentially non hazardous to humans on skin contact, though it can cause some irritation to skin and eyes avoid ingestion and eye contact. Non toxic to aquatic organisms, but may cause long term adverse effects to water bodies if discharged directly.',
-            ratingSystemName: '',
-            ratings: []
-        },
-        sdsSections: [
-            { num: 1, title: 'Identification', content: 'Product identifier: BRSVR. Trade name: Clay Viscosity Reducer. Recommended use: Viscosity reducing additive for clay based drilling fluids. Manufacturer/Supplier: Brighter Star Drilling Fluids, www.pcenigeria.com.' },
-            { num: 2, title: 'Hazards Identification', content: 'Hazard classification: Not classified as a hazardous substance or dangerous good. Routes of entry: May be absorbed into the body by inhalation, ingestion, and skin contact. Health hazards: Contact with this compound is essentially non hazardous to humans. Environmental hazards: Non toxic to aquatic organisms; may cause long term adverse effects to water bodies. Fire/explosion hazard: Not flammable; not explosive.' },
-            { num: 3, title: 'Composition / Information on Ingredients', content: 'Chemical characterization: Mixture. Composition: VAE emulsion (27.69%), Styrene acrylic emulsion (44.16%), Methyl methacrylate (4.10%), Composite dispersant (0.30%), Emulsifier (0.20%), Film forming aid (2.00%), Composite defoamer (0.30%), Sodium persulfate (5.30%), Composite thickener (1.50%), Water (14.05%).' },
-            { num: 4, title: 'First Aid Measures', content: 'Skin contact: Not hazardous to humans on skin contact. Wash the affected area with clean water and soap. Ingestion: Do NOT drink fat containing beverages such as milk. Seek medical attention immediately. Eye contact: Rinse immediately with plenty of clean water for at least 20–30 minutes. Seek medical attention immediately.' },
-            { num: 5, title: 'Fire Fighting Measures', content: 'Hazard characteristics: Not easily ignited by open flame; does not release smoke when heated to its decomposition temperature. Suitable extinguishing media: Class B extinguishing agents (e.g., dry chemical powder, carbon dioxide). Firefighting procedures: Firefighters should wear suitable protective clothing and a fully equipped SCBA.' },
-            { num: 6, title: 'Accidental Release Measures', content: 'Emergency procedures: Recover the spilled material. Personal precautions: Emergency responders should wear protective clothing, safety goggles, and a protective mask.' },
-            { num: 7, title: 'Handling and Storage', content: 'Handling precautions: Operators must be specially trained and must strictly follow the operating procedures. Wear chemical safety goggles, a protective mask, and dust proof clothing. Load and unload gently to prevent damage to the packaging containers. Storage precautions: Store in a cool, well ventilated, and dry place. Avoid prolonged exposure to direct sunlight.' },
-            { num: 8, title: 'Exposure Controls / Personal Protection', content: 'Engineering/process controls: Wash hands and shower after contact with this material or after work. Change wet or contaminated clothing promptly. Do not take work clothing out of the workplace. Hand protection: Wash hands immediately after handling this material. Eye protection: Avoid contact with eyes. Ingestion: This product must not be ingested.' },
-            { num: 9, title: 'Physical and Chemical Properties', content: 'Appearance: Viscous liquid. Odor: Odorless. Molecular formula: Unknown. pH: Alkaline. Relative density: 1.2–1.4 g/cm³. Upper explosion limit: None. Lower explosion limit: None. Solubility: Readily soluble in water.' },
-            { num: 10, title: 'Stability and Reactivity', content: 'Reactivity: Not reactive. Chemical stability: This compound is stable under normal laboratory conditions. Hazardous polymerization: Will not occur.' },
-            { num: 11, title: 'Toxicological Information', content: 'Acute toxicity: None. Carcinogenicity: None. Irritation: Causes some irritation to skin and eyes.' },
-            { num: 12, title: 'Ecological Information', content: 'Ecotoxicity: Generally not harmful to the environment; avoid direct discharge into rivers. Bioaccumulative potential: Not determined. Biodegradability: Not determined. Abiotic degradation: Not determined.' },
-            { num: 13, title: 'Disposal Considerations', content: 'Waste disposal methods: Do not dispose of residues by landfill or incineration. Consult the environmental protection authorities to determine the appropriate disposal method. Contaminated packaging: Dispose of packaging in accordance with local regulations.' },
-            { num: 14, title: 'Transport Information', content: 'This product is not listed in the Regulations on the Transport of Dangerous Goods and is not regulated as a dangerous good for transport.' },
-            { num: 15, title: 'Regulatory Information', content: 'The Regulations on the Safety Management of Hazardous Chemicals establish corresponding provisions for the safe production, use, storage, transportation, loading, and unloading of hazardous chemicals.' },
-            { num: 16, title: 'Other Information', content: 'Disclaimer: The information contained in this Safety Data Sheet is based on the current state of knowledge and is provided in good faith. It describes the product with regard to safety requirements and does not guarantee any specific properties. The user is responsible for ensuring that the product is used, handled, stored, and disposed of safely and in compliance with all applicable local laws and regulations.' },
-        ],
-        salesContacts: [
-            { name: 'Ms. Jannifer', phone: '+234-09136099052', email: 'info@pcenigeria.com' },
-            { name: 'Mr. Tom', phone: '+234-07074126596', email: 'wanyang@pcenigeria.com' },
-            { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' }
-        ]
-    },
-    {
         id: 'brsmmh',
         slug: 'brsmmh',
         title: 'BRSMMH',
@@ -190,6 +289,8 @@ export const PRODUCTS_DATA: ProductDetail[] = [
         description: 'Positively charged mixed layered metal hydroxide (MMH) crystal colloid for drilling fluid stabilization',
         image: '/pictures/product-image/brsmmh-pack.png',
         quickFacts: ['Zeta Potential ≥ 35 mV', 'Yield Stress +300%', 'Purely Inorganic', 'Not Regulated as Dangerous Goods'],
+        tdsUrl: '/resources/BRSMMH_Product_Data_Sheet.pdf',
+        sdsUrl: '/resources/BRSMMH_Safety_Data_Sheet.pdf',
         heroImage: '/pictures/product-image/brsmmh-pack.png',
         galleryImages: [
             '/pictures/product-image/brsmmh/brsmmh-pack.png',
@@ -357,182 +458,90 @@ export const PRODUCTS_DATA: ProductDetail[] = [
             { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' }
         ]
     },
+
     {
-        id: 'brsbent-sq',
-        slug: 'brsbent-sq',
-        title: 'BRSBENT SQ',
-        subtitle: 'Activated Bentonite',
-        eyebrow: 'HDD Drilling Fluid Material',
-        description: 'Premium drilling fluid material for HDD, slurry TBM and deep foundation applications',
-        image: '/pictures/product-image/brsbent-sq-pack.png',
-        heroImage: '/pictures/product-image/brsbent-sq-pack.png',
+        id: 'brsvr',
+        slug: 'brsvr',
+        title: 'BRSVR',
+        subtitle: 'Clay Viscosity Reducer',
+        eyebrow: 'HDD Drilling Fluid Additive',
+        description: 'Clay Stripper and Clay Dispersing Solution for Drilling Fluids',
+        image: '/pictures/product-image/brsvr-pack.png',
         galleryImages: [
-            '/pictures/product-image/bent/bent-bag.png',
-            '/pictures/product-image/bent/bent-pack.png',
-            '/pictures/product-image/bent/bent-stock.png',
-            '/pictures/product-image/bent/bent-store.png'
+            '/pictures/product-image/brsvr-pack.png',
+            '/pictures/product-image/brsvr/brsvr.png',
+            '/pictures/product-image/brsvr/brsvr-liquid.png',
+            '/pictures/product-image/brsvr/brsvr-store.jpg',
         ],
-        quickFacts: ['Highly Thixotropic', 'Marsh Viscosity ≥ 100 sec', 'Available in 25kg–1,400kg', 'Bulk Tanker Available'],
-        tdsUrl: '/downloads/BRSBENT_SQ_Product_Data_Sheet.pdf',
-        sdsUrl: '/downloads/BRSBENT_SQ_Safety_Data_Sheet.pdf',
-        overviewText: 'BRSBENT SQ is a versatile activated bentonite with strong thixotropic properties, ideal for all freshwater based drilling systems. It suits slurry TBM, deep foundations, and HDD projects, with adjustable rheology for optimal performance in diverse drilling applications.',
-        mainFunctions: [
-            'Ensures borehole / trench stability',
-            'Builds impermeable membrane / filter cake',
-            'Promotes smooth circulation',
-            'Facilitates efficient separation'
-        ],
-        features: [
-            'For robust drilling fluid systems',
-            'Highly thixotropic with enhanced gel strengths',
-            'Good interaction with most SM additives',
-            'Well-balanced rheology and predictability'
-        ],
+        quickFacts: ['Cuts Torque Up To 90%', 'Liquid Concentrate', 'Non Flammable', 'Not a Regulated Dangerous Good'],
+        tdsUrl: '/resources/BRSVR_Technical_Data_Sheet.pdf',
+        sdsUrl: '/resources/BRSVR_Safety_Data_Sheet.pdf',
+        overviewText: 'BRSVR is a liquid drilling mud additive specially formulated as an engineering mud aid for clayey and highly cohesive clay formations. It is suitable for directional drilling, pipe jacking, shield tunneling, and general drilling operations.',
+        whatItDoes: 'Disperses clay and prevents clay from sticking to and blinding the drill bit. Rapidly reduces construction torque in clay formations. Reduces the internal forces of the clay system, improves drilling efficiency, and stabilizes the borehole. Prevents bit balling and pipe sticking.',
         howItsUsed: {
-            dosage: '40–60 kg/m³ of water',
-            mixingSteps: [
-                'Check the water quality (pH and EC) and pretreat with pH CONTROL® if needed.',
-                'Add the calculated amount of selected BRSBENT® SQ slowly into the mixer.',
-                'Mix the slurry intensely for at least 30 minutes.',
-                'Hydrate the slurry in the activation tanks with circulation for 4 hours to achieve optimum rheology.'
-            ],
-            precaution: 'Mix for at least 30 minutes with a high shear mixer; develops optimum rheology within 4 hours hydration time. For more information, contact your representative.'
+            application: 'Add this product directly into clean water, stir until fully dispersed, and then inject the solution into the clay formation.',
+            dosage: 'Add 0.5–2.0 kg of BRSVR per cubic meter of clean water. Use a higher dosage at the beginning of the operation; the dosage may be reduced appropriately once the torque has decreased.',
+            precaution: 'If this product accidentally comes into contact with skin or eyes during use, immediately rinse the affected area with plenty of clean water.'
         },
         supplyDetails: [
-            { label: 'Small Bags', value: '25 kg' },
-            { label: 'Jumbo Bags', value: '1,000 kg · 1,200 kg · 1,400 kg' },
-            { label: 'Bulk Tanker', value: '22 ± 2 MT' }
+            { label: 'Packaging', value: '25 kg per plastic drum.' },
+            { label: 'Storage', value: 'Store in a cool, well ventilated, and dry place. Avoid prolonged exposure to direct sunlight.' },
+            { label: 'Transport', value: 'Not regulated as a dangerous good for transport. Handle packages gently to prevent damage to the containers.' }
         ],
-        storageInfo: 'Keep the product in its original packaging at normal temperature and protect it from humidity. A loss of rheological and filtrate properties may result from inadequate storage.',
-        specTestConditions: 'Tested at 50 g/l · Mixer type GS-3S · Rotation speed 1,100 rpm · Mixing time 5 minutes · Water: tap water · Swelling time: 4 hours.',
         specTables: [
             {
-                title: 'Product Specification',
-                headers: ['Fluid Property', 'Unit', 'Value'],
+                title: 'Composition',
+                headers: ['Component', 'Content (% by weight)'],
                 rows: [
-                    ['Marsh Viscosity', 'sec', '≥ 100'],
-                    ['Filtrate, 30 Minutes', 'ml', '≤ 15'],
-                    ['Decantation After 24 Hours', '%', '≤ 0.5'],
-                    ['Six-speed Rotational Viscometer', 'mPa·s', '≥ 80']
+                    ['Styrene acrylic emulsion', '44.16'],
+                    ['VAE emulsion', '27.69'],
+                    ['Water', '14.05'],
+                    ['Sodium persulfate', '5.30'],
+                    ['Methyl methacrylate', '4.10'],
+                    ['Film forming aid (coalescent)', '2.00'],
+                    ['Composite thickener', '1.50'],
+                    ['Composite dispersant', '0.30'],
+                    ['Composite defoamer', '0.30'],
+                    ['Emulsifier', '0.20']
                 ]
             },
             {
-                title: 'Physical Properties',
-                headers: ['Property', 'Typical Value'],
+                title: 'Physical & Chemical Properties',
+                headers: ['Property', 'Value'],
                 rows: [
-                    ['Colour', 'Depends on the raw clay'],
-                    ['Specific Weight', 'Approx. 2.6 g/cm³'],
-                    ['Bulk Density', '900 – 1,100 kg/m³'],
-                    ['Swelling Volume, ASTM D5890', '≥ 25 ml / 2 g'],
-                    ['WSA (75 μm), API 13B-1', '≤ 1%'],
-                    ['Moisture, API 13B-1', '≤ 13%']
+                    ['Appearance', 'Viscous liquid'],
+                    ['Odor', 'Odorless'],
+                    ['Molecular formula', 'Unknown (mixture)'],
+                    ['pH', 'Alkaline'],
+                    ['Relative density', '1.2–1.4 g/cm³'],
+                    ['Upper explosion limit', 'None'],
+                    ['Lower explosion limit', 'None'],
+                    ['Solubility', 'Readily soluble in water']
                 ]
             }
         ],
         safetyAtAGlance: {
-            ghsHazard: 'Not classified as a hazardous substance under GHS / OSHA Hazard Communication Standards. The product is a non combustible mineral no fire or dust explosion hazard. In practice, the hazards are: mild dust irritation to respiratory tract, skin and eyes; a slip hazard from spilled or wetted powder, which forms an extremely slippery film; and naturally occurring quartz content (1–2%), so prolonged inhalation of dust should be avoided.',
-            ratingSystemName: 'NFPA 704',
-            ratings: [
-                { label: 'Health', value: '0', color: 'bg-blue-500/10', textColor: 'text-blue-500' },
-                { label: 'Flammability', value: '0', color: 'bg-red-500/10', textColor: 'text-red-500' },
-                { label: 'Instability', value: '0', color: 'bg-yellow-500/10', textColor: 'text-yellow-500' }
-            ],
-            ppe: [
-                { type: 'Eyes', recommendation: 'Chemical safety goggles (OSHA 29 CFR 1910.133 or EN 166)' },
-                { type: 'Skin / hands', recommendation: 'Impervious rubber gloves (nitrile or latex), protective clothing' },
-                { type: 'Respiratory', recommendation: 'NIOSH/MSHA-approved dust mask (EN 149 P1/P2) in dusty conditions' },
-                { type: 'Footwear', recommendation: 'Safety shoes' }
-            ],
-            physicalChemical: [
-                { property: 'Appearance', value: 'Greyish white free flowing powder' },
-                { property: 'Odor / Taste', value: 'Odorless / Tasteless' },
-                { property: 'Solubility', value: 'Insoluble in water swells and forms a colloidal suspension' },
-                { property: 'Autoignition temperature', value: 'Not applicable does not burn' },
-                { property: 'Biodegradability', value: 'Not applicable inorganic mineral' }
-            ]
+            ghsHazard: 'Not classified as a hazardous substance or dangerous good. Not flammable; not explosive. Essentially non hazardous to humans on skin contact, though it can cause some irritation to skin and eyes avoid ingestion and eye contact. Non toxic to aquatic organisms, but may cause long term adverse effects to water bodies if discharged directly.',
+            ratingSystemName: '',
+            ratings: []
         },
-        sdsTitle: 'Safety Data Sheet BRSBENT SQ',
         sdsSections: [
-            {
-                num: 1,
-                title: 'Identification',
-                content: 'Product identifier: BRSBENT SQ. Chemical name: Bentonite (sodium montmorillonite clay), HDD drilling grade. Recommended use: Base material of HDD drilling fluids viscosifier and filtration control material for cooling, lubrication, cuttings carrying, and borehole wall protection. Manufacturer/Supplier: Brighter Star Drilling Fluids, www.pcenigeria.com.'
-            },
-            {
-                num: 2,
-                title: 'Hazards Identification',
-                content: 'Not classified as a hazardous substance under GHS/OSHA Hazard Communication Standards. Minor hazards in practice:\nDust irritation inhalation, skin contact, or eye contact with bentonite dust may cause mild irritation to the respiratory tract, skin, and eyes; ingestion may irritate the digestive tract.\nNon combustible mineral the product is an inorganic clay and does not burn; no fire or dust explosion hazard.\nSlip hazard spilled powder, or powder wetted with water, forms an extremely slippery film on floors and work surfaces.\nQuartz content the product contains 1–2% naturally occurring quartz; avoid prolonged inhalation of dust.'
-            },
-            {
-                num: 3,
-                title: 'Composition / Information on Ingredients',
-                content: 'Chemical characterization: Naturally occurring mineral (mixture).\n\nMontmorillonite (content 85–90%) CAS No. 1318-93-0\nQuartz (content 1–2%) CAS No. 7631-86-9\nFunctional additives, trade secret (content 6–8%)'
-            },
-            {
-                num: 4,
-                title: 'First Aid Measures',
-                content: 'Eye contact: Rinse immediately with plenty of clean water for at least 15 minutes, occasionally lifting the upper and lower eyelids. Remove contact lenses if present. Seek medical attention if irritation persists.\nSkin contact: Remove contaminated clothing and shoes. Wash the affected area thoroughly with soap and plenty of water. Launder clothing before reuse. Seek medical advice if irritation develops or persists.\nInhalation: Move the victim to fresh air immediately and keep at rest in a comfortable breathing position. If breathing is difficult, administer oxygen; if not breathing, give artificial respiration. Seek medical attention.\nIngestion: Do NOT induce vomiting. Rinse mouth thoroughly with water. If conscious and alert, drink 2–4 cupfuls of water or milk. Never give anything by mouth to an unconscious person. Seek medical attention.\n\nNote to physician: Treat symptomatically and supportively. No specific antidote is known.'
-            },
-            {
-                num: 5,
-                title: 'Fire Fighting Measures',
-                content: 'Suitable extinguishing media: The product itself does not burn. Use extinguishing measures appropriate to local circumstances and the surrounding environment (water spray, dry chemical, carbon dioxide, or foam). Unsuitable media: Not applicable non combustible. Autoignition temperature: Not applicable. NFPA rating: Health 0 · Flammability 0 · Instability 0. Hazardous combustion products: None known. Protection of firefighters: Wear self-contained breathing apparatus (SCBA) in pressure-demand mode and full protective gear. Fight fire from upwind. Precaution: Product wetted during fire fighting forms a slippery slurry take care to avoid slip hazards.'
-            },
-            {
-                num: 6,
-                title: 'Accidental Release Measures',
-                content: 'Isolate the spill area and keep unauthorized personnel away.\nVentilate the area and wear appropriate PPE (dust mask, gloves, goggles, protective clothing).\nAvoid generating dust dry sweeping is not recommended. Use a vacuum with a HEPA filter, or pre-dampen with water before sweeping.\nCollect the material into clean, sealed containers for recycling or disposal.\nPrevent the product from entering drains, sewers, surface water, or groundwater.\nClean the affected surface with water as appropriate caution: wet bentonite forms an extremely slippery film.\nDispose of contaminated material in accordance with local environmental regulations.'
-            },
-            {
-                num: 7,
-                title: 'Handling and Storage',
-                content: 'Handling: Avoid dust formation at all times and provide adequate local exhaust ventilation where dust may be generated. Do not breathe dust; avoid contact with eyes, skin, and clothing. Handle gently using scoops, funnels, or spoons; avoid shaking or vigorous stirring that disperses dust. Prohibit eating, drinking, and smoking in handling areas; wash hands thoroughly with soap and water after handling. Keep containers tightly closed when not in use. Access limited to trained personnel only.\nStorage: Store in a cool, dry, clean, and well ventilated place away from direct sunlight, at 5–40 °C and relative humidity ≤ 80% (ideally < 50%). Bentonite is hygroscopic moisture ingress causes caking and loss of swelling performance. Keep containers tightly closed; after opening, reseal the inner PE bag immediately. No smoking in storage areas. Stack bags on pallets off the ground and do not stack excessively high. Do not store together with toxic, harmful, or odor emitting substances; keep away from food, feed, and drinking water.\nShelf life: 24 months from the date of manufacture under proper sealed storage conditions.'
-            },
-            {
-                num: 8,
-                title: 'Exposure Controls / Personal Protection',
-                content: 'Eyes: Chemical safety goggles compliant with OSHA 29 CFR 1910.133 or EN 166; full goggles recommended in dusty environments\nSkin / hands: Impervious rubber gloves (nitrile or latex preferred); protective clothing or aprons; long sleeves\nRespiratory: NIOSH/MSHA-approved dust mask or respirator (EN 149 P1/P2 or equivalent) when dust levels are significant or ventilation is inadequate\nFootwear: Safety shoes\nFacilities: Emergency eyewash fountain and safety shower must be accessible in the immediate work area\n\nHygiene measures: Wash hands thoroughly with soap and water after handling and before eating or drinking. Launder contaminated clothing before reuse.'
-            },
-            {
-                num: 9,
-                title: 'Physical and Chemical Properties',
-                content: 'Appearance: Greyish white free flowing powder\nOdor: Odorless\nTaste: Tasteless\nSolubility: Insoluble in water swells and forms a colloidal suspension; insoluble in ethanol, ether, acetone, and other organic solvents\nAutoignition temperature: Not applicable the product itself does not burn\nHygroscopicity: Hygroscopic cakes on moisture ingress; swelling performance decreases'
-            },
-            {
-                num: 10,
-                title: 'Stability and Reactivity',
-                content: 'Chemical stability: Stable under recommended storage conditions. Incompatible materials: No known incompatible materials. Conditions to avoid: Dust formation and moisture ingress. Hazardous decomposition products: None known the product is thermally stable; in the event of fire see Section 5. Hazardous reactions: No known hazardous reactions under normal conditions.'
-            },
-            {
-                num: 11,
-                title: 'Toxicological Information',
-                content: 'Acute toxicity: Non toxic; not classified. Irritation: Dust may cause mild irritation to the respiratory tract, skin, and eyes; ingestion may irritate the digestive tract. Medical treatment: Treat symptomatically and supportively; no specific antidote is known.'
-            },
-            {
-                num: 12,
-                title: 'Ecological Information',
-                content: 'Biodegradability: Not applicable inorganic mineral; not biodegradable. Environmental precautions: Prevent the product from entering drains, sewers, surface water, or groundwater; spills must be contained and properly disposed of.'
-            },
-            {
-                num: 13,
-                title: 'Disposal Considerations',
-                content: 'Dispose of the product and its container in accordance with local, regional, and national regulations.\nUncontaminated residual product may be landfilled where permitted.\nDo NOT discharge bentonite powder or slurry into drains, sewers, or waterways it swells and may block pipework.\nEmpty containers should be cleaned of residual powder before disposal or recycling.'
-            },
-            {
-                num: 14,
-                title: 'Transport Information',
-                content: 'Not classified as a hazardous substance; not regulated as a dangerous good for transport.'
-            },
-            {
-                num: 15,
-                title: 'Regulatory Information',
-                content: 'GHS / OSHA HCS: Not classified as a hazardous substance. NFPA 704: Health 0 · Flammability 0 · Instability 0.'
-            },
-            {
-                num: 16,
-                title: 'Other Information',
-                content: 'Remark: The above safety precautions are compiled from industry standard SDS references for Bentonite. For formal export documentation, regulatory submission, or batch specific compliance, always refer to the official SDS issued by the manufacturer for the exact grade and batch parameters such as montmorillonite content, swelling index, and impurity profile may vary between grades and manufacturers.\nDisclaimer: The information contained in this Safety Data Sheet is provided for reference only and is based on the current state of knowledge. It describes the product with regard to safety requirements and does not guarantee any specific properties. In all cases, the actual conditions of use shall prevail. To the fullest extent permitted by applicable law, Brighter Star Drilling Fluids assumes no responsibility or liability for any results, losses, or damages arising from the use of, or reliance on, this document.'
-            }
+            { num: 1, title: 'Identification', content: 'Product identifier: BRSVR. Trade name: Clay Viscosity Reducer. Recommended use: Viscosity reducing additive for clay based drilling fluids. Manufacturer/Supplier: Brighter Star Drilling Fluids, www.pcenigeria.com.' },
+            { num: 2, title: 'Hazards Identification', content: 'Hazard classification: Not classified as a hazardous substance or dangerous good. Routes of entry: May be absorbed into the body by inhalation, ingestion, and skin contact. Health hazards: Contact with this compound is essentially non hazardous to humans. Environmental hazards: Non toxic to aquatic organisms; may cause long term adverse effects to water bodies. Fire/explosion hazard: Not flammable; not explosive.' },
+            { num: 3, title: 'Composition / Information on Ingredients', content: 'Chemical characterization: Mixture. Composition: VAE emulsion (27.69%), Styrene acrylic emulsion (44.16%), Methyl methacrylate (4.10%), Composite dispersant (0.30%), Emulsifier (0.20%), Film forming aid (2.00%), Composite defoamer (0.30%), Sodium persulfate (5.30%), Composite thickener (1.50%), Water (14.05%).' },
+            { num: 4, title: 'First Aid Measures', content: 'Skin contact: Not hazardous to humans on skin contact. Wash the affected area with clean water and soap. Ingestion: Do NOT drink fat containing beverages such as milk. Seek medical attention immediately. Eye contact: Rinse immediately with plenty of clean water for at least 20–30 minutes. Seek medical attention immediately.' },
+            { num: 5, title: 'Fire Fighting Measures', content: 'Hazard characteristics: Not easily ignited by open flame; does not release smoke when heated to its decomposition temperature. Suitable extinguishing media: Class B extinguishing agents (e.g., dry chemical powder, carbon dioxide). Firefighting procedures: Firefighters should wear suitable protective clothing and a fully equipped SCBA.' },
+            { num: 6, title: 'Accidental Release Measures', content: 'Emergency procedures: Recover the spilled material. Personal precautions: Emergency responders should wear protective clothing, safety goggles, and a protective mask.' },
+            { num: 7, title: 'Handling and Storage', content: 'Handling precautions: Operators must be specially trained and must strictly follow the operating procedures. Wear chemical safety goggles, a protective mask, and dust proof clothing. Load and unload gently to prevent damage to the packaging containers. Storage precautions: Store in a cool, well ventilated, and dry place. Avoid prolonged exposure to direct sunlight.' },
+            { num: 8, title: 'Exposure Controls / Personal Protection', content: 'Engineering/process controls: Wash hands and shower after contact with this material or after work. Change wet or contaminated clothing promptly. Do not take work clothing out of the workplace. Hand protection: Wash hands immediately after handling this material. Eye protection: Avoid contact with eyes. Ingestion: This product must not be ingested.' },
+            { num: 9, title: 'Physical and Chemical Properties', content: 'Appearance: Viscous liquid. Odor: Odorless. Molecular formula: Unknown. pH: Alkaline. Relative density: 1.2–1.4 g/cm³. Upper explosion limit: None. Lower explosion limit: None. Solubility: Readily soluble in water.' },
+            { num: 10, title: 'Stability and Reactivity', content: 'Reactivity: Not reactive. Chemical stability: This compound is stable under normal laboratory conditions. Hazardous polymerization: Will not occur.' },
+            { num: 11, title: 'Toxicological Information', content: 'Acute toxicity: None. Carcinogenicity: None. Irritation: Causes some irritation to skin and eyes.' },
+            { num: 12, title: 'Ecological Information', content: 'Ecotoxicity: Generally not harmful to the environment; avoid direct discharge into rivers. Bioaccumulative potential: Not determined. Biodegradability: Not determined. Abiotic degradation: Not determined.' },
+            { num: 13, title: 'Disposal Considerations', content: 'Waste disposal methods: Do not dispose of residues by landfill or incineration. Consult the environmental protection authorities to determine the appropriate disposal method. Contaminated packaging: Dispose of packaging in accordance with local regulations.' },
+            { num: 14, title: 'Transport Information', content: 'This product is not listed in the Regulations on the Transport of Dangerous Goods and is not regulated as a dangerous good for transport.' },
+            { num: 15, title: 'Regulatory Information', content: 'The Regulations on the Safety Management of Hazardous Chemicals establish corresponding provisions for the safe production, use, storage, transportation, loading, and unloading of hazardous chemicals.' },
+            { num: 16, title: 'Other Information', content: 'Disclaimer: The information contained in this Safety Data Sheet is based on the current state of knowledge and is provided in good faith. It describes the product with regard to safety requirements and does not guarantee any specific properties. The user is responsible for ensuring that the product is used, handled, stored, and disposed of safely and in compliance with all applicable local laws and regulations.' },
         ],
         salesContacts: [
             { name: 'Ms. Jannifer', phone: '+234-09136099052', email: 'info@pcenigeria.com' },
@@ -540,6 +549,7 @@ export const PRODUCTS_DATA: ProductDetail[] = [
             { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' }
         ]
     },
+
     {
         id: 'brsxtg',
         slug: 'brsxtg',
@@ -554,8 +564,8 @@ export const PRODUCTS_DATA: ProductDetail[] = [
             '/pictures/product-image/xtg/brsxtg.png',
             '/pictures/product-image/xtg/xtg-store.jpg'
         ],
-        tdsUrl: '/downloads/BRSXTG_Technical_Data_Sheet.pdf',
-        sdsUrl: '/downloads/BRSXTG_Safety_Data_Sheet.pdf',
+        tdsUrl: '/resources/BRSXTG_Technical_Data_Sheet.pdf',
+        sdsUrl: '/resources/BRSXTG_Safety_Data_Sheet.pdf',
         quickFacts: ['Soluble in Fresh, Brine & Sea Water', 'Effective at Low Concentrations', 'Stable pH 5.5–8.5', 'High Salinity Formations'],
         overviewText: 'BRSXTG is a high molecular weight polysaccharide produced by controlled fermentation of Xanthomonas campestris. It is an effective viscosifier and suspending agent for all freshwater and brine based drilling systems. It is suitable for slurry TBM, deep foundation, and HDD projects, delivering strong shear thinning rheology for optimal hole cleaning and cuttings suspension.\n\nThe biggest function of BRSXTG is to ensure the stability of drilling fluids used in high salinity areas, especially in marine formations.',
         mainFunctions: [

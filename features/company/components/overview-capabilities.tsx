@@ -43,7 +43,7 @@ export const OverviewCapabilities = () => {
                 <StaggerItem className="lg:col-span-7 relative h-[320px] sm:h-[400px] rounded-xl overflow-hidden group border border-black/5 cursor-pointer">
                     <div 
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                        style={{ backgroundImage: 'url("/pictures/company/nigerian-eng.jpeg")' }}
+                        style={{ backgroundImage: 'url("/pictures/company/ob3-wilding-main-pipeline.jpg")' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
                     <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col gap-2 text-white">
@@ -77,7 +77,7 @@ export const OverviewCapabilities = () => {
                 <StaggerItem className="lg:col-span-5 relative h-[320px] sm:h-[400px] rounded-xl overflow-hidden group border border-black/5 cursor-pointer">
                     <div 
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                        style={{ backgroundImage: 'url("/pictures/company/pipeline.jpg")' }}
+                        style={{ backgroundImage: 'url("/pictures/company/integrated-pipeline-epc.jpg")' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
                     <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col gap-2 text-white">

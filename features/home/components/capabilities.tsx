@@ -30,10 +30,11 @@ const CAPABILITIES_LIST: CapabilityCard[] = [
             categoryTitle: "Horizontal Directional Drilling (HDD) Capability",
             items: [
                 { src: "/pictures/hero-slider/drilling-rig-cover-photo.jpg", title: "1200t / 500t Heavy HDD Drilling Rig System" },
-                { src: "/pictures/hero-slider/drilling-rig-03.jpg", title: "HDD Drilling Rig Operations & High-Pressure Mud Line" },
+                { src: "/pictures/home-page/ob3-cover-photo.jpg", title: "OB3 River Niger HDD Crossing Project" },
                 { src: "/pictures/hero-slider/hdd-02.jpg", title: "River Niger HDD Crossing Site" },
                 { src: "/pictures/hero-slider/offshore-hdd-project.jpg", title: "Offshore HDD Project Site Infrastructure" },
-                { src: "/pictures/hero-slider/team-in-suits.jpg", title: "PCE Executive & Management Team" }
+                { src: "/pictures/home-page/akk-02.jpg", title: "AKK River Niger HDD Crossing Project" },
+                { src: "/pictures/home-page/raoyang-river-hdd.jpg", title: "Raoyang River 2,293m HDD Crossing" }
             ]
         }
     },
@@ -49,9 +50,9 @@ const CAPABILITIES_LIST: CapabilityCard[] = [
             categoryTitle: "52km Pipeline EPC Construction",
             items: [
                 { src: "/pictures/hero-slider/pipeline-epc-cover-photo.JPG", title: "52km Pipeline EPC Construction Site" },
-                { src: "/pictures/company/specialist-pipe-2.jpg", title: "52km Pipeline EPC Heavy Pipe Operations" },
-                { src: "/pictures/company/specialist-pipe.jpg", title: "Pipeline Trenching, Alignment & Welding" },
-                { src: "/pictures/company/pipeline.jpg", title: "Pipeline Coating, Hydrotesting & Pre-Commissioning" }
+                { src: "/pictures/home-page/epc-work-02.jpg", title: "52km Pipeline EPC Operations & Pipe Bending" },
+                { src: "/pictures/home-page/epc-work-03.jpg", title: "Pipeline Trenching, Alignment & Stringing" },
+                { src: "/pictures/home-page/epc-work-04.jpg", title: "Pipeline Field Operations & Welding" }
             ]
         }
     },
@@ -67,14 +68,10 @@ const CAPABILITIES_LIST: CapabilityCard[] = [
             categoryTitle: "New Pipeline Location Survey Technique - BPDS",
             items: [
                 { src: "/pictures/hero-slider/bpds-cover-photo.png", title: "BPDS 3D Pipeline Location & Depth Survey" },
-                { src: "/pictures/hero-slider/bpds-02.png", title: "BPDS Detection Equipment Field Operation" },
                 { src: "/pictures/hero-slider/bpds-03.png", title: "BPDS Signal Transmitter & Cable Connection" },
                 { src: "/pictures/hero-slider/bpds-04.png", title: "Buried Pipeline Sensor Receiver System" },
                 { src: "/pictures/hero-slider/bpds-05.png", title: "3D Coordinate & Magnetic Data Processing" },
-                { src: "/pictures/hero-slider/bpds-06.png", title: "River Crossing Pipeline Burial Depth Mapping" },
-                { src: "/pictures/hero-slider/bpds-07.png", title: "Complex Environment Deep Burial Surveying" },
-                { src: "/pictures/hero-slider/bpds-08.png", title: "BPDS Magnetic Field Data Logging" },
-                { src: "/pictures/hero-slider/bpds-09.png", title: "Pipeline Alignment Verification on Site" }
+                { src: "/pictures/hero-slider/bpds-06.png", title: "River Crossing Pipeline Burial Depth Mapping" }
             ]
         }
     },
@@ -90,10 +87,13 @@ const CAPABILITIES_LIST: CapabilityCard[] = [
             categoryTitle: "PCE Equipment Yard & Technical Fleet",
             items: [
                 { src: "/pictures/equipment/main-equipments-cover-photo.jpg", title: "PCE Main Equipment Yard (Aerial View)" },
-                { src: "/pictures/equipment/equipment-02.png", title: "Heavy Equipment Yard & Component Stock" },
-                { src: "/pictures/equipment/equipment-03.png", title: "HDD Rig Components & Field Equipment" },
-                { src: "/pictures/equipment/equipment-04.png", title: "Field Heavy Construction Fleet & Excavators" },
-                { src: "/pictures/equipment/equipment-05.png", title: "Pipeline Supplies & Materials Stockpile" }
+                { src: "/pictures/home-page/equipment-02.jpg", title: "Heavy HDD Rigs & Fleet Inventory" },
+                { src: "/pictures/home-page/equipment-03.jpg", title: "High-Pressure Mud Pumps & Circulation Units" },
+                { src: "/pictures/home-page/equipment-04.jpg", title: "Mud Recycling Systems & Solids Control" },
+                { src: "/pictures/home-page/equipment-05.jpg", title: "Specialist HDD Drilling Tools & Reamers" },
+                { src: "/pictures/home-page/equipment-06.jpg", title: "Field Excavators & Support Machinery" },
+                { src: "/pictures/home-page/equipment-07.jpg", title: "Continuous Electronic Tracking & Guidance Systems" },
+                { src: "/pictures/home-page/equipment-08.jpg", title: "PCE Heavy Equipment Maintenance & Logistics Yard" }
             ]
         }
     }

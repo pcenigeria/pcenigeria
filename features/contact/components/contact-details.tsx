@@ -37,29 +37,60 @@ export function ContactDetails() {
       className="flex flex-col gap-10 lg:gap-12"
       data-name="ContactDetails"
     >
-      {/* Phone */}
-      <motion.div variants={itemVariants} className="flex flex-col gap-2">
+      {/* Key Contacts */}
+      <motion.div variants={itemVariants} className="flex flex-col gap-4">
         <h3 className="font-semibold !text-[24px] lg:!text-[28px] text-[var(--color-primary)] uppercase tracking-wider">
-          PHONE
+          KEY CONTACTS
         </h3>
-        <a
-          href="tel:+2348184324791"
-          className="text-lg lg:text-xl text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors w-fit font-medium"
-        >
-          +234 707 412 6596
-        </a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1 p-5 rounded-xl bg-black/[0.02] border border-black/5">
+            <span className="font-bold text-lg text-[var(--color-ink)]">
+              Wan Yang
+            </span>
+            <a
+              href="tel:+2347074126596"
+              className="text-base font-semibold text-[var(--color-accent)] hover:underline no-underline"
+            >
+              +234 707 412 6596
+            </a>
+            <a
+              href="mailto:wanyang@pcenigeria.com"
+              className="text-sm text-[var(--color-ink-muted-48)] hover:text-[var(--color-primary)] transition-colors no-underline"
+            >
+              wanyang@pcenigeria.com
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-1 p-5 rounded-xl bg-black/[0.02] border border-black/5">
+            <span className="font-bold text-lg text-[var(--color-ink)]">
+              Xu Liangkui
+            </span>
+            <a
+              href="tel:+2347013732816"
+              className="text-base font-semibold text-[var(--color-accent)] hover:underline no-underline"
+            >
+              +234 701 373 2816
+            </a>
+            <a
+              href="mailto:xuliangkui@pcenigeria.com"
+              className="text-sm text-[var(--color-ink-muted-48)] hover:text-[var(--color-primary)] transition-colors no-underline"
+            >
+              xuliangkui@pcenigeria.com
+            </a>
+          </div>
+        </div>
       </motion.div>
 
-      {/* Email */}
+      {/* General Inquiries */}
       <motion.div variants={itemVariants} className="flex flex-col gap-2">
         <h3 className="font-semibold !text-[24px] lg:!text-[28px] text-[var(--color-primary)] uppercase tracking-wider">
-          EMAIL
+          GENERAL INQUIRIES
         </h3>
         <a
-          href="mailto:info@pce-ng.com"
-          className="text-lg lg:text-xl text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors w-fit font-medium"
+          href="mailto:info@pcenigeria.com"
+          className="text-lg lg:text-xl text-[var(--color-ink)] hover:text-[var(--color-accent)] transition-colors w-fit font-medium no-underline"
         >
-          wanyang@pcenigeria.com
+          info@pcenigeria.com
         </a>
       </motion.div>
 

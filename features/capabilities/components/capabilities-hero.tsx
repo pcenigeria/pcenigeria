@@ -12,7 +12,7 @@ export const CapabilitiesHero = () => {
             <div className="absolute inset-0 z-0">
                 <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center opacity-60"
-                    style={{ backgroundImage: 'url("/pictures/company/specialist-enginering.jpg")' }}
+                    style={{ backgroundImage: 'url("/pictures/capabilities/hero-image.jpg")' }}
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-tile-dark)] via-[var(--bg-tile-dark)]/40 to-transparent" />

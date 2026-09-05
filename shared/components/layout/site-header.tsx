@@ -13,7 +13,7 @@ export const SiteHeader = () => {
     const [isMobileCompanyOpen, setIsMobileCompanyOpen] = useState(false);
     const [isMobileCapabilitiesOpen, setIsMobileCapabilitiesOpen] = useState(false);
     const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
-    const [hoveredProductImage, setHoveredProductImage] = useState('/pictures/product-image/brsbent-sq-pack.png');
+    const [hoveredProductImage, setHoveredProductImage] = useState('/pictures/product-image/bent/cover-photo.jpg');
 
     const isCompanyActive =
         pathname === '/our-company' ||
@@ -67,11 +67,18 @@ export const SiteHeader = () => {
 
     const productSubLinks = [
         {
+            title: 'Products Overview',
+            subtitle: 'Explore All Products',
+            href: '/products',
+            description: 'Explore full product catalog & specifications.',
+            image: '/pictures/product-image/bent/cover-photo.jpg',
+        },
+        {
             title: 'BRSBENT SQ',
             subtitle: 'Activated Bentonite',
             href: '/products/brsbent-sq',
             description: 'Premium bentonite for HDD, slurry TBM & deep foundations.',
-            image: '/pictures/product-image/brsbent-sq-pack.png',
+            image: '/pictures/product-image/bent/cover-photo.jpg',
         },
         {
             title: 'BRSCMC',
@@ -89,9 +96,9 @@ export const SiteHeader = () => {
         },
         {
             title: 'BRSVR',
-            subtitle: 'Viscosifier & Rheology Control',
+            subtitle: 'Clay Viscosity Reducer',
             href: '/products/brsvr',
-            description: 'Polymeric rheology modifier for low-shear rate viscosity.',
+            description: 'Clay stripper & clay dispersing solution for drilling fluids.',
             image: '/pictures/product-image/brsvr.png',
         },
         {
@@ -342,73 +349,48 @@ export const SiteHeader = () => {
                             {/* Products Mega Menu Dropdown */}
                             {isProductsMenuOpen && (
                                 <div 
-                                    className="absolute left-1/2 -translate-x-1/2 top-[100%] bg-white rounded-2xl shadow-xl border border-black/10 p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-300 w-[1000px] grid grid-cols-12 gap-6"
+                                    className="absolute left-1/2 -translate-x-1/2 top-[100%] bg-white rounded-2xl shadow-xl border border-black/10 p-6 z-50 animate-in fade-in slide-in-from-top-2 duration-300 w-[720px] grid grid-cols-12 gap-6"
                                 >
-                                    {/* Far Left: Main Links */}
-                                    <div className="col-span-3 flex flex-col gap-4 pr-2 border-r border-black/5 overflow-hidden">
-                                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] px-2.5 whitespace-nowrap">
-                                            Drilling Chemicals
-                                        </span>
-                                        <div className="flex flex-col gap-2">
-                                            <Link
-                                                href="/products"
-                                                onClick={() => setIsProductsMenuOpen(false)}
-                                                className="group p-3 rounded-xl bg-[#052237] text-white hover:bg-[var(--color-primary)] transition-all no-underline block mb-1"
-                                            >
-                                                <div className="text-base font-extrabold text-white mb-1 whitespace-nowrap">
-                                                    Products Overview
-                                                </div>
-                                                <div className="text-xs text-white/70 leading-normal line-clamp-1">
-                                                    Explore our catalog.
-                                                </div>
-                                            </Link>
-                                            <Link
-                                                href="/products"
-                                                onClick={() => setIsProductsMenuOpen(false)}
-                                                className="w-full flex items-center justify-between p-3 rounded-xl bg-[#052237]/5 text-left hover:bg-[#052237]/10 transition-colors no-underline"
-                                            >
-                                                <span className="text-base font-extrabold text-[#052237] whitespace-nowrap">Individual Products</span>
-                                                <svg
-                                                    className="w-4 h-4 text-[var(--color-primary)] shrink-0"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </Link>
+                                    {/* Left Column: Products List (Single Vertical List) */}
+                                    <div className="col-span-7 flex flex-col justify-between pr-2 border-r border-black/5">
+                                        <div className="flex flex-col gap-2.5">
+                                            <div className="flex items-center justify-between px-1">
+                                                <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)]">
+                                                    Drilling Chemicals
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col gap-1">
+                                                {productSubLinks.map((product, idx) => (
+                                                    <Link
+                                                        key={product.href}
+                                                        href={product.href}
+                                                        onClick={() => setIsProductsMenuOpen(false)}
+                                                        onMouseEnter={() => setHoveredProductImage(product.image)}
+                                                        className={`group p-2 rounded-xl transition-colors no-underline block ${
+                                                            idx === 0 
+                                                                ? 'bg-[#052237]/5 hover:bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/15' 
+                                                                : 'hover:bg-[#052237]/5'
+                                                        }`}
+                                                    >
+                                                        <div className={`text-sm font-bold transition-colors ${idx === 0 ? 'text-[var(--color-primary)]' : 'text-[#052237] group-hover:text-[var(--color-primary)]'}`}>
+                                                            {product.title}
+                                                        </div>
+                                                        <div className="text-xs text-[var(--color-ink-muted-48)] leading-snug line-clamp-1">
+                                                            {product.subtitle}
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Middle: Products Grid */}
-                                    <div className="col-span-6 border-r border-black/5 pr-4">
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {productSubLinks.map((product) => (
-                                                <Link
-                                                    key={product.href}
-                                                    href={product.href}
-                                                    onClick={() => setIsProductsMenuOpen(false)}
-                                                    onMouseEnter={() => setHoveredProductImage(product.image)}
-                                                    className="group p-3 rounded-xl hover:bg-[#052237]/5 transition-colors no-underline flex flex-col h-full"
-                                                >
-                                                    <div className="text-sm font-bold text-[#052237] group-hover:text-[var(--color-primary)] transition-colors mb-1">
-                                                        {product.title}
-                                                    </div>
-                                                    <div className="text-[10px] text-[var(--color-ink-muted-48)] leading-snug line-clamp-2">
-                                                        {product.description}
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Far Right: Image Showcase Panel */}
-                                    <div className="col-span-3 relative">
-                                        <div className="absolute inset-0 rounded-xl overflow-hidden shadow-sm bg-black/5">
+                                    {/* Right Column: Bounded Image Showcase Panel */}
+                                    <div className="col-span-5 flex items-center justify-center">
+                                        <div className="w-full h-full min-h-[300px] rounded-xl overflow-hidden shadow-sm bg-[#f2f4f7] border border-black/5 flex items-center justify-center p-4">
                                             <img
                                                 src={hoveredProductImage}
                                                 alt="Featured Product"
-                                                className="w-full h-full object-cover transition-opacity duration-300"
+                                                className="max-w-full max-h-full object-contain transition-all duration-300 rounded-lg"
                                             />
                                         </div>
                                     </div>

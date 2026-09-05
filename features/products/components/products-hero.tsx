@@ -9,13 +9,13 @@ export const ProductsHero: React.FC = () => {
                 {/* White PCE Lantic Logo */}
                 <div>
                     <img
-                        src="/logo/pce-logo-with-lantic.svg"
-                        alt="PCE Lantic Logo"
-                        className="h-12 md:h-14 w-auto object-contain brightness-0 invert"
+                        src="/logo/lantic-white-and-orange.png"
+                        alt="Lantic Logo"
+                        className="h-[67px] md:h-[78px] w-auto object-contain"
                     />
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight whitespace-nowrap">
                     Brighter Star Drilling Fluids
                 </h1>
 
