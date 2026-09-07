@@ -17,6 +17,20 @@ const bodyComponents = {
             <p className="text-base text-[#052237]/80 leading-relaxed font-medium">{children}</p>
         ),
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-4">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs opacity-60 mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 export const StockLogistics: React.FC<StockLogisticsProps> = ({ section }) => {

@@ -55,6 +55,20 @@ const bodyComponents = {
             <Text variant="lead-airy" intent="default" className="!text-[20px] md:!text-[24px] leading-relaxed">{children}</Text>
         ),
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-4">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs opacity-60 mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 const getStats = (section?: any) => {

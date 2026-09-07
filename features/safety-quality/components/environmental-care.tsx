@@ -32,6 +32,20 @@ const bodyComponents = {
             <p className="!text-[var(--color-ink)] text-sm md:text-base leading-relaxed">{children}</p>
         ),
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-4">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs opacity-60 mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 export const EnvironmentalCare: React.FC<EnvironmentalCareProps> = ({ section }) => {
