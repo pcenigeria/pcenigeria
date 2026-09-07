@@ -21,6 +21,20 @@ const sectionBodyComponents = {
     block: {
         normal: ({ children }: any) => <p>{children}</p>,
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-2">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs text-[var(--color-ink-muted-48)] mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article, allArticles }) => {
@@ -145,6 +159,24 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article,
                                                 )}
                                             </div>
                                         )}
+
+                                        {/* Section Photo Gallery (if present) */}
+                                        {section.gallery?.items && section.gallery.items.length > 0 && (
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
+                                                {section.gallery.items.map((item, gIdx) => (
+                                                    <div
+                                                        key={item.src || gIdx}
+                                                        className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden bg-black/5 border border-black/5"
+                                                    >
+                                                        <div
+                                                            className="w-full h-full bg-cover bg-center"
+                                                            style={{ backgroundImage: `url("${item.src}")` }}
+                                                            title={item.title}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </section>
                                 </React.Fragment>
                             );
@@ -173,6 +205,19 @@ export const NewsDetailTemplate: React.FC<NewsDetailTemplateProps> = ({ article,
                                     />
                                 </div>
                             )}
+
+                            {/* Any additional gallery photos beyond the first two */}
+                            {article.bentoImages.slice(2).map((img, iIdx) => (
+                                <div
+                                    key={img.src || iIdx}
+                                    className="col-span-12 sm:col-span-4 h-[220px] sm:h-[260px] relative rounded-xl overflow-hidden bg-black/5 group border border-black/5"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center transition-all duration-700 ease-out group-hover:scale-103"
+                                        style={{ backgroundImage: `url("${img.src}")` }}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}

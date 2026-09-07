@@ -1,10 +1,14 @@
-// import DesignPage from "@/features/design-system/pages/design-page";
+export const metadata = {
+    robots: { index: false, follow: false },
+};
 
 export default function Page() {
     return (
         <div className="p-8 text-center">
-            <h1 className="text-xl font-bold">Design System (Temporarily Disabled)</h1>
-            <p className="text-muted-foreground mt-2">Enable this page by uncommenting imports in app/design-system/page.tsx</p>
+            <h1 className="text-xl font-bold">Design System (Disabled)</h1>
+            <p className="text-muted-foreground mt-2">
+                The component showcase that used to live here was removed as unused code during a codebase cleanup.
+            </p>
         </div>
     );
 }

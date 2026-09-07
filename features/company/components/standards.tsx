@@ -23,6 +23,20 @@ const bodyComponents = {
             <p className="!text-[var(--color-ink)] text-sm md:text-base leading-relaxed">{children}</p>
         ),
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-4">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs opacity-60 mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 interface StandardsProps {
@@ -82,6 +96,24 @@ export const Standards: React.FC<StandardsProps> = ({ section, image }) => {
                             ))
                         )}
                     </div>
+
+                    {/* Section Photo Gallery (if present) */}
+                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                        <div className="grid grid-cols-3 gap-2 w-full max-w-[540px]">
+                            {section.gallery.items.map((item: any, gIdx: number) => (
+                                <div
+                                    key={item.src || gIdx}
+                                    className="relative h-[90px] rounded-lg overflow-hidden bg-black/5 border border-black/10"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center"
+                                        style={{ backgroundImage: `url("${item.src}")` }}
+                                        title={item.title}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Certifications Row */}
                     <div className="w-full py-2 max-w-[540px]">

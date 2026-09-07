@@ -19,6 +19,20 @@ const bodyComponents = {
             </p>
         ),
     },
+    types: {
+        image: ({ value }: any) => {
+            const src = value?.asset?.url;
+            if (!src) return null;
+            return (
+                <span className="block my-4">
+                    <img src={src} alt={value?.alt || ''} className="w-full h-auto rounded-lg" />
+                    {value?.caption && (
+                        <span className="block text-xs opacity-60 mt-2">{value.caption}</span>
+                    )}
+                </span>
+            );
+        },
+    },
 };
 
 export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
@@ -62,6 +76,24 @@ export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
                                 ? body
                                 : "Complex pipeline projects rarely depend on one discipline. Ground conditions affect engineering. Engineering determines equipment. Equipment affects execution. And every stage must work within the project's safety, quality and programme requirements. PCE brings these considerations together from assessment through delivery."}
                         </p>
+                    )}
+
+                    {/* Section Photo Gallery (if present) */}
+                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                        <div className="grid grid-cols-3 gap-2 w-full max-w-[540px]">
+                            {section.gallery.items.map((item: any, gIdx: number) => (
+                                <div
+                                    key={item.src || gIdx}
+                                    className="relative h-[90px] rounded-lg overflow-hidden bg-white/5 border border-white/10"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center"
+                                        style={{ backgroundImage: `url("${item.src}")` }}
+                                        title={item.title}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     )}
 
                     {/* CTA Link */}

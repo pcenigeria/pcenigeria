@@ -32,6 +32,14 @@ function mapSanityProductToDetail(p: any): ProductDetail {
         ? p.technicalImages.map((g: any) => g?.src).filter(Boolean)
         : undefined;
 
+    // Sanity's simple 'specRows' (Property Specifications List, {label, value} pairs) maps
+    // directly onto the local ProductDetail.specs shape.
+    const specs = Array.isArray(p.specRows)
+        ? p.specRows
+              .map((r: any) => ({ label: r?.label, value: r?.value }))
+              .filter((r: any) => r.label || r.value)
+        : undefined;
+
     const specTables = Array.isArray(p.specTables)
         ? p.specTables.map((t: any) => ({
               title: t.title,
@@ -111,6 +119,7 @@ function mapSanityProductToDetail(p: any): ProductDetail {
         mainFunctions: p.mainFunctions,
         features: p.features,
         applications: p.applications,
+        specs,
         specTables,
         howItsUsed,
         supplyDetails,
