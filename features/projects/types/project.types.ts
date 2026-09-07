@@ -10,7 +10,10 @@ export interface ProjectSection {
     };
     buttonText?: string;
     buttonLink?: string;
-    gallery?: any;
+    gallery?: {
+        categoryTitle?: string;
+        items?: { src: string; title?: string; description?: string }[];
+    };
 }
 
 export interface ProjectDetail {

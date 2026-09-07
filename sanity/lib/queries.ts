@@ -18,7 +18,12 @@ const SECTION_BLOCK_FIELDS = `{
   tagline,
   heading,
   headingColor,
-  body,
+  body[]{
+    ...,
+    _type == "image" => {
+      "asset": asset->
+    }
+  },
   bullets,
   highlightStat,
   buttonText,
@@ -82,7 +87,7 @@ export async function getProjectBySlug(slug: string) {
     category,
     "heroImage": heroImage.asset->url,
     intro,
-    sections,
+    sections[]${SECTION_BLOCK_FIELDS},
     specs,
     "bentoImages": bentoImages.items[]{
       "src": image.asset->url,
@@ -133,7 +138,7 @@ export async function getNewsArticleBySlug(slug: string) {
     author,
     "heroImage": heroImage.asset->url,
     intro,
-    sections,
+    sections[]${SECTION_BLOCK_FIELDS},
     "bentoImages": bentoImages.items[]{
       "src": image.asset->url,
       title,

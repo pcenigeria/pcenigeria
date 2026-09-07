@@ -46,6 +46,12 @@ export interface SanityNewsBentoImage {
     description?: string;
 }
 
+export interface SanityNewsGalleryItem {
+    src: string;
+    title?: string;
+    description?: string;
+}
+
 export interface SanityNewsSection {
     tagline?: string;
     heading?: string;
@@ -58,6 +64,10 @@ export interface SanityNewsSection {
     };
     buttonText?: string;
     buttonLink?: string;
+    gallery?: {
+        categoryTitle?: string;
+        items?: SanityNewsGalleryItem[];
+    };
 }
 
 export interface SanityNewsArticleDetail {
