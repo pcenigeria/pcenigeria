@@ -1,5 +1,5 @@
 import { ResourcesPage } from '@/features/resources';
-import { getAllResourceCategories } from '@/sanity/lib/queries';
+import { getAllResourceCategories, getResourcesPage } from '@/sanity/lib/queries';
 
 export const metadata = {
   title: 'Resources | PCE Nigeria',
@@ -7,7 +7,9 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const sanityCategories = await getAllResourceCategories();
-  return <ResourcesPage sanityCategories={sanityCategories} />;
+  const [sanityCategories, sanityPage] = await Promise.all([
+    getAllResourceCategories(),
+    getResourcesPage(),
+  ]);
+  return <ResourcesPage sanityCategories={sanityCategories} sanityPage={sanityPage} />;
 }
-

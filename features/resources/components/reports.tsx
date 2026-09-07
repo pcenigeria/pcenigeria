@@ -21,6 +21,7 @@ export interface SanityResourceCategory {
 
 export interface ReportsProps {
     sanityCategories?: SanityResourceCategory[];
+    section?: any;
 }
 
 interface ReportItem {
@@ -89,7 +90,7 @@ const reportCategories: ReportCategory[] = [
     },
 ];
 
-export const Reports: React.FC<ReportsProps> = ({ sanityCategories }) => {
+export const Reports: React.FC<ReportsProps> = ({ sanityCategories, section }) => {
     const [activeTabId, setActiveTabId] = useState<string>('all');
 
     const categoriesToDisplay: ReportCategory[] = React.useMemo(() => {
@@ -146,6 +147,24 @@ export const Reports: React.FC<ReportsProps> = ({ sanityCategories }) => {
 
     return (
         <section className="w-full section py-16 lg:py-24 bg-white">
+            {/* Optional Intro (if Studio's "Resources Downloads Section" tagline/heading is filled in) */}
+            {(section?.tagline || section?.heading) && (
+                <div className="flex flex-col gap-3 max-w-2xl mb-10">
+                    {section?.tagline && (
+                        <div className="flex items-center gap-2">
+                            <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
+                            <span className="text-sm uppercase tracking-wider text-[var(--color-primary)] font-semibold">
+                                {section.tagline}
+                            </span>
+                        </div>
+                    )}
+                    {section?.heading && (
+                        <h2 className="!font-extrabold leading-tight !text-[var(--color-ink)] text-2xl md:text-3xl">
+                            {section.heading}
+                        </h2>
+                    )}
+                </div>
+            )}
             <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
                 
                 {/* Left Sidebar / Top Category Navigation */}

@@ -54,3 +54,6 @@ scratch/
 md-files-products
 md-files-products/
 
+
+# one-time Sanity seed script local cache
+scripts/.seed-asset-cache.json

@@ -297,6 +297,21 @@ export async function getEquipmentPage() {
 // RESOURCES
 // =========================================
 
+export async function getResourcesPage() {
+  const query = `*[_id == "resourcesPage"][0] {
+    heroHeadline,
+    heroSubtext,
+    downloadsSection${SECTION_BLOCK_FIELDS},
+    seo${SEO_FIELDS}
+  }`;
+  try {
+    return await client.fetch(query, {}, { next: { tags: ['resourcesPage'] } });
+  } catch (err) {
+    console.warn('Sanity fetch error (getResourcesPage):', err);
+    return null;
+  }
+}
+
 export async function getAllResourceCategories() {
   const query = `*[_type == "resourceCategory" && !(_id in path("drafts.**"))] | order(_createdAt asc) {
     _id,
