@@ -62,12 +62,56 @@ export default defineConfig({
                 S.list()
                   .title('Pages')
                   .items(
-                    PAGE_SINGLETON_MAP.map((page) =>
-                      S.listItem()
+                    PAGE_SINGLETON_MAP.map((page) => {
+                      // Resources and News & Insights each have real content that lives in a
+                      // separate collection (Resource Category documents / News & Insights
+                      // articles), not on the page singleton itself. Nest that collection right
+                      // here so editors land on it without having to know it's a different item
+                      // in the sidebar -- instead of only seeing the page's (mostly optional)
+                      // hero/intro fields.
+                      if (page.id === 'resourcesPage') {
+                        return S.listItem()
+                          .title(page.title)
+                          .id(page.id)
+                          .child(
+                            S.list()
+                              .title('Resources Page')
+                              .items([
+                                S.listItem()
+                                  .title('Page Settings (Hero & Intro)')
+                                  .id('resourcesPageSettings')
+                                  .child(S.document().schemaType('resourcesPage').documentId('resourcesPage')),
+                                S.divider(),
+                                S.documentTypeListItem('resourceCategory').title(
+                                  'Resource Categories (add/edit downloadable files here)'
+                                ),
+                              ])
+                          );
+                      }
+                      if (page.id === 'newsInsightsPage') {
+                        return S.listItem()
+                          .title(page.title)
+                          .id(page.id)
+                          .child(
+                            S.list()
+                              .title('News & Insights Page')
+                              .items([
+                                S.listItem()
+                                  .title('Page Settings (Hero & Intro)')
+                                  .id('newsInsightsPageSettings')
+                                  .child(S.document().schemaType('newsInsightsPage').documentId('newsInsightsPage')),
+                                S.divider(),
+                                S.documentTypeListItem('newsArticle').title(
+                                  'News & Insights Articles (add/edit articles here)'
+                                ),
+                              ])
+                          );
+                      }
+                      return S.listItem()
                         .title(page.title)
                         .id(page.id)
-                        .child(S.document().schemaType(page.id).documentId(page.id))
-                    )
+                        .child(S.document().schemaType(page.id).documentId(page.id));
+                    })
                   )
               ),
             S.divider(),

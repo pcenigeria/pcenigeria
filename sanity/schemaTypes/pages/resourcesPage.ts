@@ -29,8 +29,8 @@ export default defineType({
     }),
     defineField({
       name: 'downloadsSection',
-      title: 'Resources Downloads Section Block',
-      type: 'sectionBlock',
+      title: 'Resources Downloads Section Intro',
+      type: 'introBlock',
       group: 'downloads',
       description: 'Optional short intro (tagline + heading) shown above the resource category tabs. Leave the fields empty to hide this — the page works fine without it. To add or edit the actual downloadable files, go to "Resource Category" documents instead, not here.',
     }),
