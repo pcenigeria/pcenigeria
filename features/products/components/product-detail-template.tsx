@@ -396,6 +396,29 @@ export const ProductDetailTemplate: React.FC<ProductDetailTemplateProps> = ({ pr
                 </section>
             )}
 
+            {/* PART 2.5 — KEY SPECIFICATIONS (simple label/value list from Sanity specRows) */}
+            {product.specs && product.specs.length > 0 && (
+                <section className="w-full section py-[100px] bg-white border-b border-black/10">
+                    <div className="flex flex-col gap-16">
+                        <div className="flex flex-col gap-2">
+                            <Text variant="display-lg" as="h2" intent="default" className="!font-extrabold leading-tight max-w-[900px]">Key Specifications</Text>
+                        </div>
+                        <div className="overflow-x-auto w-full bg-white shadow-sm border border-black/5">
+                            <table className="w-full text-left text-sm md:text-base">
+                                <tbody className="divide-y divide-black/5 font-medium text-[#052237]">
+                                    {product.specs.map((spec, sIdx) => (
+                                        <tr key={sIdx} className="hover:bg-black/[0.02] transition-colors">
+                                            <td className="px-6 py-5 font-bold text-gray-500 uppercase tracking-wide text-xs md:text-sm w-1/3">{spec.label}</td>
+                                            <td className="px-6 py-5 font-bold text-[#1470AD]">{spec.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* PART 3 — TECHNICAL DATA SHEET (TDS SPEC) */}
             {product.specTables && product.specTables.length > 0 && (
                 <section className="w-full section py-[100px] bg-[var(--color-canvas-tint)] border-b border-black/10">
