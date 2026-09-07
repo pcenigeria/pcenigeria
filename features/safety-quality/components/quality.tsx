@@ -52,9 +52,28 @@ const HEADING_COLOR_CLASS: Record<string, string> = {
 const bodyComponents = {
     block: {
         normal: ({ children }: any) => (
-            <Text variant="lead-airy" intent="default" className="!text-[24px] leading-relaxed">{children}</Text>
+            <Text variant="lead-airy" intent="default" className="!text-[20px] md:!text-[24px] leading-relaxed">{children}</Text>
         ),
     },
+};
+
+const getStats = (section?: any) => {
+    if (section?.stats && Array.isArray(section.stats) && section.stats.length > 0) {
+        return section.stats;
+    }
+    if (section?.bullets && Array.isArray(section.bullets) && section.bullets.length > 0) {
+        return section.bullets.map((bullet: string) => {
+            const parts = bullet.split(/\s+[—–-]\s+/);
+            if (parts.length >= 2) {
+                return {
+                    title: parts[0].trim(),
+                    description: parts.slice(1).join(' — ').trim(),
+                };
+            }
+            return { title: bullet, description: '' };
+        });
+    }
+    return DEFAULT_STATS;
 };
 
 export const Quality: React.FC<QualityProps> = ({ section }) => {
@@ -64,7 +83,7 @@ export const Quality: React.FC<QualityProps> = ({ section }) => {
     const buttonText = section?.buttonText || DEFAULT_BUTTON_TEXT;
     const buttonLink = section?.buttonLink || DEFAULT_BUTTON_LINK;
     const hasBody = Array.isArray(section?.body) && section.body.length > 0;
-    const stats = DEFAULT_STATS;
+    const stats = getStats(section);
 
     return (
         <section className="w-full min-h-screen bg-[var(--color-canvas-tint)] section flex flex-col items-start gap-12 border-t border-[var(--color-hairline)]">
@@ -96,30 +115,18 @@ export const Quality: React.FC<QualityProps> = ({ section }) => {
                 <div className="absolute inset-0 bg-black/5" />
             </FadeInSlideUp>
 
-            {/* 2. Two-Column Details Layout (Directly on white background) */}
-            <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* 2. Two-Column Details Layout (Left: Narrative & CTA, Right: Numbered Cards Grid) */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-                {/* Left Column: Narrative (6/12 width on desktop) */}
-                <FadeInSlideUp className="lg:col-span-6 flex flex-col items-start gap-8 max-w-[600px]">
+                {/* Left Column: Narrative & CTA (5/12 on desktop) */}
+                <FadeInSlideUp className="lg:col-span-5 flex flex-col items-start gap-8">
                     <div className="flex flex-col gap-4">
                         {hasBody ? (
                             <PortableText value={section.body} components={bodyComponents} />
                         ) : (
-                            <Text variant="lead-airy" intent="default" className="!text-[24px] leading-relaxed">
+                            <Text variant="lead-airy" intent="default" className="!text-[20px] md:!text-[24px] leading-relaxed">
                                 {DEFAULT_BODY}
                             </Text>
-                        )}
-
-                        {/* Bullet Points (if provided) */}
-                        {section?.bullets && section.bullets.length > 0 && (
-                            <ul className="flex flex-col gap-2.5 mt-2">
-                                {section.bullets.map((bullet: string, idx: number) => (
-                                    <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-[var(--color-ink)] leading-relaxed">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-2 shrink-0" />
-                                        <span>{bullet}</span>
-                                    </li>
-                                ))}
-                            </ul>
                         )}
 
                         {/* Highlight Stat (if provided) */}
@@ -149,9 +156,9 @@ export const Quality: React.FC<QualityProps> = ({ section }) => {
                     </div>
                 </FadeInSlideUp>
 
-                {/* Right Column: 2x3 Grid Stats (6/12 width on desktop) */}
-                <StaggerContainer className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 items-start">
-                    {stats.map((stat, index) => (
+                {/* Right Column: 2x3 Grid Cards (7/12 on desktop) */}
+                <StaggerContainer className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 items-start">
+                    {stats.map((stat: any, index: number) => (
                         <StaggerItem key={index} className="flex flex-col items-start gap-2">
                             <span className="text-[14px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
                                 0{index + 1}
@@ -159,7 +166,7 @@ export const Quality: React.FC<QualityProps> = ({ section }) => {
                             <h4 className="text-base font-bold text-[var(--color-ink)] leading-snug">
                                 {stat.title}
                             </h4>
-                            <p className="text-xs text-[var(--color-ink-muted-48)] leading-relaxed">
+                            <p className="text-sm text-[var(--color-ink-muted-48)] leading-relaxed">
                                 {stat.description}
                             </p>
                         </StaggerItem>
