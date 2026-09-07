@@ -104,6 +104,25 @@ export const OverviewCapabilities: React.FC<OverviewCapabilitiesProps> = ({ sect
                             {DEFAULT_BODY_TEXT}
                         </Text>
                     )}
+
+                    {/* Section Photo Gallery (if present) */}
+                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                        <div className="grid grid-cols-3 gap-2 w-full lg:max-w-[460px]">
+                            {section.gallery.items.map((item: any, gIdx: number) => (
+                                <div
+                                    key={item.src || gIdx}
+                                    className="relative h-[90px] rounded-lg overflow-hidden bg-black/5 border border-black/10"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center"
+                                        style={{ backgroundImage: `url("${item.src}")` }}
+                                        title={item.title}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
                     <Link
                         href={buttonLink}
                         className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent-focus)] text-white text-xs uppercase tracking-wider font-semibold py-3 px-6 rounded-md transition-colors no-underline"

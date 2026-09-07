@@ -78,6 +78,24 @@ export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
                         </p>
                     )}
 
+                    {/* Section Photo Gallery (if present) */}
+                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                        <div className="grid grid-cols-3 gap-2 w-full max-w-[540px]">
+                            {section.gallery.items.map((item: any, gIdx: number) => (
+                                <div
+                                    key={item.src || gIdx}
+                                    className="relative h-[90px] rounded-lg overflow-hidden bg-white/5 border border-white/10"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center"
+                                        style={{ backgroundImage: `url("${item.src}")` }}
+                                        title={item.title}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
                     {/* CTA Link */}
                     <div className="pt-2">
                         <Link

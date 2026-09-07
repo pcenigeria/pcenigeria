@@ -100,11 +100,12 @@ export const ProductCardsGrid: React.FC<ProductCardsGridProps> = ({ sanityProduc
     }, [sanityProducts]);
 
     const hasBody = Array.isArray(section?.body) && section.body.length > 0;
+    const hasGallery = !!(section?.gallery?.items && section.gallery.items.length > 0);
 
     return (
         <section className="w-full section bg-[#001723] text-white">
             <div className="flex flex-col gap-12">
-                {(section?.tagline || section?.heading || hasBody) && (
+                {(section?.tagline || section?.heading || hasBody || hasGallery) && (
                     <div className="flex flex-col gap-3 max-w-2xl">
                         {section?.tagline && (
                             <div className="flex items-center gap-2">
@@ -122,6 +123,22 @@ export const ProductCardsGrid: React.FC<ProductCardsGridProps> = ({ sanityProduc
                         {hasBody && (
                             <div className="flex flex-col gap-2">
                                 <PortableText value={section.body} components={bodyComponents} />
+                            </div>
+                        )}
+                        {hasGallery && (
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                {section.gallery.items.map((item: any, gIdx: number) => (
+                                    <div
+                                        key={item.src || gIdx}
+                                        className="relative h-[120px] rounded-lg overflow-hidden bg-white/5 border border-white/10"
+                                    >
+                                        <div
+                                            className="w-full h-full bg-cover bg-center"
+                                            style={{ backgroundImage: `url("${item.src}")` }}
+                                            title={item.title}
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>

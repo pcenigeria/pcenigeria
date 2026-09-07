@@ -153,6 +153,24 @@ export const PerformanceMatrix: React.FC<PerformanceMatrixProps> = ({ section })
                             {DEFAULT_BODY}
                         </p>
                     )}
+
+                    {/* Section Photo Gallery (if present) */}
+                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-[700px]">
+                            {section.gallery.items.map((item: any, gIdx: number) => (
+                                <div
+                                    key={item.src || gIdx}
+                                    className="relative h-[120px] rounded-lg overflow-hidden bg-black/5 border border-black/10"
+                                >
+                                    <div
+                                        className="w-full h-full bg-cover bg-center"
+                                        style={{ backgroundImage: `url("${item.src}")` }}
+                                        title={item.title}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* Clean Performance Matrix Table Container */}
