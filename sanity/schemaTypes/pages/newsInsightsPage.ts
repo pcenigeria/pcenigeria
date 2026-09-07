@@ -26,9 +26,12 @@ export default defineType({
     }),
     defineField({
       name: 'articlesSection',
-      title: 'News Articles Section Block',
-      type: 'sectionBlock',
+      title: 'News Articles Section Intro',
+      type: 'introBlock',
       group: 'articles',
+      description:
+        'Optional short intro (tagline + heading) shown above the News & Insights article grid below. Leave blank to hide it — the articles ' +
+        'still display normally either way. To add, edit, or remove an actual article, go to the "News & Insights" articles list instead, not here.',
     }),
     defineField({
       name: 'seo',

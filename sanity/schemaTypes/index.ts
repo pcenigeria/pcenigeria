@@ -3,6 +3,7 @@ import galleryItem from './objects/galleryItem';
 import gallery from './objects/gallery';
 import statItem from './objects/statItem';
 import sectionBlock from './objects/sectionBlock';
+import introBlock from './objects/introBlock';
 import specRow from './objects/specRow';
 import ctaButton from './objects/ctaButton';
 import seo from './objects/seo';
@@ -39,6 +40,7 @@ export const schemaTypes = [
   gallery,
   statItem,
   sectionBlock,
+  introBlock,
   specRow,
   ctaButton,
   seo,
