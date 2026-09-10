@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { ReactLenis, useLenis } from 'lenis/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -43,6 +44,13 @@ function GsapTickerSync() {
  * Root Smooth Scroll Provider Component
  */
 export function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+    const isStudio = pathname?.startsWith('/studio');
+
+    if (isStudio) {
+        return <>{children}</>;
+    }
+
     return (
         <ReactLenis
             root

@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { ProductDetailPage } from '@/features/products';
+import { ProductDetailPage, PRODUCTS_DATA } from '@/features/products';
 import type { ProductDetail } from '@/features/products';
 import { getProductBySlug as getSanityProductBySlug, getAllProducts } from '@/sanity/lib/queries';
 
@@ -134,23 +134,60 @@ function mapSanityProductToDetail(p: any): ProductDetail {
 
 export async function generateMetadata({ params }: PageProps) {
     const slug = await resolveSlug(params);
-    const product = await getSanityProductBySlug(slug);
-    if (!product) return {};
+    const sanityProduct = await getSanityProductBySlug(slug);
+    const staticFallback = PRODUCTS_DATA.find((p) => p.slug === slug);
+    const title = sanityProduct?.title || staticFallback?.title;
+    const description = sanityProduct?.description || staticFallback?.description;
+    if (!title) return {};
     return {
-        title: `${product.title} | PCE Nigeria Products`,
-        description: product.description,
+        title: `${title} | PCE Nigeria Products`,
+        description,
     };
 }
 
 export default async function Page({ params }: PageProps) {
     const slug = await resolveSlug(params);
     const sanityProduct = await getSanityProductBySlug(slug);
+    const staticFallback = PRODUCTS_DATA.find((p) => p.slug === slug);
 
-    if (!sanityProduct) {
+    if (!sanityProduct && !staticFallback) {
         notFound();
     }
 
-    const product = mapSanityProductToDetail(sanityProduct);
+    const mapped = sanityProduct ? mapSanityProductToDetail(sanityProduct) : null;
+
+    const product: ProductDetail = {
+        ...(staticFallback || {}),
+        ...(mapped || {}),
+        title: mapped?.title || staticFallback?.title || '',
+        slug: mapped?.slug || staticFallback?.slug || slug,
+        id: mapped?.id || staticFallback?.id || slug,
+        subtitle: mapped?.subtitle || staticFallback?.subtitle,
+        eyebrow: mapped?.eyebrow || staticFallback?.eyebrow,
+        description: mapped?.description || staticFallback?.description || '',
+        overviewText: mapped?.overviewText || staticFallback?.overviewText,
+        whatItDoes: mapped?.whatItDoes || staticFallback?.whatItDoes,
+        executiveStandard: mapped?.executiveStandard || staticFallback?.executiveStandard,
+        image: mapped?.image || staticFallback?.image,
+        secondaryImage: mapped?.secondaryImage || staticFallback?.secondaryImage,
+        heroImage: mapped?.heroImage || staticFallback?.heroImage,
+        tdsUrl: mapped?.tdsUrl || staticFallback?.tdsUrl,
+        sdsUrl: mapped?.sdsUrl || staticFallback?.sdsUrl,
+        alsoKnownAs: mapped?.alsoKnownAs || staticFallback?.alsoKnownAs,
+        mainFunctions: (mapped?.mainFunctions && mapped.mainFunctions.length > 0) ? mapped.mainFunctions : staticFallback?.mainFunctions,
+        features: (mapped?.features && mapped.features.length > 0) ? mapped.features : staticFallback?.features,
+        applications: (mapped?.applications && mapped.applications.length > 0) ? mapped.applications : staticFallback?.applications,
+        specs: (mapped?.specs && mapped.specs.length > 0) ? mapped.specs : staticFallback?.specs,
+        specTables: (mapped?.specTables && mapped.specTables.length > 0) ? mapped.specTables : staticFallback?.specTables,
+        howItsUsed: mapped?.howItsUsed || staticFallback?.howItsUsed,
+        supplyDetails: (mapped?.supplyDetails && mapped.supplyDetails.length > 0) ? mapped.supplyDetails : staticFallback?.supplyDetails,
+        storageInfo: mapped?.storageInfo || staticFallback?.storageInfo,
+        sdsSections: (mapped?.sdsSections && mapped.sdsSections.length > 0) ? mapped.sdsSections : staticFallback?.sdsSections,
+        safetyAtAGlance: mapped?.safetyAtAGlance || staticFallback?.safetyAtAGlance,
+        salesContacts: (mapped?.salesContacts && mapped.salesContacts.length > 0) ? mapped.salesContacts : staticFallback?.salesContacts,
+        galleryImages: (mapped?.galleryImages && mapped.galleryImages.length > 0) ? mapped.galleryImages : staticFallback?.galleryImages,
+        technicalImages: (mapped?.technicalImages && mapped.technicalImages.length > 0) ? mapped.technicalImages : staticFallback?.technicalImages,
+    };
 
     return <ProductDetailPage product={product} />;
 }
