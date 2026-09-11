@@ -12,44 +12,69 @@ interface BentoCard {
     className: string;
 }
 
-export const HowWeWork = () => {
-    const cardsList: BentoCard[] = [
-        {
-            number: "01",
-            title: "Understand",
-            description: "Assess the route, ground conditions, crossing constraints and project requirements.",
-            image: "/pictures/capabilities/survey.jpg",
-            className: "lg:col-span-2 lg:row-span-2 min-h-[280px] lg:min-h-[580px]"
-        },
-        {
-            number: "02",
-            title: "Engineer",
-            description: "Develop the technical method, crossing design, programme and execution plan.",
-            image: "/pictures/capabilities/engineer-on-site.jpg",
-            className: "lg:col-span-1 min-h-[280px]"
-        },
-        {
-            number: "03",
-            title: "Prepare",
-            description: "Mobilise the people, equipment, tools and materials required for the work.",
-            image: "/pictures/capabilities/prepare-equipment.jpg",
-            className: "lg:col-span-1 min-h-[280px]"
-        },
-        {
-            number: "04",
-            title: "Deliver",
-            description: "Execute construction with technical, safety and quality oversight.",
-            image: "/pictures/capabilities/completed-project.jpg",
-            className: "lg:col-span-1 min-h-[280px]"
-        },
-        {
-            number: "05",
-            title: "Verify",
-            description: "Test, document, pre-commission, commission and hand over the completed work",
-            image: "/pictures/capabilities/handover.jpg",
-            className: "lg:col-span-2 min-h-[280px]"
-        }
-    ];
+const BENTO_CLASSES = [
+    "lg:col-span-2 lg:row-span-2 min-h-[280px] lg:min-h-[580px]",
+    "lg:col-span-1 min-h-[280px]",
+    "lg:col-span-1 min-h-[280px]",
+    "lg:col-span-1 min-h-[280px]",
+    "lg:col-span-2 min-h-[280px]",
+];
+
+const DEFAULT_CARDS: BentoCard[] = [
+    {
+        number: "01",
+        title: "Understand",
+        description: "Assess the route, ground conditions, crossing constraints and project requirements.",
+        image: "/pictures/capabilities/survey.jpg",
+        className: BENTO_CLASSES[0]
+    },
+    {
+        number: "02",
+        title: "Engineer",
+        description: "Develop the technical method, crossing design, programme and execution plan.",
+        image: "/pictures/capabilities/engineer-on-site.jpg",
+        className: BENTO_CLASSES[1]
+    },
+    {
+        number: "03",
+        title: "Prepare",
+        description: "Mobilise the people, equipment, tools and materials required for the work.",
+        image: "/pictures/capabilities/prepare-equipment.jpg",
+        className: BENTO_CLASSES[2]
+    },
+    {
+        number: "04",
+        title: "Deliver",
+        description: "Execute construction with technical, safety and quality oversight.",
+        image: "/pictures/capabilities/completed-project.jpg",
+        className: BENTO_CLASSES[3]
+    },
+    {
+        number: "05",
+        title: "Verify",
+        description: "Test, document, pre-commission, commission and hand over the completed work",
+        image: "/pictures/capabilities/handover.jpg",
+        className: BENTO_CLASSES[4]
+    }
+];
+
+interface HowWeWorkProps {
+    section?: any;
+}
+
+export const HowWeWork: React.FC<HowWeWorkProps> = ({ section }) => {
+    const tagline = section?.tagline || 'How We Work';
+    const heading = section?.heading || 'A clear path from assessment to commissioning.';
+
+    const cardsList: BentoCard[] = section?.steps && Array.isArray(section.steps) && section.steps.length > 0
+        ? section.steps.map((step: any, idx: number) => ({
+            number: step.number || `0${idx + 1}`,
+            title: step.title || '',
+            description: step.description || '',
+            image: step.image || DEFAULT_CARDS[idx]?.image || '',
+            className: BENTO_CLASSES[idx] || "lg:col-span-1 min-h-[280px]",
+        }))
+        : DEFAULT_CARDS;
 
     return (
         <section className="w-full bg-[var(--color-surface-tile-3)] section flex flex-col items-start gap-20 border-t border-[var(--color-surface-tile-3)]">
@@ -60,14 +85,14 @@ export const HowWeWork = () => {
                 <div className="flex items-center justify-center gap-2 mb-6">
                     <span className="w-6 h-[3px] bg-[var(--color-accent)] inline-block" />
                     <span className="text-sm uppercase tracking-wider text-white/80 font-semibold">
-                        How We Work
+                        {tagline}
                     </span>
                 </div>
 
                 {/* Headline */}
                 <div className="max-w-[1000px]">
                     <Text variant="display-lg" as="h2" intent="inverse" className="!font-extrabold leading-tight">
-                        A clear path from <span className="text-[var(--color-accent)]">assessment to commissioning.</span>
+                        {heading}
                     </Text>
                 </div>
             </FadeInSlideUp>

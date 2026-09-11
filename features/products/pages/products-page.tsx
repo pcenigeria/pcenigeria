@@ -22,12 +22,16 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({ sanityProducts, sani
         <div className="flex flex-col w-full bg-[#d8e7f1] min-h-screen">
             <ProductsHero sanityPage={sanityPage} />
             <ProductCardsGrid sanityProducts={sanityProducts} section={sanityPage?.catalogSection} />
-            <ProductsAbout />
-            <StratumGuide />
-            <PerformanceMatrix section={sanityPage?.matrixSection} />
-            <HddCaseStudies />
+            <ProductsAbout section={sanityPage?.aboutSection} />
+            <StratumGuide section={sanityPage?.stratumSection} />
+            <PerformanceMatrix section={sanityPage?.matrixSection} matrixRows={sanityPage?.matrixRows} />
+            <HddCaseStudies section={sanityPage?.caseStudiesSection} />
             <StockLogistics section={sanityPage?.logisticsSection} />
-            <ProductsCta section={sanityPage?.ctaSection} />
+            <ProductsCta 
+                section={sanityPage?.ctaSection} 
+                salesContacts={sanityPage?.salesContacts} 
+                salesOffices={sanityPage?.salesOffices} 
+            />
         </div>
     );
 };

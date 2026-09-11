@@ -27,13 +27,26 @@ export const ProjectsHome: React.FC<ProjectsHomeProps> = ({ sanityPage }) => {
     const [isPlaying, setIsPlaying] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
 
+    const slides = React.useMemo(() => {
+        if (sanityPage?.heroSlides && sanityPage.heroSlides.length > 0) {
+            const mapped = sanityPage.heroSlides
+                .map((s: any) => ({
+                    src: s.image?.asset?.url || s.src || '',
+                    alt: s.alt || s.caption || 'PCE Project Hero Slide',
+                }))
+                .filter((s: any) => Boolean(s.src));
+            if (mapped.length > 0) return mapped;
+        }
+        return PROJECTS_HERO_SLIDES;
+    }, [sanityPage?.heroSlides]);
+
     const handleNext = useCallback(() => {
-        setCurrentSlide((prev) => (prev + 1) % PROJECTS_HERO_SLIDES.length);
-    }, []);
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, [slides.length]);
 
     const handlePrev = useCallback(() => {
-        setCurrentSlide((prev) => (prev - 1 + PROJECTS_HERO_SLIDES.length) % PROJECTS_HERO_SLIDES.length);
-    }, []);
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    }, [slides.length]);
 
     useEffect(() => {
         if (!isPlaying || isHovered) return;
@@ -45,7 +58,8 @@ export const ProjectsHome: React.FC<ProjectsHomeProps> = ({ sanityPage }) => {
 
     const togglePlay = () => setIsPlaying((prev) => !prev);
 
-    const activeSlide = PROJECTS_HERO_SLIDES[currentSlide];
+    const safeSlideIndex = currentSlide < slides.length ? currentSlide : 0;
+    const activeSlide = slides[safeSlideIndex];
 
     return (
         <section 
@@ -118,7 +132,7 @@ export const ProjectsHome: React.FC<ProjectsHomeProps> = ({ sanityPage }) => {
                         <div className="h-3 w-[1px] bg-white/20" />
 
                         <span className="text-xs font-mono text-white/90 tracking-wider min-w-[50px] text-center">
-                            {String(currentSlide + 1).padStart(2, '0')} / {String(PROJECTS_HERO_SLIDES.length).padStart(2, '0')}
+                            {String(safeSlideIndex + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
                         </span>
 
                         <div className="h-3 w-[1px] bg-white/20" />

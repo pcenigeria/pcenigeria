@@ -6,6 +6,8 @@ import { Text } from '@/shared/components/ui/text';
 
 interface ProductsCtaProps {
     section?: any;
+    salesContacts?: any[];
+    salesOffices?: any[];
 }
 
 const DEFAULT_TAGLINE = 'Brighter Star Drilling Fluids';
@@ -14,7 +16,18 @@ const DEFAULT_BULLETS = ['Competitive Pricing', 'Guaranteed Quality', 'Ample Sto
 const DEFAULT_BUTTON_TEXT = 'Contact Us / Request a Quote';
 const DEFAULT_BUTTON_LINK = '/contact';
 
-export const ProductsCta: React.FC<ProductsCtaProps> = ({ section }) => {
+const DEFAULT_CONTACTS = [
+    { name: 'Ms. Jannifer', phone: '+234-09136099052', email: 'info@pcenigeria.com' },
+    { name: 'Mr. Tom', phone: '+234-07074126596', email: 'wanyang@pcenigeria.com' },
+    { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' },
+];
+
+const DEFAULT_OFFICES = [
+    { location: 'Abuja Office', address: 'House 45, Nelson Mandela Street, Asokoro, Abuja, Nigeria' },
+    { location: 'Lagos Office', address: 'HyGroup Place, 6 Ojulari Street, Off Kusenla Road, Ikate, Elegushi, Lekki, Lagos' },
+];
+
+export const ProductsCta: React.FC<ProductsCtaProps> = ({ section, salesContacts, salesOffices }) => {
     const tagline = section?.tagline || DEFAULT_TAGLINE;
     const heading = section?.heading || DEFAULT_HEADING;
     const bullets = Array.isArray(section?.bullets) && section.bullets.length > 0
@@ -22,6 +35,18 @@ export const ProductsCta: React.FC<ProductsCtaProps> = ({ section }) => {
         : DEFAULT_BULLETS;
     const buttonText = section?.buttonText || DEFAULT_BUTTON_TEXT;
     const buttonLink = section?.buttonLink || DEFAULT_BUTTON_LINK;
+
+    const contacts = (salesContacts && salesContacts.length > 0)
+        ? salesContacts
+        : (section?.salesContacts && section.salesContacts.length > 0)
+            ? section.salesContacts
+            : DEFAULT_CONTACTS;
+
+    const offices = (salesOffices && salesOffices.length > 0)
+        ? salesOffices
+        : (section?.salesOffices && section.salesOffices.length > 0)
+            ? section.salesOffices
+            : DEFAULT_OFFICES;
 
     return (
         <>
@@ -55,16 +80,12 @@ export const ProductsCta: React.FC<ProductsCtaProps> = ({ section }) => {
                         Direct Sales & Engineering Contacts
                     </Text>
 
-                    {/* 3 Sales Contacts (Pure Typography Divider Bar - No Cards) */}
+                    {/* Sales Contacts (Pure Typography Divider Bar - No Cards) */}
                     <div className="w-full pt-4 border-t border-black/10 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 md:divide-x md:divide-black/10">
-                        {[
-                            { name: 'Ms. Jannifer', phone: '+234-09136099052', email: 'info@pcenigeria.com' },
-                            { name: 'Mr. Tom', phone: '+234-07074126596', email: 'wanyang@pcenigeria.com' },
-                            { name: 'Mr. Frank', phone: '+234-07013732816', email: 'xuliangkui@pcenigeria.com' },
-                        ].map((contact, i) => (
+                        {contacts.map((contact: any, i: number) => (
                             <div key={i} className="flex flex-col items-start gap-1.5 md:px-8 first:md:pl-0 last:md:pr-0">
                                 <span className="text-xl font-extrabold text-[#052237] mb-1">{contact.name}</span>
-                                <a href={`tel:${contact.phone.replace(/[^0-9+]/g, '')}`} className="text-sm font-bold text-[#1470AD] hover:underline no-underline flex items-center gap-1.5">
+                                <a href={`tel:${(contact.phone || '').replace(/[^0-9+]/g, '')}`} className="text-sm font-bold text-[#1470AD] hover:underline no-underline flex items-center gap-1.5">
                                     📞 {contact.phone}
                                 </a>
                                 <a href={`mailto:${contact.email}`} className="text-sm font-bold text-[#1470AD] hover:underline no-underline flex items-center gap-1.5">
@@ -74,16 +95,14 @@ export const ProductsCta: React.FC<ProductsCtaProps> = ({ section }) => {
                         ))}
                     </div>
 
-                    {/* 2 Office Locations (Pure Typography Divider Bar - No Cards) */}
+                    {/* Office Locations (Pure Typography Divider Bar - No Cards) */}
                     <div className="w-full pt-8 mt-2 border-t border-black/10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 md:divide-x md:divide-black/10">
-                        <div className="flex flex-col items-start gap-1.5 md:px-8 first:md:pl-0">
-                            <span className="text-xs uppercase font-extrabold text-[#f4691a] tracking-wider">Abuja Office</span>
-                            <p className="text-base font-bold text-[#052237] leading-snug">House 45, Nelson Mandela Street, Asokoro, Abuja, Nigeria</p>
-                        </div>
-                        <div className="flex flex-col items-start gap-1.5 md:px-8 last:md:pr-0">
-                            <span className="text-xs uppercase font-extrabold text-[#f4691a] tracking-wider">Lagos Office</span>
-                            <p className="text-base font-bold text-[#052237] leading-snug">HyGroup Place, 6 Ojulari Street, Off Kusenla Road, Ikate, Elegushi, Lekki, Lagos</p>
-                        </div>
+                        {offices.map((office: any, i: number) => (
+                            <div key={i} className="flex flex-col items-start gap-1.5 md:px-8 first:md:pl-0 last:md:pr-0">
+                                <span className="text-xs uppercase font-extrabold text-[#f4691a] tracking-wider">{office.location}</span>
+                                <p className="text-base font-bold text-[#052237] leading-snug">{office.address}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

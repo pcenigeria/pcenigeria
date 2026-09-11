@@ -11,7 +11,7 @@ export const CapabilitiesPage: React.FC<CapabilitiesPageProps> = ({ sanityCapabi
             <CapabilitiesHero sanityPage={sanityPage} />
             <OurApproach sanityPage={sanityPage} />
             <CoreCapabilities sanityCapabilities={sanityCapabilities} sanityPage={sanityPage} />
-            <HowWeWork />
+            <HowWeWork section={sanityPage?.howWeWorkSection} />
         </div>
     );
 };

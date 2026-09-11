@@ -7,8 +7,8 @@ export default defineType({
   groups: [
     { name: 'hero', title: '1. Hero Banner', default: true },
     { name: 'core', title: '2. Our Capabilities (4 Cards)' },
-    { name: 'approach', title: '3. How We Work / Our Approach' },
-    { name: 'fleet', title: '4. Technical Fleet & Support' },
+    { name: 'approach', title: '3. Our Approach' },
+    { name: 'howWeWork', title: '4. How We Work (5 Steps)' },
     { name: 'seo', title: 'SEO Metadata' },
   ],
   fields: [
@@ -61,21 +61,66 @@ export default defineType({
       group: 'core',
     }),
 
-    // --- 3. HOW WE WORK / OUR APPROACH ---
+    // --- 3. OUR APPROACH ---
     defineField({
       name: 'approachSection',
-      title: '"How We Work / Our Approach" Section Block',
-      description: 'Tagline, heading, body text and CTA for the approach section',
+      title: 'Our Approach Section Block',
+      description: 'Tagline, heading, body text, CTA and photo gallery for the approach section',
       type: 'sectionBlock',
       group: 'approach',
     }),
 
-    // --- 4. FLEET & SUPPORT ---
+    // --- 4. HOW WE WORK (5 STEPS) ---
     defineField({
-      name: 'fleetSupportSection',
-      title: 'Technical Fleet & Support Section Block',
-      type: 'sectionBlock',
-      group: 'fleet',
+      name: 'howWeWorkSection',
+      title: 'How We Work (5 Steps) Section Block',
+      description: 'Headline, tagline, and the 5 bento step cards with images and descriptions',
+      type: 'object',
+      group: 'howWeWork',
+      fields: [
+        defineField({
+          name: 'tagline',
+          title: 'Section Tagline / Eyebrow',
+          type: 'string',
+          initialValue: 'How We Work',
+        }),
+        defineField({
+          name: 'heading',
+          title: 'Section Heading',
+          type: 'string',
+          initialValue: 'A clear path from assessment to commissioning.',
+        }),
+        defineField({
+          name: 'steps',
+          title: 'How We Work Steps (5 Bento Cards)',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              title: 'Step Item',
+              fields: [
+                defineField({ name: 'number', title: 'Step Number', type: 'string' }),
+                defineField({ name: 'title', title: 'Step Title', type: 'string' }),
+                defineField({ name: 'description', title: 'Step Description', type: 'text', rows: 2 }),
+                defineField({ name: 'image', title: 'Step Photo', type: 'image', options: { hotspot: true } }),
+              ],
+              preview: {
+                select: {
+                  number: 'number',
+                  title: 'title',
+                  media: 'image',
+                },
+                prepare({ number, title, media }) {
+                  return {
+                    title: `${number || ''} ${title || 'Step'}`,
+                    media,
+                  };
+                },
+              },
+            },
+          ],
+        }),
+      ],
     }),
 
     // --- SEO METADATA ---

@@ -10,7 +10,7 @@ export const WhatWorks: React.FC<WhatWorksProps> = ({ sanityPage }) => {
     const tagline = sanityPage?.gridSection?.tagline || 'WHAT CONNECTS THE WORK';
     const heading = sanityPage?.gridSection?.heading || 'Different routes. The same engineering discipline.';
 
-    const stats = [
+    const DEFAULT_STATS = [
         {
             title: "Specialist Engineering",
             label: "Crossing methods shaped around pipeline requirements, geology and route constraints.",
@@ -32,6 +32,18 @@ export const WhatWorks: React.FC<WhatWorksProps> = ({ sanityPage }) => {
             image: "/pictures/capabilities/handover.jpg"
         }
     ];
+
+    const stats = React.useMemo(() => {
+        if (sanityPage?.whatWorksCards && sanityPage.whatWorksCards.length > 0) {
+            const mapped = sanityPage.whatWorksCards.map((c: any) => ({
+                title: c.title,
+                label: c.label || c.description || '',
+                image: c.image?.asset?.url || c.image || '',
+            })).filter((c: any) => Boolean(c.title));
+            if (mapped.length > 0) return mapped;
+        }
+        return DEFAULT_STATS;
+    }, [sanityPage?.whatWorksCards]);
 
     return (
         <section className="w-full bg-[var(--color-surface-tile-1)] section border-t border-[var(--color-surface-tile-3)]">
@@ -57,7 +69,7 @@ export const WhatWorks: React.FC<WhatWorksProps> = ({ sanityPage }) => {
 
                 {/* Stats Cards Grid */}
                 <StaggerContainer className="w-full grid grid-cols-1 md:grid-cols-4 gap-6">
-                    {stats.map((stat, index) => (
+                    {stats.map((stat: any, index: number) => (
                         <StaggerItem
                             key={index}
                             className="relative overflow-hidden rounded-lg min-h-[400px] flex flex-col justify-end p-8 group cursor-default"

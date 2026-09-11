@@ -78,10 +78,10 @@ export const OurApproach: React.FC<OurApproachProps> = ({ sanityPage }) => {
                         </p>
                     )}
 
-                    {/* Section Photo Gallery (if present) */}
-                    {section?.gallery?.items && section.gallery.items.length > 0 && (
+                    {/* Section Photo Gallery (if present and more than 1 image) */}
+                    {section?.gallery?.items && section.gallery.items.length > 1 && (
                         <div className="grid grid-cols-3 gap-2 w-full max-w-[540px]">
-                            {section.gallery.items.map((item: any, gIdx: number) => (
+                            {section.gallery.items.slice(1).map((item: any, gIdx: number) => (
                                 <div
                                     key={item.src || gIdx}
                                     className="relative h-[90px] rounded-lg overflow-hidden bg-white/5 border border-white/10"

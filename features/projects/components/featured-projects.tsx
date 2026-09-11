@@ -137,7 +137,7 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ sanityProjec
         subtext?: string;
     }
 
-    const tabs: TabItem[] = [
+    const DEFAULT_TABS: TabItem[] = [
         { id: "all", name: "All" },
         {
             id: "nigeria",
@@ -164,6 +164,19 @@ export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ sanityProjec
             subtext: "Case studies and project records for BPDS pipeline location and specialized construction work are currently being prepared."
         }
     ];
+
+    const tabs: TabItem[] = React.useMemo(() => {
+        if (sanityPage?.filterTabs && sanityPage.filterTabs.length > 0) {
+            const mapped = sanityPage.filterTabs.map((t: any) => ({
+                id: t.id || t.name?.toLowerCase().replace(/[^a-z0-9]/g, '') || '',
+                name: t.name,
+                description: t.description,
+                subtext: t.subtext,
+            })).filter((t: any) => Boolean(t.id && t.name));
+            if (mapped.length > 0) return mapped;
+        }
+        return DEFAULT_TABS;
+    }, [sanityPage?.filterTabs]);
 
     const [activeTab, setActiveTab] = useState<string>("all");
 

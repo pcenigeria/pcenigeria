@@ -411,7 +411,16 @@ export async function getCapabilitiesPage() {
     heroBullets,
     coreCapabilitiesSection${SECTION_BLOCK_FIELDS},
     approachSection${SECTION_BLOCK_FIELDS},
-    fleetSupportSection${SECTION_BLOCK_FIELDS},
+    howWeWorkSection {
+      tagline,
+      heading,
+      steps[]{
+        number,
+        title,
+        description,
+        "image": image.asset->url
+      }
+    },
     seo${SEO_FIELDS}
   }`;
   try {
@@ -427,7 +436,22 @@ export async function getProjectsPage() {
     heroHeadline,
     heroSubtext,
     heroBullets,
+    heroSlides[]{
+      "src": image.asset->url,
+      alt
+    },
     gridSection${SECTION_BLOCK_FIELDS},
+    filterTabs[]{
+      id,
+      name,
+      description,
+      subtext
+    },
+    whatWorksCards[]{
+      title,
+      label,
+      "image": image.asset->url
+    },
     featuredSection${SECTION_BLOCK_FIELDS},
     seo${SEO_FIELDS}
   }`;
@@ -445,9 +469,74 @@ export async function getProductsPage() {
     heroSubtext,
     heroBullets,
     catalogSection${SECTION_BLOCK_FIELDS},
-    logisticsSection${SECTION_BLOCK_FIELDS},
+    aboutSection {
+      tagline,
+      heading,
+      body,
+      callout {
+        badge,
+        title,
+        text,
+        footer
+      },
+      stats[] {
+        stat,
+        label
+      }
+    },
+    stratumSection {
+      tagline,
+      heading,
+      intro,
+      buttonText,
+      buttonLink,
+      cards[] {
+        title,
+        tags,
+        desc,
+        recommended,
+        proofPoint
+      }
+    },
     matrixSection${SECTION_BLOCK_FIELDS},
+    matrixRows[] {
+      product,
+      ingredient,
+      viscosity,
+      reduceViscosity,
+      dynamicShear,
+      filtration,
+      salinity,
+      stratum,
+      hazard
+    },
+    caseStudiesSection {
+      tagline,
+      heading,
+      subtext,
+      items[] {
+        num,
+        title,
+        country,
+        lengthDia,
+        depth,
+        stratum,
+        rigs,
+        products,
+        desc
+      }
+    },
+    logisticsSection${SECTION_BLOCK_FIELDS},
     ctaSection${SECTION_BLOCK_FIELDS},
+    salesContacts[] {
+      name,
+      phone,
+      email
+    },
+    salesOffices[] {
+      location,
+      address
+    },
     seo${SEO_FIELDS}
   }`;
   try {
