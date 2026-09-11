@@ -16,6 +16,7 @@ const DEFAULT_BODY_PARAGRAPHS = [
 const DEFAULT_BUTTON_TEXT = 'Explore Safety & Quality';
 const DEFAULT_BUTTON_LINK = '/safety-quality-responsibility';
 const DEFAULT_IMAGE = '/pictures/company/standards.jpg';
+const DEFAULT_CERTIFICATIONS = ['NMDPRA', 'ISO', 'Technical Certification'];
 
 const bodyComponents = {
     block: {
@@ -51,6 +52,8 @@ export const Standards: React.FC<StandardsProps> = ({ section, image }) => {
     const buttonLink = section?.buttonLink || DEFAULT_BUTTON_LINK;
     const bgImage = image || DEFAULT_IMAGE;
     const hasBody = Array.isArray(section?.body) && section.body.length > 0;
+
+    const certifications = section?.bullets && section.bullets.length > 0 ? section.bullets : DEFAULT_CERTIFICATIONS;
 
     return (
         <section className="w-full bg-[#f8fafc] section flex flex-col items-start gap-12 border-t border-[var(--color-primary-dark)]/10">
@@ -118,11 +121,12 @@ export const Standards: React.FC<StandardsProps> = ({ section, image }) => {
                     {/* Certifications Row */}
                     <div className="w-full py-2 max-w-[540px]">
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-extrabold uppercase tracking-widest text-[var(--color-primary-dark)]">
-                            <span>NMDPRA</span>
-                            <span className="h-4 w-[1px] bg-[var(--color-ink-muted-48)]/20 inline-block" />
-                            <span>ISO</span>
-                            <span className="h-4 w-[1px] bg-[var(--color-ink-muted-48)]/20 inline-block" />
-                            <span>Technical Certification</span>
+                            {certifications.map((item: string, idx: number) => (
+                                <React.Fragment key={item || idx}>
+                                    {idx > 0 && <span className="h-4 w-[1px] bg-[var(--color-ink-muted-48)]/20 inline-block" />}
+                                    <span>{item}</span>
+                                </React.Fragment>
+                            ))}
                         </div>
                     </div>
 

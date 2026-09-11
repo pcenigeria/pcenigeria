@@ -63,12 +63,47 @@ export default defineConfig({
                   .title('Pages')
                   .items(
                     PAGE_SINGLETON_MAP.map((page) => {
-                      // Resources and News & Insights each have real content that lives in a
-                      // separate collection (Resource Category documents / News & Insights
-                      // articles), not on the page singleton itself. Nest that collection right
-                      // here so editors land on it without having to know it's a different item
-                      // in the sidebar -- instead of only seeing the page's (mostly optional)
-                      // hero/intro fields.
+                      // Projects, Products, Resources, and News & Insights each have
+                      // real content that lives in separate collections. Nest those collections
+                      // right here so editors land on them without having to search through the root sidebar.
+                      if (page.id === 'projectsPage') {
+                        return S.listItem()
+                          .title(page.title)
+                          .id(page.id)
+                          .child(
+                            S.list()
+                              .title('Projects Page')
+                              .items([
+                                S.listItem()
+                                  .title('Page Settings (Hero & Intro)')
+                                  .id('projectsPageSettings')
+                                  .child(S.document().schemaType('projectsPage').documentId('projectsPage')),
+                                S.divider(),
+                                S.documentTypeListItem('project').title(
+                                  'Project Case Studies (add/edit projects here)'
+                                ),
+                              ])
+                          );
+                      }
+                      if (page.id === 'productsPage') {
+                        return S.listItem()
+                          .title(page.title)
+                          .id(page.id)
+                          .child(
+                            S.list()
+                              .title('Products Page')
+                              .items([
+                                S.listItem()
+                                  .title('Page Settings (Hero & Intro)')
+                                  .id('productsPageSettings')
+                                  .child(S.document().schemaType('productsPage').documentId('productsPage')),
+                                S.divider(),
+                                S.documentTypeListItem('product').title(
+                                  'Products (add/edit products here)'
+                                ),
+                              ])
+                          );
+                      }
                       if (page.id === 'resourcesPage') {
                         return S.listItem()
                           .title(page.title)

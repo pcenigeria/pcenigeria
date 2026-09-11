@@ -456,6 +456,7 @@ const companyPageFields = {
       "PCE's registrations, certifications and operating standards support compliant execution across the project lifecycle.",
       'Our approach places safety, environmental care and social responsibility alongside technical performance and delivery.',
     ]),
+    bullets: ['NMDPRA', 'ISO', 'Technical Certification'],
     buttonText: 'Explore Safety & Quality',
     buttonLink: '/safety-quality-responsibility',
   },
