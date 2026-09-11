@@ -17,7 +17,12 @@ const DEFAULT_BODY_PARAGRAPHS = [
     "Complex pipeline work brings people, heavy equipment, technical interfaces and changing field conditions together. PCE places safety across the project lifecycle—from assessment and engineering through mobilisation, construction, testing and commissioning.",
     'Safety is treated as part of how the work is planned and delivered—not as a separate activity at the end.',
 ];
-const DEFAULT_STATS = [
+interface StatItem {
+    title: string;
+    description: string;
+}
+
+const DEFAULT_STATS: StatItem[] = [
     {
         title: 'Understand the Work',
         description: 'Consider project conditions, technical requirements and potential field risks before execution.',
@@ -64,18 +69,37 @@ const bodyComponents = {
     },
 };
 
+const getStats = (section?: any): StatItem[] => {
+    if (section?.stats && Array.isArray(section.stats) && section.stats.length > 0) {
+        return section.stats;
+    }
+    if (section?.bullets && Array.isArray(section.bullets) && section.bullets.length > 0) {
+        return section.bullets.map((bullet: string) => {
+            const parts = bullet.split(/\s+[—–-]\s+/);
+            if (parts.length >= 2) {
+                return {
+                    title: parts[0].trim(),
+                    description: parts.slice(1).join(' — ').trim(),
+                };
+            }
+            return { title: bullet, description: '' };
+        });
+    }
+    return DEFAULT_STATS;
+};
+
 export const Safety: React.FC<SafetyProps> = ({ section }) => {
     const tagline = section?.tagline || DEFAULT_TAGLINE;
     const heading = section?.heading || DEFAULT_HEADING;
     const headingColorClass = HEADING_COLOR_CLASS[section?.headingColor] || '';
     const hasBody = Array.isArray(section?.body) && section.body.length > 0;
-    const stats = DEFAULT_STATS;
+    const stats = getStats(section);
 
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-12">
             <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-                {/* Left Column: Heading, Body Paragraphs, Bullets, CTA */}
+                {/* Left Column: Heading, Body Paragraphs, CTA */}
                 <FadeInSlideUp className="lg:col-span-6 flex flex-col items-start gap-8">
                     {/* Tagline */}
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-3">
@@ -102,18 +126,6 @@ export const Safety: React.FC<SafetyProps> = ({ section }) => {
                                     {paragraph}
                                 </p>
                             ))
-                        )}
-
-                        {/* Bullet Points (if provided) */}
-                        {section?.bullets && section.bullets.length > 0 && (
-                            <ul className="flex flex-col gap-2.5">
-                                {section.bullets.map((bullet: string, idx: number) => (
-                                    <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-[var(--color-ink)] leading-relaxed">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-2 shrink-0" />
-                                        <span>{bullet}</span>
-                                    </li>
-                                ))}
-                            </ul>
                         )}
 
                         {/* Highlight Stat (if provided) */}
