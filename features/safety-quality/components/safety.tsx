@@ -9,7 +9,12 @@ import { FadeInSlideUp, StaggerContainer, StaggerItem } from '@/shared/component
 
 interface SafetyProps {
     section?: any;
+    image1?: string;
+    image2?: string;
 }
+
+const DEFAULT_IMAGE_1 = '/pictures/safety/projection-one.jpg';
+const DEFAULT_IMAGE_2 = '/pictures/safety/protection-two.jpg';
 
 const DEFAULT_TAGLINE = 'Safety';
 const DEFAULT_HEADING = 'Protecting people through every stage of delivery.';
@@ -88,12 +93,14 @@ const getStats = (section?: any): StatItem[] => {
     return DEFAULT_STATS;
 };
 
-export const Safety: React.FC<SafetyProps> = ({ section }) => {
+export const Safety: React.FC<SafetyProps> = ({ section, image1, image2 }) => {
     const tagline = section?.tagline || DEFAULT_TAGLINE;
     const heading = section?.heading || DEFAULT_HEADING;
     const headingColorClass = HEADING_COLOR_CLASS[section?.headingColor] || '';
     const hasBody = Array.isArray(section?.body) && section.body.length > 0;
     const stats = getStats(section);
+    const img1 = image1 || DEFAULT_IMAGE_1;
+    const img2 = image2 || DEFAULT_IMAGE_2;
 
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-12">
@@ -179,7 +186,7 @@ export const Safety: React.FC<SafetyProps> = ({ section }) => {
                     <div className="relative lg:absolute lg:left-0 lg:bottom-0 w-full h-full lg:w-[70%] lg:h-[72%] rounded-xl overflow-hidden border border-black/5 shadow-sm">
                         <div
                             className="w-full h-full bg-cover bg-center"
-                            style={{ backgroundImage: 'url("/pictures/safety/projection-one.jpg")' }}
+                            style={{ backgroundImage: `url("${img1}")` }}
                         />
                     </div>
 
@@ -189,7 +196,7 @@ export const Safety: React.FC<SafetyProps> = ({ section }) => {
                     >
                         <div
                             className="w-full h-full bg-cover bg-center"
-                            style={{ backgroundImage: 'url("/pictures/safety/protection-two.jpg")' }}
+                            style={{ backgroundImage: `url("${img2}")` }}
                         />
                     </div>
                 </FadeInSlideUp>

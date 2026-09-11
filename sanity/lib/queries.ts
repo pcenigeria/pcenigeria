@@ -479,6 +479,8 @@ export async function getSafetyQualityPage() {
     heroSubtext,
     "heroImage": heroImage.asset->url,
     safetySection${SECTION_BLOCK_FIELDS},
+    "safetyImage1": safetyImage1.asset->url,
+    "safetyImage2": safetyImage2.asset->url,
     qualitySection${SECTION_BLOCK_FIELDS},
     environmentalSection${SECTION_BLOCK_FIELDS},
     certificationSection${SECTION_BLOCK_FIELDS},

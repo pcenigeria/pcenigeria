@@ -9,7 +9,11 @@ export const SafetyPage: React.FC<SafetyPageProps> = ({ sanityPage }) => {
     return (
         <div className="flex flex-col w-full bg-[var(--color-canvas)]">
             <SafetyHero sanityPage={sanityPage} />
-            <Safety section={sanityPage?.safetySection} />
+            <Safety
+                section={sanityPage?.safetySection}
+                image1={sanityPage?.safetyImage1}
+                image2={sanityPage?.safetyImage2}
+            />
             <Quality section={sanityPage?.qualitySection} />
             <EnvironmentalCare section={sanityPage?.environmentalSection} />
             <OurFuture section={sanityPage?.futureSection} />

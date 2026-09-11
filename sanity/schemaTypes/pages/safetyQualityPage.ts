@@ -42,6 +42,20 @@ export default defineType({
       group: 'safety',
     }),
     defineField({
+      name: 'safetyImage1',
+      title: 'Safety Main Image (Bottom-Left Foreground)',
+      type: 'image',
+      group: 'safety',
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'safetyImage2',
+      title: 'Safety Overlap Image (Top-Right Background)',
+      type: 'image',
+      group: 'safety',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'qualitySection',
       title: 'Quality Policy Section Block',
       type: 'sectionBlock',
