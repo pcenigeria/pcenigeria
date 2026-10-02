@@ -19,6 +19,7 @@ interface CapabilityCard {
 
 interface CapabilitiesProps {
     sanityPage?: any;
+    sanityCapabilities?: any[];
 }
 
 const DEFAULT_CAPABILITIES_LIST: CapabilityCard[] = [
@@ -103,7 +104,7 @@ const DEFAULT_CAPABILITIES_LIST: CapabilityCard[] = [
     }
 ];
 
-export const Capabilities: React.FC<CapabilitiesProps> = ({ sanityPage }) => {
+export const Capabilities: React.FC<CapabilitiesProps> = ({ sanityPage, sanityCapabilities }) => {
     const [selectedGallery, setSelectedGallery] = useState<GalleryCategory | null>(null);
 
     const section = sanityPage?.capabilitiesSection;
@@ -111,6 +112,32 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ sanityPage }) => {
     const heading = section?.heading || 'Connected capability across the pipeline crossing lifecycle.';
     const buttonText = section?.buttonText;
     const buttonLink = section?.buttonLink;
+
+    const capabilitiesList = React.useMemo(() => {
+        if (!sanityCapabilities || sanityCapabilities.length === 0) {
+            return DEFAULT_CAPABILITIES_LIST;
+        }
+
+        return DEFAULT_CAPABILITIES_LIST.map((defaultCap) => {
+            const matched = sanityCapabilities.find(
+                (c) => c.id === defaultCap.id || c.number === defaultCap.number
+            );
+            if (!matched) return defaultCap;
+
+            return {
+                ...defaultCap,
+                number: matched.number || defaultCap.number,
+                title: matched.title || defaultCap.title,
+                description: matched.description || defaultCap.description,
+                image: matched.image || defaultCap.image,
+                gallery: matched.gallery && matched.gallery.length > 0 ? {
+                    id: defaultCap.id,
+                    categoryTitle: matched.title || defaultCap.gallery.categoryTitle,
+                    items: matched.gallery,
+                } : defaultCap.gallery,
+            };
+        });
+    }, [sanityCapabilities]);
 
     return (
         <section className="w-full bg-[var(--color-canvas)] section flex flex-col items-start gap-20">
@@ -152,7 +179,7 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ sanityPage }) => {
 
             {/* Bento Grid of Cards */}
             <StaggerContainer className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {DEFAULT_CAPABILITIES_LIST.map((cap, index) => {
+                {capabilitiesList.map((cap, index) => {
                     const colSpan = (index === 0 || index === 3) 
                         ? 'lg:col-span-7' 
                         : 'lg:col-span-5';

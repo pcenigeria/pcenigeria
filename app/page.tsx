@@ -1,7 +1,10 @@
 import { HomePage } from "@/features/home"
-import { getHomePage } from "@/sanity/lib/queries"
+import { getHomePage, getAllCapabilities } from "@/sanity/lib/queries"
 
 export default async function Home() {
-    const sanityPage = await getHomePage();
-    return <HomePage sanityPage={sanityPage} />
+    const [sanityPage, sanityCapabilities] = await Promise.all([
+        getHomePage(),
+        getAllCapabilities(),
+    ]);
+    return <HomePage sanityPage={sanityPage} sanityCapabilities={sanityCapabilities} />
 }
