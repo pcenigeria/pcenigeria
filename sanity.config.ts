@@ -2,6 +2,8 @@ import { defineConfig, buildLegacyTheme } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './sanity/schemaTypes';
+import { ArticlePreviewPane } from './sanity/components/article-preview-pane';
+import { PreviewArticleAction } from './sanity/actions/preview-article-action';
 
 // PCE brand palette from shared/styles/colors.css
 const pceTheme = buildLegacyTheme({
@@ -179,6 +181,15 @@ export default defineConfig({
                   ])
               ),
           ]),
+      defaultDocumentNode: (S, { schemaType }) => {
+        if (schemaType === 'newsArticle') {
+          return S.document().views([
+            S.view.form(),
+            S.view.component(ArticlePreviewPane).title('Live Preview'),
+          ]);
+        }
+        return S.document().views([S.view.form()]);
+      },
     }),
     visionTool(),
   ],
@@ -194,9 +205,16 @@ export default defineConfig({
     templates: (templates) => templates.filter(({ schemaType }) => !SINGLETONS.includes(schemaType)),
   },
   document: {
-    actions: (input, context) =>
-      SINGLETONS.includes(context.schemaType)
+    actions: (input, context) => {
+      let actions = SINGLETONS.includes(context.schemaType)
         ? input.filter(({ action }) => action && !['duplicate', 'delete'].includes(action))
-        : input,
+        : input;
+
+      if (context.schemaType === 'newsArticle') {
+        actions = [...actions, PreviewArticleAction];
+      }
+
+      return actions;
+    },
   },
 });

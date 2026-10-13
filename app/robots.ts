@@ -11,15 +11,21 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/studio/', '/api/', '/design-system', '/docs'],
       },
       {
+        // Explicitly allow all major LLM/AI crawlers to index public content
         userAgent: [
-          'GPTBot',
-          'ChatGPT-User',
-          'ClaudeBot',
-          'Claude-Web',
-          'PerplexityBot',
-          'Google-Extended',
-          'Amazonbot',
-          'Applebot-Extended',
+          'GPTBot',            // OpenAI ChatGPT training
+          'OAI-SearchBot',     // OpenAI Search
+          'ChatGPT-User',      // ChatGPT browsing
+          'ClaudeBot',         // Anthropic Claude training
+          'Claude-Web',        // Anthropic Claude browsing
+          'PerplexityBot',     // Perplexity AI
+          'Google-Extended',   // Google AI (Gemini / AI Overviews)
+          'Amazonbot',         // Amazon Alexa / Rufus
+          'Applebot-Extended', // Apple AI
+          'Bytespider',        // ByteDance / TikTok AI
+          'meta-externalagent', // Meta AI
+          'cohere-ai',         // Cohere AI
+          'YouBot',            // You.com AI search
         ],
         allow: '/',
         disallow: ['/studio/', '/api/', '/design-system', '/docs'],
@@ -29,3 +35,4 @@ export default function robots(): MetadataRoute.Robots {
     host: baseUrl,
   };
 }
+

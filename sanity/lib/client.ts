@@ -5,5 +5,5 @@ export const client = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-01-01',
   useCdn: false, // Fresh data fetching
-  token: process.env.SANITY_API_READ_TOKEN,
+  token: process.env.SANITY_API_READ_TOKEN || process.env.SANITY_API_READ_AND_WRITE_TOKEN,
 });

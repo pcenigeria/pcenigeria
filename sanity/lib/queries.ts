@@ -43,6 +43,8 @@ const STAT_ITEM_FIELDS = `{
 const SEO_FIELDS = `{
   metaTitle,
   metaDescription,
+  keywords,
+  canonicalUrl,
   "ogImage": ogImage.asset->url
 }`;
 
@@ -110,6 +112,7 @@ export async function getProjectBySlug(slug: string) {
 export async function getAllNewsArticles() {
   const query = `*[_type == "newsArticle" && !(_id in path("drafts.**"))] | order(date desc) {
     _id,
+    _updatedAt,
     title,
     "slug": slug.current,
     category,
@@ -127,9 +130,14 @@ export async function getAllNewsArticles() {
   }
 }
 
-export async function getNewsArticleBySlug(slug: string) {
-  const query = `*[_type == "newsArticle" && slug.current == $slug && !(_id in path("drafts.**"))][0] {
+export async function getNewsArticleBySlug(slug: string, isDraft: boolean = false) {
+  const filter = isDraft
+    ? `*[_type == "newsArticle" && (slug.current == $slug || _id == $slug || _id == "drafts." + $slug)] | order(_updatedAt desc)[0]`
+    : `*[_type == "newsArticle" && slug.current == $slug && !(_id in path("drafts.**"))][0]`;
+
+  const query = `${filter} {
     _id,
+    _updatedAt,
     title,
     "slug": slug.current,
     category,
@@ -137,15 +145,24 @@ export async function getNewsArticleBySlug(slug: string) {
     readTime,
     author,
     "heroImage": heroImage.asset->url,
+    "heroImageRef": heroImage,
     intro,
     sections[]${SECTION_BLOCK_FIELDS},
     "bentoImages": bentoImages.items[]{
       "src": image.asset->url,
       title,
       description
-    }
+    },
+    seo${SEO_FIELDS}
   }`;
   try {
+    if (isDraft) {
+      const draftClient = client.withConfig({
+        perspective: 'previewDrafts',
+        useCdn: false,
+      });
+      return await draftClient.fetch(query, { slug }, { cache: 'no-store' });
+    }
     return await client.fetch(query, { slug }, { next: { tags: [`newsArticle-${slug}`, 'newsArticle'] } });
   } catch (err) {
     console.warn(`Sanity fetch error (getNewsArticleBySlug: ${slug}):`, err);

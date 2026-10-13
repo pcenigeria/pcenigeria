@@ -10,6 +10,14 @@ export interface NewsSection {
     };
 }
 
+export interface SeoFields {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string;
+    ogImage?: string;
+    canonicalUrl?: string;
+}
+
 export interface NewsArticleDetail {
     id: string;
     slug: string;
@@ -26,6 +34,8 @@ export interface NewsArticleDetail {
         label: string;
         value: string;
     }[];
+    seo?: SeoFields;
+    _updatedAt?: string;
 }
 
 export interface NewsArticleSummary {
@@ -38,6 +48,7 @@ export interface NewsArticleSummary {
     author?: string;
     heroImage?: string;
     intro?: string;
+    _updatedAt?: string;
 }
 
 export interface SanityNewsBentoImage {
@@ -72,6 +83,7 @@ export interface SanityNewsSection {
 
 export interface SanityNewsArticleDetail {
     _id: string;
+    _updatedAt?: string;
     title: string;
     slug: string;
     category: 'News' | 'Insights';
@@ -82,4 +94,6 @@ export interface SanityNewsArticleDetail {
     intro?: string;
     sections?: SanityNewsSection[];
     bentoImages?: SanityNewsBentoImage[];
+    seo?: SeoFields;
 }
+

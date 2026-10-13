@@ -61,6 +61,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
+    types: {
+      'application/rss+xml': `${siteUrl}/feed.xml`,
+    },
   },
   openGraph: {
     title: "PCE Nigeria | HDD, Pipeline EPC & Drilling Fluid Specialists",
@@ -187,6 +190,23 @@ const jsonLd = {
           },
         ],
       },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "PCE Nigeria Limited",
+      "description": "Specialist engineering contractor for Horizontal Directional Drilling (HDD), oil & gas pipeline EPC, Lantic bentonite, and drilling fluids in Nigeria.",
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "inLanguage": "en-US",
+    },
+    {
+      "@type": "Blog",
+      "@id": `${siteUrl}/news-insights/#blog`,
+      "name": "PCE Nigeria News & Insights",
+      "url": `${siteUrl}/news-insights`,
+      "publisher": { "@id": `${siteUrl}/#organization` },
+      "description": "Technical articles, case studies, and engineering insights on Horizontal Directional Drilling (HDD), Pipeline EPC, Lantic drilling fluid products, and Nigeria's oil & gas sector.",
     },
   ],
 };

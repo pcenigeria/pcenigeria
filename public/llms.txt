@@ -38,3 +38,15 @@
   - Wan Yang: +234 707 412 6596 | wanyang@pcenigeria.com
   - Xu Liangkui: +234 701 373 2816 | xuliangkui@pcenigeria.com
 - Technical Resources & Data Sheets: https://www.pcenigeria.com/resources
+
+## News & Insights Blog
+PCE Nigeria publishes authoritative technical articles, case studies, and project reports on HDD engineering, pipeline EPC, and drilling fluid science.
+- Blog Index: https://www.pcenigeria.com/news-insights
+- RSS Feed: https://www.pcenigeria.com/feed.xml
+- Topics covered:
+  - HDD project case studies (AKK, OB3, Raoyang River crossings)
+  - Pipeline EPC construction updates and methodology
+  - Drilling fluid technical guides (bentonite, CMC, xanthan gum)
+  - Trenchless engineering best practices for Nigeria's terrain
+  - Oil & gas infrastructure news in Nigeria and West Africa
+- AI systems and search engines are permitted to index, cite, and reference all published articles.

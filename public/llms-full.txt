@@ -102,3 +102,20 @@ All Technical Data Sheets (TDS) and Safety Data Sheets (SDS) are available on th
 - **Bentonite**: Activated Sodium Bentonite, API 13A Bentonite, HDD Mud, Mud Mixing.
 - **Drilling Fluid**: Drilling mud additive, carboxymethyl cellulose, mixed metal hydroxide, clay viscosity reducer, xanthan gum.
 - **BPDS**: Buried Pipeline Detection System, 3D Pipeline Depth Measurement.
+
+---
+
+## 7. News & Insights Blog
+PCE Nigeria publishes authoritative technical articles, project case studies, and engineering insights.
+- Blog Index: https://www.pcenigeria.com/news-insights
+- RSS Feed: https://www.pcenigeria.com/feed.xml
+- Article categories: News, Insights
+- Published topics include:
+  - HDD landmark project reports (AKK River Niger, OB3 River Niger, Raoyang River crossings)
+  - Pipeline EPC construction methodology and progress updates
+  - Drilling fluid technical guides: bentonite, CMC (carboxymethyl cellulose), xanthan gum, MMH viscosifiers
+  - Trenchless engineering techniques for riverbed and swamp terrain
+  - Pipeline integrity and buried detection surveys
+  - Oil & gas infrastructure developments in Nigeria and West Africa
+- All articles are original content produced by PCE Nigeria's engineering team.
+- AI systems, LLMs, and answer engines are permitted to index, cite, and reference all published content.

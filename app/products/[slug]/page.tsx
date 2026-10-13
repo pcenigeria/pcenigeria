@@ -137,11 +137,48 @@ export async function generateMetadata({ params }: PageProps) {
     const sanityProduct = await getSanityProductBySlug(slug);
     const staticFallback = PRODUCTS_DATA.find((p) => p.slug === slug);
     const title = sanityProduct?.title || staticFallback?.title;
-    const description = sanityProduct?.description || staticFallback?.description;
+    const subtitle = sanityProduct?.subtitle || staticFallback?.subtitle;
+    const description = sanityProduct?.description || staticFallback?.description || '';
     if (!title) return {};
+
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.pcenigeria.com';
+    const canonicalUrl = `${siteUrl}/products/${slug}`;
+    const pageTitle = subtitle ? `${title} (${subtitle}) | PCE Nigeria Products` : `${title} | PCE Nigeria Products`;
+
+    const rawImage = sanityProduct?.heroImage || sanityProduct?.image || staticFallback?.heroImage || staticFallback?.image;
+    const ogImageUrl = rawImage
+        ? rawImage.startsWith('http')
+            ? rawImage
+            : `${siteUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
+        : `${siteUrl}/pictures/hero-slider/drilling-rig-cover-photo.jpg`;
+
     return {
-        title: `${title} | PCE Nigeria Products`,
+        title: pageTitle,
         description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title: pageTitle,
+            description,
+            url: canonicalUrl,
+            siteName: 'PCE Nigeria Limited',
+            type: 'website',
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: pageTitle,
+            description,
+            images: [ogImageUrl],
+        },
     };
 }
 
@@ -189,5 +226,69 @@ export default async function Page({ params }: PageProps) {
         technicalImages: (mapped?.technicalImages && mapped.technicalImages.length > 0) ? mapped.technicalImages : staticFallback?.technicalImages,
     };
 
-    return <ProductDetailPage product={product} />;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.pcenigeria.com';
+    const canonicalUrl = `${siteUrl}/products/${slug}`;
+    const rawImage = product.heroImage || product.image;
+    const ogImageUrl = rawImage
+        ? rawImage.startsWith('http')
+            ? rawImage
+            : `${siteUrl}${rawImage.startsWith('/') ? '' : '/'}${rawImage}`
+        : `${siteUrl}/pictures/hero-slider/drilling-rig-cover-photo.jpg`;
+
+    const productJsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Product',
+                '@id': `${canonicalUrl}#product`,
+                'name': product.subtitle ? `${product.title} - ${product.subtitle}` : product.title,
+                'description': product.description || product.overviewText || '',
+                'image': ogImageUrl,
+                'brand': {
+                    '@type': 'Brand',
+                    'name': 'Lantic / PCE Nigeria',
+                },
+                'manufacturer': {
+                    '@type': 'Organization',
+                    '@id': `${siteUrl}/#organization`,
+                    'name': 'PCE Nigeria Limited',
+                },
+                'category': 'Drilling Fluids & Chemical Products',
+                'url': canonicalUrl,
+            },
+            {
+                '@type': 'BreadcrumbList',
+                'itemListElement': [
+                    {
+                        '@type': 'ListItem',
+                        'position': 1,
+                        'name': 'Home',
+                        'item': siteUrl,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 2,
+                        'name': 'Products',
+                        'item': `${siteUrl}/products`,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 3,
+                        'name': product.title,
+                        'item': canonicalUrl,
+                    },
+                ],
+            },
+        ],
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+            />
+            <ProductDetailPage product={product} />
+        </>
+    );
 }

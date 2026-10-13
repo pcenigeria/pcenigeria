@@ -45,13 +45,45 @@ function mapSanityProject(project: any): ProjectDetail {
     };
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.pcenigeria.com';
+
 export async function generateMetadata({ params }: PageProps) {
     const slug = await resolveSlug(params);
     const project = await getSanityProjectBySlug(slug);
     if (!project) return {};
+
+    const canonicalUrl = `${siteUrl}/projects/${slug}`;
+    const pageTitle = `${project.title} | PCE Nigeria Projects`;
+    const description = project.intro || project.subtitle || project.tagline || '';
+    const ogImageUrl = project.heroImage || `${siteUrl}/pictures/hero-slider/drilling-rig-cover-photo.jpg`;
+
     return {
-        title: `${project.title} | PCE Nigeria Projects`,
-        description: project.intro,
+        title: pageTitle,
+        description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title: pageTitle,
+            description,
+            url: canonicalUrl,
+            siteName: 'PCE Nigeria Limited',
+            type: 'website',
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: project.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: pageTitle,
+            description,
+            images: [ogImageUrl],
+        },
     };
 }
 
@@ -66,10 +98,67 @@ export default async function Page({ params }: PageProps) {
         notFound();
     }
 
+    const canonicalUrl = `${siteUrl}/projects/${slug}`;
+    const ogImageUrl = project.heroImage || `${siteUrl}/pictures/hero-slider/drilling-rig-cover-photo.jpg`;
+
+    const projectJsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Article',
+                '@id': `${canonicalUrl}#project`,
+                'headline': project.title,
+                'description': project.intro || project.subtitle || '',
+                'image': ogImageUrl,
+                'url': canonicalUrl,
+                'author': {
+                    '@type': 'Organization',
+                    'name': 'PCE Nigeria Limited',
+                    'url': siteUrl,
+                },
+                'publisher': {
+                    '@type': 'Organization',
+                    '@id': `${siteUrl}/#organization`,
+                    'name': 'PCE Nigeria Limited',
+                },
+                ...(project.date && { 'datePublished': project.date }),
+            },
+            {
+                '@type': 'BreadcrumbList',
+                'itemListElement': [
+                    {
+                        '@type': 'ListItem',
+                        'position': 1,
+                        'name': 'Home',
+                        'item': siteUrl,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 2,
+                        'name': 'Projects',
+                        'item': `${siteUrl}/projects`,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        'position': 3,
+                        'name': project.title,
+                        'item': canonicalUrl,
+                    },
+                ],
+            },
+        ],
+    };
+
     return (
-        <ProjectDetailTemplate
-            project={mapSanityProject(project)}
-            allProjects={allProjects.map((p: { title: string; slug: string }) => ({ title: p.title, slug: p.slug }))}
-        />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+            />
+            <ProjectDetailTemplate
+                project={mapSanityProject(project)}
+                allProjects={allProjects.map((p: { title: string; slug: string }) => ({ title: p.title, slug: p.slug }))}
+            />
+        </>
     );
 }
