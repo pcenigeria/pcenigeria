@@ -2,6 +2,7 @@ export interface ProjectSection {
     tagline?: string;
     heading: string;
     headingColor?: string;
+    contentBlocks?: any[];
     body?: any;
     bullets?: string[];
     highlightStat?: {

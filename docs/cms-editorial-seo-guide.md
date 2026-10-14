@@ -75,7 +75,29 @@ Choose between:
 
 ---
 
-## 3. Article Body Formatting & Structure
+## 3. Article Content Sections & Dynamic Widgets
+
+Articles are structured into clear sections. Each section starts with a **Section Heading** (and optional Tagline/Eyebrow), followed by your custom choice of **Content Widgets**. 
+
+Instead of filling out a rigid monolithic form, authors click **"Add item"** under **Content Widgets** and pick only what they need:
+
+| Widget Name | Purpose & Use Case | Key Fields |
+|-------------|--------------------|------------|
+| **Paragraph / Rich Text** | Formatted body paragraphs, bold/italic accents, internal links, and inline photos. | `content` (Rich text editor) |
+| **Media Embed** | Responsive YouTube video, Vimeo, X (Twitter) post, or LinkedIn embed. | `url`, `caption` (optional), `aspectRatio` (16:9, 4:3, 1:1, 9:16) |
+| **Bullet Points List** | Clean key takeaways, technical parameters, or numbered lists. | `items` (Array of text lines) |
+| **Highlight Stat Metric** | Large visual callout number (e.g. `1,200t`, `48"`, `2,293m`). | `value` (metric number), `label` (metric description) |
+| **Quote / Key Takeaway** | Highlighted executive quote or engineering takeaway. | `quote`, `author`, `role` |
+| **Photo Gallery Grid** | Small responsive grid of jobsite photos for this specific section. | `gallery` (Batch of uploaded photos) |
+| **Action Button / Link** | Direct call-to-action button linking to capabilities, products, or contact. | `text`, `url`, `variant` (Blue, Orange, Outline) |
+
+> [!TIP]
+> **Flexible Widget Reordering**: You can insert multiple widgets in whatever order tells the best story! For example:
+> *Intro Paragraph* -> *YouTube Video Embed* -> *Key Takeaways Bullets* -> *Call to Action Button*.
+
+---
+
+## 4. Article Body Formatting & Structure
 
 ### Heading Hierarchy
 - **H1**: Handled automatically by the page template using the document `title`. **Do not insert H1 inside the body content.**

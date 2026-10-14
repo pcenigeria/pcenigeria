@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Truck } from 'lucide-react';
 
 export default defineType({
   name: 'equipmentCategory',
   title: 'Equipment Category',
   type: 'document',
+  icon: Truck,
   description:
     'One "Equipment Category" document = one equipment group on the live /equipment page (e.g. "Excavators", "HDD Rigs"). ' +
     'To add a NEW category: create a new "Equipment Category" document. ' +

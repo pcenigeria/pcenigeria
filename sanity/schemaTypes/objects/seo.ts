@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Search } from 'lucide-react';
 
 export default defineType({
   name: 'seo',
   title: 'Search Engine Optimization (SEO)',
   type: 'object',
+  icon: Search,
   fields: [
     defineField({
       name: 'metaTitle',

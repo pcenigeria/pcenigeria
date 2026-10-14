@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Package } from 'lucide-react';
 
 export default defineType({
   name: 'product',
   title: 'Product Detail',
   type: 'document',
+  icon: Package,
   groups: [
     { name: 'overview', title: 'Overview', default: true },
     { name: 'specs', title: 'Technical Specs & SDS' },

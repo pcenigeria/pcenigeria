@@ -1,6 +1,24 @@
 import { defineConfig, buildLegacyTheme } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import {
+  Layers,
+  FolderKanban,
+  Newspaper,
+  Package,
+  Wrench,
+  Truck,
+  FileDown,
+  Settings,
+  Compass,
+  Sliders,
+  Home,
+  Building2,
+  Cpu,
+  ShieldCheck,
+  Mail,
+  Eye,
+} from 'lucide-react';
 import { schemaTypes } from './sanity/schemaTypes';
 import { ArticlePreviewPane } from './sanity/components/article-preview-pane';
 import { PreviewArticleAction } from './sanity/actions/preview-article-action';
@@ -30,17 +48,17 @@ const SINGLETONS = [
   'globalSettings',
 ];
 
-const PAGE_SINGLETON_MAP: { id: string; title: string }[] = [
-  { id: 'homePage', title: 'Home' },
-  { id: 'companyPage', title: 'Our Company' },
-  { id: 'capabilitiesPage', title: 'Capabilities' },
-  { id: 'equipmentPage', title: 'Equipment & Technology' },
-  { id: 'safetyQualityPage', title: 'Safety Quality & Responsibility' },
-  { id: 'projectsPage', title: 'Projects' },
-  { id: 'productsPage', title: 'Products' },
-  { id: 'newsInsightsPage', title: 'News & Insights' },
-  { id: 'resourcesPage', title: 'Resources' },
-  { id: 'contactPage', title: 'Contact' },
+const PAGE_SINGLETON_MAP: { id: string; title: string; icon: any }[] = [
+  { id: 'homePage', title: 'Home', icon: Home },
+  { id: 'companyPage', title: 'Our Company', icon: Building2 },
+  { id: 'capabilitiesPage', title: 'Capabilities', icon: Cpu },
+  { id: 'equipmentPage', title: 'Equipment & Technology', icon: Truck },
+  { id: 'safetyQualityPage', title: 'Safety Quality & Responsibility', icon: ShieldCheck },
+  { id: 'projectsPage', title: 'Projects', icon: FolderKanban },
+  { id: 'productsPage', title: 'Products', icon: Package },
+  { id: 'newsInsightsPage', title: 'News & Insights', icon: Newspaper },
+  { id: 'resourcesPage', title: 'Resources', icon: FileDown },
+  { id: 'contactPage', title: 'Contact', icon: Mail },
 ];
 
 export default defineConfig({
@@ -60,6 +78,7 @@ export default defineConfig({
             // Live Site Pages Group
             S.listItem()
               .title('Pages')
+              .icon(Layers)
               .child(
                 S.list()
                   .title('Pages')
@@ -72,6 +91,7 @@ export default defineConfig({
                         return S.listItem()
                           .title(page.title)
                           .id(page.id)
+                          .icon(page.icon)
                           .child(
                             S.list()
                               .title('Projects Page')
@@ -79,11 +99,12 @@ export default defineConfig({
                                 S.listItem()
                                   .title('Page Settings (Hero & Intro)')
                                   .id('projectsPageSettings')
+                                  .icon(page.icon)
                                   .child(S.document().schemaType('projectsPage').documentId('projectsPage')),
                                 S.divider(),
                                 S.documentTypeListItem('project').title(
                                   'Project Case Studies (add/edit projects here)'
-                                ),
+                                ).icon(page.icon),
                               ])
                           );
                       }
@@ -91,6 +112,7 @@ export default defineConfig({
                         return S.listItem()
                           .title(page.title)
                           .id(page.id)
+                          .icon(page.icon)
                           .child(
                             S.list()
                               .title('Products Page')
@@ -98,11 +120,12 @@ export default defineConfig({
                                 S.listItem()
                                   .title('Page Settings (Hero & Intro)')
                                   .id('productsPageSettings')
+                                  .icon(page.icon)
                                   .child(S.document().schemaType('productsPage').documentId('productsPage')),
                                 S.divider(),
                                 S.documentTypeListItem('product').title(
                                   'Products (add/edit products here)'
-                                ),
+                                ).icon(page.icon),
                               ])
                           );
                       }
@@ -110,6 +133,7 @@ export default defineConfig({
                         return S.listItem()
                           .title(page.title)
                           .id(page.id)
+                          .icon(page.icon)
                           .child(
                             S.list()
                               .title('Resources Page')
@@ -117,11 +141,12 @@ export default defineConfig({
                                 S.listItem()
                                   .title('Page Settings (Hero & Intro)')
                                   .id('resourcesPageSettings')
+                                  .icon(page.icon)
                                   .child(S.document().schemaType('resourcesPage').documentId('resourcesPage')),
                                 S.divider(),
                                 S.documentTypeListItem('resourceCategory').title(
                                   'Resource Categories (add/edit downloadable files here)'
-                                ),
+                                ).icon(page.icon),
                               ])
                           );
                       }
@@ -129,6 +154,7 @@ export default defineConfig({
                         return S.listItem()
                           .title(page.title)
                           .id(page.id)
+                          .icon(page.icon)
                           .child(
                             S.list()
                               .title('News & Insights Page')
@@ -136,17 +162,19 @@ export default defineConfig({
                                 S.listItem()
                                   .title('Page Settings (Hero & Intro)')
                                   .id('newsInsightsPageSettings')
+                                  .icon(page.icon)
                                   .child(S.document().schemaType('newsInsightsPage').documentId('newsInsightsPage')),
                                 S.divider(),
                                 S.documentTypeListItem('newsArticle').title(
                                   'News & Insights Articles (add/edit articles here)'
-                                ),
+                                ).icon(page.icon),
                               ])
                           );
                       }
                       return S.listItem()
                         .title(page.title)
                         .id(page.id)
+                        .icon(page.icon)
                         .child(S.document().schemaType(page.id).documentId(page.id));
                     })
                   )
@@ -154,18 +182,19 @@ export default defineConfig({
             S.divider(),
 
             // Content Collections (Matching Site Sections)
-            S.documentTypeListItem('project').title('Projects (Case Studies)'),
-            S.documentTypeListItem('newsArticle').title('News & Insights'),
-            S.documentTypeListItem('product').title('Products'),
-            S.documentTypeListItem('capability').title('Capabilities'),
-            S.documentTypeListItem('equipmentCategory').title('Equipment'),
-            S.documentTypeListItem('resourceCategory').title('Resources'),
+            S.documentTypeListItem('project').title('Projects (Case Studies)').icon(FolderKanban),
+            S.documentTypeListItem('newsArticle').title('News & Insights').icon(Newspaper),
+            S.documentTypeListItem('product').title('Products').icon(Package),
+            S.documentTypeListItem('capability').title('Capabilities').icon(Wrench),
+            S.documentTypeListItem('equipmentCategory').title('Equipment').icon(Truck),
+            S.documentTypeListItem('resourceCategory').title('Resources').icon(FileDown),
 
             S.divider(),
 
             // Site Settings & Global Navigation
             S.listItem()
               .title('Site Settings')
+              .icon(Settings)
               .child(
                 S.list()
                   .title('Site Settings')
@@ -173,10 +202,12 @@ export default defineConfig({
                     S.listItem()
                       .title('Navigation Menus')
                       .id('navigation')
+                      .icon(Compass)
                       .child(S.document().schemaType('navigation').documentId('navigation')),
                     S.listItem()
                       .title('Global Site Settings')
                       .id('globalSettings')
+                      .icon(Sliders)
                       .child(S.document().schemaType('globalSettings').documentId('globalSettings')),
                   ])
               ),
@@ -185,7 +216,7 @@ export default defineConfig({
         if (schemaType === 'newsArticle') {
           return S.document().views([
             S.view.form(),
-            S.view.component(ArticlePreviewPane).title('Live Preview'),
+            S.view.component(ArticlePreviewPane).title('Live Preview').icon(Eye),
           ]);
         }
         return S.document().views([S.view.form()]);

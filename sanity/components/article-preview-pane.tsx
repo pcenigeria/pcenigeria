@@ -1,6 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+import {
+  Eye,
+  Monitor,
+  Tablet,
+  Smartphone,
+  RotateCw,
+  Radio,
+  ExternalLink,
+} from 'lucide-react';
 
 interface ArticlePreviewPaneProps {
   document?: {
@@ -45,12 +54,12 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '28px',
             marginBottom: '20px',
             border: '1px solid #30363d',
+            color: '#38bdf8',
           }}
         >
-          👁️
+          <Eye size={30} />
         </div>
         <h2 style={{ fontSize: '20px', fontWeight: 600, margin: '0 0 10px 0', color: '#ffffff' }}>
           URL Slug Required for Live Preview
@@ -106,6 +115,9 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
               key={mode}
               onClick={() => setDevice(mode)}
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
                 padding: '5px 12px',
                 fontSize: '12px',
                 fontWeight: device === mode ? 600 : 400,
@@ -119,9 +131,9 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
                 transition: 'all 0.15s ease',
               }}
             >
-              {mode === 'desktop' && '🖥️ '}
-              {mode === 'tablet' && '💻 '}
-              {mode === 'mobile' && '📱 '}
+              {mode === 'desktop' && <Monitor size={14} />}
+              {mode === 'tablet' && <Tablet size={14} />}
+              {mode === 'mobile' && <Smartphone size={14} />}
               {mode}
             </button>
           ))}
@@ -130,6 +142,9 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
             onClick={handleRefresh}
             title="Reload preview"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
               padding: '5px 10px',
               fontSize: '12px',
               color: '#8b949e',
@@ -140,7 +155,8 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
               marginLeft: '6px',
             }}
           >
-            🔄 Refresh
+            <RotateCw size={13} />
+            Refresh
           </button>
         </div>
 
@@ -148,6 +164,9 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
               fontSize: '11px',
               padding: '3px 8px',
               borderRadius: '4px',
@@ -157,7 +176,8 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
               fontWeight: 500,
             }}
           >
-            🟠 Draft Mode Active
+            <Radio size={12} color="#f59e0b" />
+            Draft Mode Active
           </span>
           <a
             href={previewUrl}
@@ -166,7 +186,7 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '4px',
+              gap: '6px',
               fontSize: '12px',
               color: '#38bdf8',
               textDecoration: 'none',
@@ -177,7 +197,8 @@ export function ArticlePreviewPane({ document }: ArticlePreviewPaneProps) {
               fontWeight: 500,
             }}
           >
-            Open in New Window ↗
+            Open in New Window
+            <ExternalLink size={13} />
           </a>
         </div>
       </div>

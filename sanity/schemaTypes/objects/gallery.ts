@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Images } from 'lucide-react';
 
 export default defineType({
   name: 'gallery',
   title: 'Gallery / Mini Slide Set',
   type: 'object',
+  icon: Images,
   fields: [
     defineField({
       name: 'categoryTitle',

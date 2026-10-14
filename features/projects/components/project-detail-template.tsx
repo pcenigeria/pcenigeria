@@ -6,6 +6,7 @@ import { PortableText } from '@portabletext/react';
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react';
 import { ProjectDetail } from '../types/project.types';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
+import { MediaEmbed } from '@/features/news-insights/components';
 
 const sectionBodyComponents = {
     block: {
@@ -128,53 +129,163 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
                                             </h2>
                                         )}
 
-                                        {/* Section Paragraphs (if present) */}
-                                        {Array.isArray(section.body) && section.body.length > 0 && (
-                                            <div className="flex flex-col gap-4 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed font-normal pt-2">
-                                                <PortableText value={section.body} components={sectionBodyComponents} />
+                                        {/* Modular Content Widgets */}
+                                        {section.contentBlocks && section.contentBlocks.length > 0 ? (
+                                            <div className="flex flex-col gap-6 pt-2">
+                                                {section.contentBlocks.map((block: any, bIdx: number) => {
+                                                    switch (block._type) {
+                                                        case 'richTextWidget':
+                                                            return block.content && block.content.length > 0 ? (
+                                                                <div
+                                                                    key={block._key || bIdx}
+                                                                    className="flex flex-col gap-4 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed font-normal"
+                                                                >
+                                                                    <PortableText value={block.content} components={sectionBodyComponents} />
+                                                                </div>
+                                                            ) : null;
 
-                                                {/* Section Bullets (if present) */}
-                                                {section.bullets && section.bullets.length > 0 && (
-                                                    <ul className="flex flex-col gap-2.5 my-2 pl-2">
-                                                        {section.bullets.map((bullet, bIdx) => (
-                                                            <li key={bIdx} className="flex items-start gap-3">
-                                                                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] mt-2 shrink-0" />
-                                                                <span>{bullet}</span>
-                                                            </li>
+                                                        case 'mediaEmbedWidget':
+                                                            return (
+                                                                <MediaEmbed
+                                                                    key={block._key || bIdx}
+                                                                    url={block.url}
+                                                                    caption={block.caption}
+                                                                    aspectRatio={block.aspectRatio}
+                                                                />
+                                                            );
+
+                                                        case 'bulletsWidget':
+                                                            return block.items && block.items.length > 0 ? (
+                                                                <ul key={block._key || bIdx} className="flex flex-col gap-2.5 my-2 pl-2">
+                                                                    {block.items.map((bullet: string, idx: number) => (
+                                                                        <li key={idx} className="flex items-start gap-3 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed">
+                                                                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] mt-2 shrink-0" />
+                                                                            <span>{bullet}</span>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            ) : null;
+
+                                                        case 'statWidget':
+                                                            return block.value ? (
+                                                                <div key={block._key || bIdx} className="flex flex-col items-start gap-1 py-4 border-y border-black/10 my-2">
+                                                                    <span className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-[var(--color-primary)] leading-none tracking-tight">
+                                                                        {block.value}
+                                                                    </span>
+                                                                    {block.label && (
+                                                                        <span className="text-sm uppercase tracking-widest text-[var(--color-ink-muted-48)] font-bold">
+                                                                            {block.label}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            ) : null;
+
+                                                        case 'quoteWidget':
+                                                            return block.quote ? (
+                                                                <blockquote key={block._key || bIdx} className="my-4 pl-5 sm:pl-6 border-l-4 border-[var(--color-primary)] bg-[var(--color-primary)]/5 py-4 px-4 rounded-r-xl">
+                                                                    <p className="text-base sm:text-lg italic font-medium text-[var(--color-ink)]/90 leading-relaxed">
+                                                                        "{block.quote}"
+                                                                    </p>
+                                                                    {(block.author || block.role) && (
+                                                                        <footer className="mt-2 text-xs sm:text-sm font-semibold text-[var(--color-ink-muted-48)]">
+                                                                            {block.author && <span className="text-[var(--color-ink)] font-bold">{block.author}</span>}
+                                                                            {block.author && block.role && <span> — </span>}
+                                                                            {block.role && <span>{block.role}</span>}
+                                                                        </footer>
+                                                                    )}
+                                                                </blockquote>
+                                                            ) : null;
+
+                                                        case 'galleryWidget':
+                                                            return block.gallery?.items && block.gallery.items.length > 0 ? (
+                                                                <div key={block._key || bIdx} className="grid grid-cols-2 sm:grid-cols-3 gap-3 my-2">
+                                                                    {block.gallery.items.map((item: any, gIdx: number) => (
+                                                                        <div
+                                                                            key={item.src || gIdx}
+                                                                            className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden bg-black/5 border border-black/5"
+                                                                        >
+                                                                            <div
+                                                                                className="w-full h-full bg-cover bg-center transition-transform duration-500 hover:scale-105"
+                                                                                style={{ backgroundImage: `url("${item.src}")` }}
+                                                                                title={item.title}
+                                                                            />
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : null;
+
+                                                        case 'buttonWidget':
+                                                            return block.text && block.url ? (
+                                                                <div key={block._key || bIdx} className="my-3">
+                                                                    <a
+                                                                        href={block.url}
+                                                                        className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 shadow-sm ${
+                                                                            block.variant === 'orange'
+                                                                                ? 'bg-[var(--color-accent,#f4691a)] hover:bg-[#d9550b] text-white'
+                                                                                : block.variant === 'outline'
+                                                                                ? 'border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
+                                                                                : 'bg-[var(--color-primary,#1470AD)] hover:bg-[#0f5482] text-white'
+                                                                        }`}
+                                                                    >
+                                                                        <span>{block.text}</span>
+                                                                        <span>→</span>
+                                                                    </a>
+                                                                </div>
+                                                            ) : null;
+
+                                                        default:
+                                                            return null;
+                                                    }
+                                                })}
+                                            </div>
+                                        ) : (
+                                            /* Legacy Section Rendering */
+                                            <>
+                                                {Array.isArray(section.body) && section.body.length > 0 && (
+                                                    <div className="flex flex-col gap-4 text-sm sm:text-base text-[var(--color-ink)]/75 leading-relaxed font-normal pt-2">
+                                                        <PortableText value={section.body} components={sectionBodyComponents} />
+
+                                                        {section.bullets && section.bullets.length > 0 && (
+                                                            <ul className="flex flex-col gap-2.5 my-2 pl-2">
+                                                                {section.bullets.map((bullet, bIdx) => (
+                                                                    <li key={bIdx} className="flex items-start gap-3">
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] mt-2 shrink-0" />
+                                                                        <span>{bullet}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+
+                                                        {section.highlightStat && (
+                                                            <div className="flex flex-col items-start gap-1 pt-6 border-t border-black/10 mt-4">
+                                                                <span className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-[var(--color-primary)] leading-none tracking-tight">
+                                                                    {section.highlightStat.value}
+                                                                </span>
+                                                                <span className="text-sm uppercase tracking-widest text-[var(--color-ink-muted-48)] font-bold">
+                                                                    {section.highlightStat.label}
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                {section.gallery?.items && section.gallery.items.length > 0 && (
+                                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
+                                                        {section.gallery.items.map((item, gIdx) => (
+                                                            <div
+                                                                key={item.src || gIdx}
+                                                                className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden bg-black/5 border border-black/5"
+                                                            >
+                                                                <div
+                                                                    className="w-full h-full bg-cover bg-center"
+                                                                    style={{ backgroundImage: `url("${item.src}")` }}
+                                                                    title={item.title}
+                                                                />
+                                                            </div>
                                                         ))}
-                                                    </ul>
-                                                )}
-
-                                                {/* Section Stat Highlight (if present) */}
-                                                {section.highlightStat && (
-                                                    <div className="flex flex-col items-start gap-1 pt-6 border-t border-black/10 mt-4">
-                                                        <span className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-[var(--color-primary)] leading-none tracking-tight">
-                                                            {section.highlightStat.value}
-                                                        </span>
-                                                        <span className="text-sm uppercase tracking-widest text-[var(--color-ink-muted-48)] font-bold">
-                                                            {section.highlightStat.label}
-                                                        </span>
                                                     </div>
                                                 )}
-                                            </div>
-                                        )}
-
-                                        {/* Section Photo Gallery (if present) */}
-                                        {section.gallery?.items && section.gallery.items.length > 0 && (
-                                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
-                                                {section.gallery.items.map((item, gIdx) => (
-                                                    <div
-                                                        key={item.src || gIdx}
-                                                        className="relative h-[160px] sm:h-[200px] rounded-lg overflow-hidden bg-black/5 border border-black/5"
-                                                    >
-                                                        <div
-                                                            className="w-full h-full bg-cover bg-center"
-                                                            style={{ backgroundImage: `url("${item.src}")` }}
-                                                            title={item.title}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            </>
                                         )}
                                     </section>
 

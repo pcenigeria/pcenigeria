@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { BarChart3 } from 'lucide-react';
 
 export default defineType({
   name: 'statItem',
   title: 'Stat / Key Metric',
   type: 'object',
+  icon: BarChart3,
   fields: [
     defineField({
       name: 'number',

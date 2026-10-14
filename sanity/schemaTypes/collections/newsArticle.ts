@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Newspaper } from 'lucide-react';
 
 export default defineType({
   name: 'newsArticle',
   title: 'News & Insights Article',
   type: 'document',
+  icon: Newspaper,
   description:
     'One article shown on the live /news-insights page and its own article page. Fill in "Overview" first, ' +
     'then add the body of the article under "Content". Leaving "Content Sections" empty means the article page ' +

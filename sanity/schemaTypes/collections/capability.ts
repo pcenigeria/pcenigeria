@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { Wrench } from 'lucide-react';
 
 export default defineType({
   name: 'capability',
   title: 'Capability Page & Card',
   type: 'document',
+  icon: Wrench,
   groups: [
     { name: 'overview', title: 'Overview', default: true },
     { name: 'content', title: 'Content' },

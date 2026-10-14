@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { FileDown } from 'lucide-react';
 
 export default defineType({
   name: 'resourceCategory',
   title: 'Resource Category',
   type: 'document',
+  icon: FileDown,
   description:
     'One "Resource Category" document = one tab on the live /resources page (e.g. "Technical Data Sheets (TDS)"). ' +
     'To add a NEW category/tab: create a new "Resource Category" document. ' +

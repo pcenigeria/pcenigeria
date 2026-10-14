@@ -63,10 +63,73 @@ export interface SanityNewsGalleryItem {
     description?: string;
 }
 
+export interface RichTextWidget {
+    _key?: string;
+    _type: 'richTextWidget';
+    content?: any;
+}
+
+export interface MediaEmbedWidget {
+    _key?: string;
+    _type: 'mediaEmbedWidget';
+    url?: string;
+    caption?: string;
+    aspectRatio?: '16:9' | '4:3' | '1:1' | '9:16';
+}
+
+export interface BulletsWidget {
+    _key?: string;
+    _type: 'bulletsWidget';
+    items?: string[];
+}
+
+export interface StatWidget {
+    _key?: string;
+    _type: 'statWidget';
+    value?: string;
+    label?: string;
+}
+
+export interface QuoteWidget {
+    _key?: string;
+    _type: 'quoteWidget';
+    quote?: string;
+    author?: string;
+    role?: string;
+}
+
+export interface GalleryWidget {
+    _key?: string;
+    _type: 'galleryWidget';
+    gallery?: {
+        categoryTitle?: string;
+        items?: SanityNewsGalleryItem[];
+    };
+}
+
+export interface ButtonWidget {
+    _key?: string;
+    _type: 'buttonWidget';
+    text?: string;
+    url?: string;
+    variant?: 'primary' | 'orange' | 'outline';
+}
+
+export type SectionContentWidget =
+    | RichTextWidget
+    | MediaEmbedWidget
+    | BulletsWidget
+    | StatWidget
+    | QuoteWidget
+    | GalleryWidget
+    | ButtonWidget;
+
 export interface SanityNewsSection {
     tagline?: string;
     heading?: string;
     headingColor?: string;
+    contentBlocks?: SectionContentWidget[];
+    // Legacy fields (kept for backward compatibility)
     body?: any;
     bullets?: string[];
     highlightStat?: {

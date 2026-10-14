@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity';
+import { FolderKanban } from 'lucide-react';
 
 export default defineType({
   name: 'project',
   title: 'Case Study / Project',
   type: 'document',
+  icon: FolderKanban,
   groups: [
     { name: 'overview', title: 'Overview', default: true },
     { name: 'content', title: 'Content' },

@@ -18,6 +18,43 @@ const SECTION_BLOCK_FIELDS = `{
   tagline,
   heading,
   headingColor,
+  contentBlocks[]{
+    _key,
+    _type,
+    _type == "richTextWidget" => {
+      content[]{
+        ...,
+        _type == "image" => {
+          "asset": asset->
+        }
+      }
+    },
+    _type == "mediaEmbedWidget" => {
+      url,
+      caption,
+      aspectRatio
+    },
+    _type == "bulletsWidget" => {
+      items
+    },
+    _type == "statWidget" => {
+      value,
+      label
+    },
+    _type == "quoteWidget" => {
+      quote,
+      author,
+      role
+    },
+    _type == "galleryWidget" => {
+      "gallery": gallery${GALLERY_FIELDS}
+    },
+    _type == "buttonWidget" => {
+      text,
+      url,
+      variant
+    }
+  },
   body[]{
     ...,
     _type == "image" => {
