@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ObjectInputProps, set, unset } from 'sanity';
-import { ExternalLink, Globe, Palette, Check } from 'lucide-react';
+import { ExternalLink, Globe, Palette, Check, Trash2, X } from 'lucide-react';
 
 interface LinkValue {
   href?: string;
@@ -19,7 +19,12 @@ const COLOR_OPTIONS = [
 
 /**
  * Compact, single-row WordPress / Notion-style link editor for PortableText annotations.
- * Replaces Sanity's tall multi-card modal with a fast, high-density toolbar.
+ * Provides:
+ * 1. Quick URL / Path input
+ * 2. Visual color swatches
+ * 3. Open in new tab toggle
+ * 4. Close button: cleanly dismisses the popover
+ * 5. Remove link button: unsets href and color, or triggers Sanity remove
  */
 export function CompactLinkInput(props: ObjectInputProps<LinkValue>) {
   const { value, onChange, readOnly } = props;
@@ -45,6 +50,44 @@ export function CompactLinkInput(props: ObjectInputProps<LinkValue>) {
     onChange(set(!openInNewTab, ['openInNewTab']));
   };
 
+  // Helper to programmatically trigger the close of the Sanity popover/modal
+  const handleClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    // Search upwards from this component for the popover/modal container and close button
+    const container = (e?.currentTarget as HTMLElement)?.closest('[data-ui="Popover__content"], [data-testid="popover-edit-dialog"], [data-ui="Dialog"]');
+    if (container) {
+      const closeBtn = container.querySelector<HTMLButtonElement>('button[aria-label*="Close"], button[aria-label*="close"], [data-testid="close-button"]');
+      if (closeBtn) {
+        closeBtn.click();
+        return;
+      }
+    }
+    // Fallback: simulate Escape key to dismiss the popover
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true }));
+  };
+
+  // Helper to remove link from the selected text
+  const handleRemoveLink = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // 1. Clear all link fields so value is completely empty
+    onChange(unset());
+
+    // 2. Look for Sanity's native remove annotation button in the floating popover
+    const nativeRemoveBtn = document.querySelector<HTMLButtonElement>('[data-testid^="remove-annotation-button"]');
+    if (nativeRemoveBtn) {
+      nativeRemoveBtn.click();
+    }
+
+    // 3. Close the popover
+    setTimeout(() => {
+      handleClose();
+    }, 50);
+  };
+
   return (
     <div
       style={{
@@ -55,11 +98,88 @@ export function CompactLinkInput(props: ObjectInputProps<LinkValue>) {
         background: '#ffffff',
         borderRadius: '8px',
         border: '1px solid #dfe1e6',
-        boxShadow: '0 4px 12px rgba(0, 23, 35, 0.08)',
+        boxShadow: '0 4px 14px rgba(0, 23, 35, 0.08)',
         fontFamily: 'inherit',
         maxWidth: '480px',
+        width: '100%',
+        boxSizing: 'border-box',
       }}
     >
+      {/* Header bar: "Edit Link" badge, Remove Link button, and Close (X) button */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingBottom: '8px',
+          borderBottom: '1px solid #ebecf0',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '11px',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
+            color: '#0052cc',
+            background: '#e9f2ff',
+            padding: '2px 6px',
+            borderRadius: '4px',
+          }}
+        >
+          Edit Link
+        </span>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          {/* Remove Link Button */}
+          <button
+            type="button"
+            onClick={handleRemoveLink}
+            title="Remove Link from text"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              background: 'transparent',
+              border: 'none',
+              color: '#c9372c',
+              fontSize: '11px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '4px 6px',
+              borderRadius: '4px',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#ffebe6')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+          >
+            <Trash2 size={12} />
+            Remove Link
+          </button>
+
+          {/* Close / Dismiss (X) Button */}
+          <button
+            type="button"
+            onClick={handleClose}
+            title="Done / Close link editor (Escape)"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              color: '#6b778c',
+              cursor: 'pointer',
+              padding: '4px',
+              borderRadius: '4px',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f5f7')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+          >
+            <X size={14} />
+          </button>
+        </div>
+      </div>
+
       {/* Row 1: URL input + Open In New Tab button */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <div
