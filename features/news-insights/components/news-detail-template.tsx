@@ -6,6 +6,7 @@ import { PortableText } from '@portabletext/react';
 import { ArrowLeft, ArrowRight, Clock, User, Calendar } from '@phosphor-icons/react';
 import { SanityNewsArticleDetail, NewsArticleSummary } from '../types/news.types';
 import { MediaEmbed } from './media-embed';
+import { PortableTextLink } from '@/shared/components/ui/portable-text-link';
 
 interface NewsDetailTemplateProps {
     article: SanityNewsArticleDetail;
@@ -21,6 +22,9 @@ const HEADING_COLOR_CLASSES: Record<string, string> = {
 const sectionBodyComponents = {
     block: {
         normal: ({ children }: any) => <p>{children}</p>,
+    },
+    marks: {
+        link: PortableTextLink,
     },
     types: {
         image: ({ value }: any) => {

@@ -120,6 +120,17 @@ Every article **must contain at least 2–3 links** pointing to core business pa
 4. **Call to Action (CTA)**:
    - End every technical article with a link to `[Contact PCE Nigeria](/contact)` for project feasibility studies and quotes.
 
+### Automatic Link Coloring & Customization Options
+When highlighting any text in Sanity's Rich Text Editor and clicking the Link icon:
+- **Automatic Brand Blue**: Embedded links automatically render in PCE's primary action blue (`#1470AD`) with an underline and smooth hover transition.
+- **Link Color Radio Picker**: You can optionally switch individual links to:
+  - **Brand Action Blue (Default)**: `#1470AD`
+  - **Accent Orange**: `#f4691a` (Great for high-priority CTAs and contact links)
+  - **Deep Navy / Ink**: `#001723` (Discreet inline citations)
+  - **Inherit Text Color**: Underline only, matching the surrounding paragraph color
+- **Relative URLs Supported**: You can type clean relative internal links like `/capabilities`, `/contact`, or `/projects/akk-river-niger` without needing full domain URLs.
+- **Open in New Window / Tab**: Toggle on for external reference links outside pcenigeria.com.
+
 ---
 
 ## 4. The 10 Launch Articles: Keyword-Mapped Blueprints

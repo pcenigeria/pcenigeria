@@ -7,10 +7,14 @@ import { ArrowLeft, ArrowRight } from '@phosphor-icons/react';
 import { ProjectDetail } from '../types/project.types';
 import { FadeInSlideUp } from '@/shared/components/ui/fade-in-slide-up';
 import { MediaEmbed } from '@/features/news-insights/components';
+import { PortableTextLink } from '@/shared/components/ui/portable-text-link';
 
 const sectionBodyComponents = {
     block: {
         normal: ({ children }: any) => <p>{children}</p>,
+    },
+    marks: {
+        link: PortableTextLink,
     },
     types: {
         image: ({ value }: any) => {
