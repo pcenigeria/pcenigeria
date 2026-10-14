@@ -1,6 +1,7 @@
 import { defineType, defineArrayMember } from 'sanity';
 import { Link2 } from 'lucide-react';
 import React from 'react';
+import { CompactLinkInput } from '../../components/compact-link-input';
 
 const LinkAnnotationPreview = ({ children, value }: any) => {
   const color = value?.color;
@@ -59,6 +60,7 @@ export default defineType({
             icon: Link2,
             components: {
               annotation: LinkAnnotationPreview,
+              input: CompactLinkInput,
             },
             fields: [
               {

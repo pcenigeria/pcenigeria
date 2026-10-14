@@ -9,6 +9,7 @@ import {
   MousePointerClick,
   Layers,
 } from 'lucide-react';
+import { SmartBulletsInput } from '../../components/smart-bullets-input';
 
 export default defineType({
   name: 'sectionBlock',
@@ -143,6 +144,9 @@ export default defineType({
               title: 'Bullet Points',
               type: 'array',
               of: [{ type: 'string' }],
+              components: {
+                input: SmartBulletsInput,
+              },
               validation: (Rule) => Rule.required(),
             }),
           ],
@@ -305,6 +309,9 @@ export default defineType({
       title: 'Bullet Points (Legacy)',
       type: 'array',
       of: [{ type: 'string' }],
+      components: {
+        input: SmartBulletsInput,
+      },
       fieldset: 'legacy',
     }),
     defineField({

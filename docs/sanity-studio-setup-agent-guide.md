@@ -342,6 +342,7 @@ export default defineType({
             icon: Link2,
             components: {
               annotation: LinkAnnotationPreview,
+              input: CompactLinkInput, // Compact Notion/WordPress-style inline link toolbar
             },
             fields: [
               {
@@ -554,6 +555,10 @@ export default defineType({
               title: 'Bullet Points',
               type: 'array',
               of: [{ type: 'string' }],
+              components: {
+                // Custom input enabling smart auto-splitting of multi-line copied bullets
+                input: SmartBulletsInput,
+              },
               validation: (Rule) => Rule.required(),
             }),
           ],
