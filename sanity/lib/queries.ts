@@ -147,9 +147,10 @@ export async function getProjectBySlug(slug: string) {
 // =========================================
 
 export async function getAllNewsArticles() {
-  const query = `*[_type == "newsArticle" && !(_id in path("drafts.**"))] | order(date desc) {
+  const query = `*[_type == "newsArticle" && !(_id in path("drafts.**")) && (!defined(publishedAt) || publishedAt <= now())] | order(coalesce(publishedAt, _createdAt) desc) {
     _id,
     _updatedAt,
+    publishedAt,
     title,
     "slug": slug.current,
     category,
@@ -170,11 +171,12 @@ export async function getAllNewsArticles() {
 export async function getNewsArticleBySlug(slug: string, isDraft: boolean = false) {
   const filter = isDraft
     ? `*[_type == "newsArticle" && (slug.current == $slug || _id == $slug || _id == "drafts." + $slug)] | order(_updatedAt desc)[0]`
-    : `*[_type == "newsArticle" && slug.current == $slug && !(_id in path("drafts.**"))][0]`;
+    : `*[_type == "newsArticle" && slug.current == $slug && !(_id in path("drafts.**")) && (!defined(publishedAt) || publishedAt <= now())][0]`;
 
   const query = `${filter} {
     _id,
     _updatedAt,
+    publishedAt,
     title,
     "slug": slug.current,
     category,

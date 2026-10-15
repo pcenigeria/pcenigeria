@@ -225,6 +225,11 @@ export default defineConfig({
     visionTool(),
   ],
 
+  // Enable native scheduled publishing in Sanity Studio
+  scheduledDrafts: {
+    enabled: true,
+  },
+
   // Restrict raw GROQ query Vision tool to Administrator role
   tools: (prev, { currentUser }) => {
     const isAdmin = currentUser?.roles.some((role) => role.name === 'administrator');

@@ -33,7 +33,22 @@ export default defineType({
       options: { list: [{ title: 'News', value: 'News' }, { title: 'Insights', value: 'Insights' }], layout: 'radio' },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({ name: 'date', title: 'Publication Date', type: 'string', group: 'overview', description: 'Shown on the article card and at the top of the article page, e.g. "March 2025". Free text — not a calendar picker.' }),
+    defineField({
+      name: 'publishedAt',
+      title: 'Scheduled / Release Date & Time',
+      type: 'datetime',
+      group: 'overview',
+      description:
+        'If set in the future, the article will automatically remain hidden from the live website until this date/time arrives.',
+      initialValue: () => new Date().toISOString(),
+    }),
+    defineField({
+      name: 'date',
+      title: 'Publication Date Display Label',
+      type: 'string',
+      group: 'overview',
+      description: 'Human-friendly text shown on cards and headings, e.g. "March 2025" or "15 October 2026".',
+    }),
     defineField({ name: 'readTime', title: 'Estimated Read Time', type: 'string', group: 'overview', description: 'e.g. "5 min read"' }),
     defineField({ name: 'author', title: 'Article Author', type: 'string', group: 'overview', description: 'Optional. Shown on the article page if filled in.' }),
     defineField({
