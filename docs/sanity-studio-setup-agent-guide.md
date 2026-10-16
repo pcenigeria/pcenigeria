@@ -739,6 +739,60 @@ export default defineType({
             },
           },
         }),
+
+        // 8. Data / Specs Table (Smart Word/Excel/Google Docs Paste Importer)
+        defineArrayMember({
+          name: "tableWidget",
+          title: "Data / Specs Table",
+          type: "object",
+          icon: Table,
+          components: {
+            input: SmartTableInput,
+          },
+          fields: [
+            defineField({
+              name: "title",
+              title: "Table Title / Caption",
+              type: "string",
+            }),
+            defineField({
+              name: "hasHeaderRow",
+              title: "First Row is Header",
+              type: "boolean",
+              initialValue: true,
+            }),
+            defineField({
+              name: "rows",
+              title: "Table Rows",
+              type: "array",
+              of: [
+                defineArrayMember({
+                  name: "tableRow",
+                  type: "object",
+                  fields: [
+                    defineField({
+                      name: "cells",
+                      type: "array",
+                      of: [{ type: "string" }],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: { title: "title", rows: "rows" },
+            prepare({ title, rows }) {
+              const rowCount = rows?.length || 0;
+              const colCount = rows?.[0]?.cells?.length || 0;
+              return {
+                title: title || `${rowCount} Row${rowCount === 1 ? "" : "s"} Table`,
+                subtitle: `Table • ${rowCount} rows × ${colCount} cols`,
+                media: Table,
+              };
+            },
+          },
+        }),
       ],
     }),
 
@@ -1424,6 +1478,13 @@ export const SECTION_BLOCK_FIELDS = `{
     // buttonWidget
     text,
     variant,
+    // tableWidget
+    title,
+    hasHeaderRow,
+    rows[]{
+      _key,
+      cells
+    },
     // galleryWidget
     gallery{
       categoryTitle,
@@ -1777,6 +1838,36 @@ export function SectionRenderer({ section }: { section: any }) {
                   >
                     {widget.text}
                   </a>
+                </div>
+              );
+            case "tableWidget":
+              return (
+                <div key={widget._key} className="my-6 overflow-x-auto rounded-lg border border-slate-200">
+                  {widget.title && (
+                    <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 text-sm font-bold text-slate-700">
+                      {widget.title}
+                    </div>
+                  )}
+                  <table className="w-full text-left text-sm">
+                    {widget.hasHeaderRow && widget.rows?.[0] && (
+                      <thead className="bg-slate-100 text-slate-900 border-b border-slate-200">
+                        <tr>
+                          {widget.rows[0].cells?.map((cell: string, idx: number) => (
+                            <th key={idx} className="px-4 py-2.5 font-semibold">{cell}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                    )}
+                    <tbody className="divide-y divide-slate-100">
+                      {(widget.hasHeaderRow ? widget.rows?.slice(1) : widget.rows)?.map((row: any, rIdx: number) => (
+                        <tr key={row._key || rIdx} className="hover:bg-slate-50">
+                          {row.cells?.map((cell: string, cIdx: number) => (
+                            <td key={cIdx} className="px-4 py-2.5 text-slate-700">{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               );
             default:

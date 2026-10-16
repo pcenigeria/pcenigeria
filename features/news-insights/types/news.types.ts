@@ -115,6 +115,19 @@ export interface ButtonWidget {
     variant?: 'primary' | 'orange' | 'outline';
 }
 
+export interface TableWidgetRow {
+    _key?: string;
+    cells?: string[];
+}
+
+export interface TableWidget {
+    _key?: string;
+    _type: 'tableWidget';
+    title?: string;
+    hasHeaderRow?: boolean;
+    rows?: TableWidgetRow[];
+}
+
 export type SectionContentWidget =
     | RichTextWidget
     | MediaEmbedWidget
@@ -122,7 +135,8 @@ export type SectionContentWidget =
     | StatWidget
     | QuoteWidget
     | GalleryWidget
-    | ButtonWidget;
+    | ButtonWidget
+    | TableWidget;
 
 export interface SanityNewsSection {
     tagline?: string;

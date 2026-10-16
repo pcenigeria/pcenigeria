@@ -53,6 +53,14 @@ const SECTION_BLOCK_FIELDS = `{
       text,
       url,
       variant
+    },
+    _type == "tableWidget" => {
+      title,
+      hasHeaderRow,
+      rows[]{
+        _key,
+        cells
+      }
     }
   },
   body[]{

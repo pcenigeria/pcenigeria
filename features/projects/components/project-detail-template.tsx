@@ -237,6 +237,54 @@ export const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({ pr
                                                                 </div>
                                                             ) : null;
 
+                                                        case 'tableWidget':
+                                                            return block.rows && block.rows.length > 0 ? (
+                                                                <div key={block._key || bIdx} className="my-5 w-full">
+                                                                    {block.title && (
+                                                                        <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--color-ink)]/70 mb-2.5">
+                                                                            {block.title}
+                                                                        </h4>
+                                                                    )}
+                                                                    <div className="overflow-x-auto rounded-xl border border-black/10 bg-white shadow-xs">
+                                                                        <table className="w-full min-w-[500px] border-collapse text-left text-xs sm:text-sm">
+                                                                            {block.hasHeaderRow !== false && block.rows[0]?.cells && (
+                                                                                <thead>
+                                                                                    <tr className="bg-[var(--color-primary)]/5 border-b border-black/10">
+                                                                                        {block.rows[0].cells.map((cell: string, cIdx: number) => (
+                                                                                            <th
+                                                                                                key={cIdx}
+                                                                                                className="px-4 py-3 font-bold text-[var(--color-primary)] tracking-wide border-r border-black/5 last:border-r-0"
+                                                                                            >
+                                                                                                {cell}
+                                                                                            </th>
+                                                                                        ))}
+                                                                                    </tr>
+                                                                                </thead>
+                                                                            )}
+                                                                            <tbody className="divide-y divide-black/5">
+                                                                                {(block.hasHeaderRow !== false ? block.rows.slice(1) : block.rows).map((row: any, rIdx: number) => (
+                                                                                    <tr
+                                                                                        key={row._key || rIdx}
+                                                                                        className={`transition-colors hover:bg-black/[0.02] ${
+                                                                                            rIdx % 2 === 1 ? 'bg-black/[0.01]' : 'bg-white'
+                                                                                        }`}
+                                                                                    >
+                                                                                        {row.cells?.map((cell: string, cIdx: number) => (
+                                                                                            <td
+                                                                                                key={cIdx}
+                                                                                                className="px-4 py-3 text-[var(--color-ink)]/80 leading-relaxed border-r border-black/5 last:border-r-0"
+                                                                                            >
+                                                                                                {cell}
+                                                                                            </td>
+                                                                                        ))}
+                                                                                    </tr>
+                                                                                ))}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            ) : null;
+
                                                         default:
                                                             return null;
                                                     }

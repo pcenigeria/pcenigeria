@@ -8,8 +8,10 @@ import {
   Images,
   MousePointerClick,
   Layers,
+  Table as TableIcon,
 } from 'lucide-react';
 import { SmartBulletsInput } from '../../components/smart-bullets-input';
+import { SmartTableInput } from '../../components/smart-table-input';
 
 export default defineType({
   name: 'sectionBlock',
@@ -291,6 +293,59 @@ export default defineType({
                 title: text || 'Action Button',
                 subtitle: url ? `Button • ${url}` : 'Action Button',
                 media: MousePointerClick,
+              };
+            },
+          },
+        }),
+        defineArrayMember({
+          name: 'tableWidget',
+          title: 'Data / Specs Table',
+          type: 'object',
+          icon: TableIcon,
+          components: {
+            input: SmartTableInput,
+          },
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Table Title / Caption',
+              type: 'string',
+              description: 'Optional heading or caption describing the table.',
+            }),
+            defineField({
+              name: 'hasHeaderRow',
+              title: 'First Row is Header',
+              type: 'boolean',
+              initialValue: true,
+            }),
+            defineField({
+              name: 'rows',
+              title: 'Table Rows',
+              type: 'array',
+              of: [
+                defineArrayMember({
+                  name: 'tableRow',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'cells',
+                      type: 'array',
+                      of: [{ type: 'string' }],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: { title: 'title', rows: 'rows' },
+            prepare({ title, rows }) {
+              const rowCount = rows?.length || 0;
+              const colCount = rows?.[0]?.cells?.length || 0;
+              return {
+                title: title || `${rowCount} Row${rowCount === 1 ? '' : 's'} Table`,
+                subtitle: `Table • ${rowCount} rows × ${colCount} cols`,
+                media: TableIcon,
               };
             },
           },
