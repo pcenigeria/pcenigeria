@@ -14,6 +14,7 @@ import {
   Rows3,
   Columns3,
   ClipboardPaste,
+  HelpCircle,
 } from 'lucide-react';
 
 export interface TableRow {
@@ -29,39 +30,75 @@ export interface TableValue {
 }
 
 /**
+ * Parses raw HTML table (copied from Word, Google Docs, or Web browser)
+ */
+export function parseHtmlTable(html: string): string[][] | null {
+  if (!html || !/<table[\s\S]*?>[\s\S]*?<\/table>/i.test(html)) {
+    return null;
+  }
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const trElements = doc.querySelectorAll('tr');
+    if (trElements.length === 0) return null;
+
+    const htmlRows: string[][] = [];
+    trElements.forEach((tr) => {
+      const cells: string[] = [];
+      tr.querySelectorAll('th, td').forEach((cell) => {
+        // Clean inner text, replace multiple spaces/newlines inside cell
+        const cleanText = (cell.textContent || '')
+          .replace(/[\r\n]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        cells.push(cleanText);
+      });
+      if (cells.length > 0 && cells.some((c) => c.length > 0)) {
+        htmlRows.push(cells);
+      }
+    });
+
+    return htmlRows.length > 0 ? htmlRows : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Universal Table Parser:
  * Takes text copied from Word, Excel, Google Sheets, HTML tables, or CSV/Markdown,
  * and extracts a 2D matrix of strings (rows & columns).
  */
-export function parsePastedTable(rawText: string): { rows: string[][]; detectedDelimiter: string } {
+export function parsePastedTable(
+  rawText: string,
+  rawHtml?: string,
+  forcedColCount?: number
+): { rows: string[][]; detectedDelimiter: string } {
+  // 1. If HTML table snippet is present (either passed from clipboard or pasted in text)
+  if (rawHtml) {
+    const fromHtml = parseHtmlTable(rawHtml);
+    if (fromHtml && fromHtml.length > 0) {
+      return { rows: fromHtml, detectedDelimiter: 'word-html' };
+    }
+  }
+
+  if (rawText && /<table[\s\S]*?>[\s\S]*?<\/table>/i.test(rawText)) {
+    const fromHtml = parseHtmlTable(rawText);
+    if (fromHtml && fromHtml.length > 0) {
+      return { rows: fromHtml, detectedDelimiter: 'html' };
+    }
+  }
+
   if (!rawText || !rawText.trim()) {
     return { rows: [], detectedDelimiter: 'none' };
   }
 
-  // 1. If HTML table snippet is copied directly (e.g. from browser or rich clipboard)
-  if (/<table[\s\S]*?>[\s\S]*?<\/table>/i.test(rawText)) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(rawText, 'text/html');
-    const trElements = doc.querySelectorAll('tr');
-    if (trElements.length > 0) {
-      const htmlRows: string[][] = [];
-      trElements.forEach((tr) => {
-        const cells: string[] = [];
-        tr.querySelectorAll('th, td').forEach((cell) => {
-          cells.push((cell.textContent || '').trim());
-        });
-        if (cells.length > 0) {
-          htmlRows.push(cells);
-        }
-      });
-      if (htmlRows.length > 0) {
-        return { rows: htmlRows, detectedDelimiter: 'html' };
-      }
-    }
-  }
-
   // 2. Normalize line breaks
-  const rawLines = rawText.split(/\r?\n+/).map((l) => l.trim()).filter((l) => l.length > 0);
+  const rawLines = rawText
+    .split(/\r?\n+/)
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
   if (rawLines.length === 0) {
     return { rows: [], detectedDelimiter: 'none' };
   }
@@ -71,10 +108,7 @@ export function parsePastedTable(rawText: string): { rows: string[][]; detectedD
   if (isMarkdown && rawLines.length > 0) {
     const mdRows: string[][] = [];
     for (const line of rawLines) {
-      // Skip markdown separator lines like |---|---|
-      if (/^\|[\s\-:]+(\|[\s\-:]+)+\|$/.test(line)) {
-        continue;
-      }
+      if (/^\|[\s\-:]+(\|[\s\-:]+)+\|$/.test(line)) continue;
       const cells = line
         .slice(1, -1)
         .split('|')
@@ -85,17 +119,23 @@ export function parsePastedTable(rawText: string): { rows: string[][]; detectedD
   }
 
   // 4. Check for Tab-separated values (Word, Excel, Google Docs table standard)
-  const hasTabs = rawLines.some((l) => l.includes('\t'));
-  if (hasTabs) {
+  const linesWithTabs = rawLines.filter((l) => l.includes('\t'));
+  if (linesWithTabs.length >= Math.ceil(rawLines.length * 0.4)) {
     const tsvRows = rawLines.map((l) => l.split('\t').map((c) => c.trim()));
-    return { rows: tsvRows, detectedDelimiter: 'tsv' };
+    return { rows: tsvRows, detectedDelimiter: 'tsv (tabs)' };
   }
 
-  // 5. Check for CSV (Comma-separated)
-  const hasCommas = rawLines.some((l) => l.includes(','));
-  if (hasCommas) {
+  // 5. Check for 2+ consecutive spaces as column delimiter (common when copying from PDF / plain text tables)
+  const linesWithMultiSpace = rawLines.filter((l) => /\s{2,}/.test(l));
+  if (linesWithMultiSpace.length >= Math.ceil(rawLines.length * 0.5)) {
+    const spaceRows = rawLines.map((l) => l.split(/\s{2,}/).map((c) => c.trim()));
+    return { rows: spaceRows, detectedDelimiter: 'spaced columns' };
+  }
+
+  // 6. Check for CSV (Comma-separated)
+  const linesWithCommas = rawLines.filter((l) => l.includes(','));
+  if (linesWithCommas.length >= Math.ceil(rawLines.length * 0.6)) {
     const csvRows = rawLines.map((l) => {
-      // Basic CSV splitter handling quotes
       const result: string[] = [];
       let current = '';
       let inQuotes = false;
@@ -116,16 +156,29 @@ export function parsePastedTable(rawText: string): { rows: string[][]; detectedD
     return { rows: csvRows, detectedDelimiter: 'csv' };
   }
 
-  // 6. Check for Semicolon-separated (European Excel export)
-  const hasSemicolon = rawLines.some((l) => l.includes(';'));
-  if (hasSemicolon) {
+  // 7. Check for Semicolon-separated (European Excel export)
+  const linesWithSemi = rawLines.filter((l) => l.includes(';'));
+  if (linesWithSemi.length >= Math.ceil(rawLines.length * 0.6)) {
     const semiRows = rawLines.map((l) => l.split(';').map((c) => c.trim()));
     return { rows: semiRows, detectedDelimiter: 'semicolon' };
   }
 
+  // 8. If user selected a forced column count (e.g. 3 columns sequential)
+  if (forcedColCount && forcedColCount > 1) {
+    const chunkedRows: string[][] = [];
+    for (let i = 0; i < rawLines.length; i += forcedColCount) {
+      const slice = rawLines.slice(i, i + forcedColCount);
+      while (slice.length < forcedColCount) {
+        slice.push('');
+      }
+      chunkedRows.push(slice);
+    }
+    return { rows: chunkedRows, detectedDelimiter: `${forcedColCount}-col sequential` };
+  }
+
   // Fallback: single column list
   const fallbackRows = rawLines.map((l) => [l.trim()]);
-  return { rows: fallbackRows, detectedDelimiter: 'single-column' };
+  return { rows: fallbackRows, detectedDelimiter: '1-col list' };
 }
 
 function generateKey(): string {
@@ -146,6 +199,8 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
   // State for Paste Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [pasteText, setPasteText] = useState('');
+  const [cachedHtml, setCachedHtml] = useState<string>('');
+  const [splitByCols, setSplitByCols] = useState<number>(0); // 0 = auto-detect, 2 = 2 cols, 3 = 3 cols, etc.
   const [parsedPreview, setParsedPreview] = useState<{ rows: string[][]; detectedDelimiter: string }>({
     rows: [],
     detectedDelimiter: 'none',
@@ -153,11 +208,42 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
   const [headerOption, setHeaderOption] = useState<boolean>(true);
   const [pasteMode, setPasteMode] = useState<'replace' | 'append'>('replace');
 
-  // Live parse as user types or pastes in textarea
+  // Trigger parsing with current settings
+  const runParser = useCallback(
+    (text: string, html: string, cols: number) => {
+      const parsed = parsePastedTable(text, html, cols);
+      setParsedPreview(parsed);
+    },
+    []
+  );
+
+  // Intercept native onPaste event to capture rich HTML from Word / Excel!
+  const handleNativePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const html = e.clipboardData.getData('text/html');
+    const text = e.clipboardData.getData('text/plain');
+
+    if (html && /<table/i.test(html)) {
+      setCachedHtml(html);
+      setPasteText(text);
+      runParser(text, html, splitByCols);
+    } else {
+      setCachedHtml('');
+      setPasteText(text);
+      runParser(text, '', splitByCols);
+    }
+  };
+
+  // Live parse as user types or modifies text in textarea
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const raw = e.currentTarget.value;
     setPasteText(raw);
-    setParsedPreview(parsePastedTable(raw));
+    runParser(raw, cachedHtml, splitByCols);
+  };
+
+  // Change column count reshaping setting
+  const handleColumnSplitChange = (newCols: number) => {
+    setSplitByCols(newCols);
+    runParser(pasteText, cachedHtml, newCols);
   };
 
   // Commit pasted table to Sanity
@@ -190,6 +276,7 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
 
     // Reset drawer state
     setPasteText('');
+    setCachedHtml('');
     setParsedPreview({ rows: [], detectedDelimiter: 'none' });
     setIsDrawerOpen(false);
   }, [parsedPreview, pasteMode, rows, value, headerOption, onChange]);
@@ -226,7 +313,6 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
   // Add a new column to the right
   const handleAddColumn = () => {
     if (rows.length === 0) {
-      // create 1 row with 1 cell
       onChange(set([{ _key: generateKey(), cells: [''] }], ['rows']));
       return;
     }
@@ -239,10 +325,7 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
 
   // Delete a specific column across all rows
   const handleDeleteColumn = (cIdx: number) => {
-    if (colCount <= 1) {
-      // Don't delete last remaining column unless clearing
-      return;
-    }
+    if (colCount <= 1) return;
     const nextRows = rows.map((r) => {
       const nextCells = (r.cells || []).filter((_, i) => i !== cIdx);
       return { ...r, cells: nextCells };
@@ -382,26 +465,30 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
               }}
             >
               <div>
-                <label
-                  htmlFor={`paste-box-${componentId}`}
-                  style={{
-                    display: 'block',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    color: '#2a2f36',
-                    marginBottom: '4px',
-                  }}
-                >
-                  Paste Copied Table Content Here (Ctrl+V or ⌘V)
-                </label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label
+                    htmlFor={`paste-box-${componentId}`}
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      color: '#2a2f36',
+                    }}
+                  >
+                    Paste Copied Table Content Here (Ctrl+V or ⌘V)
+                  </label>
+                  <span style={{ fontSize: '11px', color: '#64748b' }}>
+                    Tip: Copy directly from Microsoft Word / Google Docs with ⌘C or Ctrl+C
+                  </span>
+                </div>
                 <textarea
                   id={`paste-box-${componentId}`}
                   value={pasteText}
                   onChange={handleTextChange}
-                  rows={5}
-                  placeholder={`Example copied from Word / Excel:\nParameter\tSpecification\tStatus\nMax Pullback Force\t450 kN (101,000 lbs)\tCertified\nMax Spindle Torque\t19,500 Nm\tTested\nDrill Pipe Diameter\t89 mm (3.5 in)\tStandard`}
+                  onPaste={handleNativePaste}
+                  rows={6}
+                  placeholder={`Example copied from Word / Excel:\nProject details\tAKK\tOB3\nPipeline diameter\t40 inches\t48 inches\nHDD crossing length\t1,565 metres\t2,000 metres\nReported crossing depth\t16 metres\t52 metres`}
                   style={{
                     width: '100%',
                     padding: '10px 12px',
@@ -416,6 +503,60 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
                     boxSizing: 'border-box',
                   }}
                 />
+              </div>
+
+              {/* Column Splitting & Auto-Format Controls */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '10px',
+                  background: '#ffffff',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #e2e8f0',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: '#475569' }}>
+                    Format / Layout:
+                  </span>
+                  {[
+                    { label: 'Auto-Detect', val: 0 },
+                    { label: '2 Columns', val: 2 },
+                    { label: '3 Columns', val: 3 },
+                    { label: '4 Columns', val: 4 },
+                    { label: '5 Columns', val: 5 },
+                  ].map((opt) => (
+                    <button
+                      key={opt.val}
+                      type="button"
+                      onClick={() => handleColumnSplitChange(opt.val)}
+                      style={{
+                        padding: '4px 8px',
+                        fontSize: '11px',
+                        fontWeight: splitByCols === opt.val ? 700 : 500,
+                        borderRadius: '4px',
+                        border: '1px solid',
+                        borderColor: splitByCols === opt.val ? '#0052cc' : '#cbd5e1',
+                        background: splitByCols === opt.val ? 'rgba(0, 82, 204, 0.08)' : '#ffffff',
+                        color: splitByCols === opt.val ? '#0052cc' : '#475569',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+
+                {parsedPreview.rows.length > 0 && (
+                  <div style={{ fontSize: '11px', color: '#0052cc', fontWeight: 600 }}>
+                    Detected: {parsedPreview.rows.length} rows ×{' '}
+                    {Math.max(...parsedPreview.rows.map((r) => r.length))} cols ({parsedPreview.detectedDelimiter.toUpperCase()})
+                  </div>
+                )}
               </div>
 
               {/* Paste Options Bar */}
@@ -464,13 +605,6 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
                     </label>
                   </div>
                 </div>
-
-                {parsedPreview.rows.length > 0 && (
-                  <div style={{ fontSize: '11px', color: '#0052cc', fontWeight: 600 }}>
-                    Detected: {parsedPreview.rows.length} rows ×{' '}
-                    {Math.max(...parsedPreview.rows.map((r) => r.length))} columns ({parsedPreview.detectedDelimiter.toUpperCase()})
-                  </div>
-                )}
               </div>
 
               {/* Live Preview Box */}
@@ -481,14 +615,14 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
                     border: '1px solid #e2e8f0',
                     borderRadius: '6px',
                     padding: '8px 10px',
-                    maxHeight: '160px',
+                    maxHeight: '180px',
                     overflowX: 'auto',
                     overflowY: 'auto',
                   }}
                 >
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
                     <tbody>
-                      {parsedPreview.rows.slice(0, 5).map((row, rIdx) => (
+                      {parsedPreview.rows.slice(0, 8).map((row, rIdx) => (
                         <tr
                           key={rIdx}
                           style={{
@@ -506,9 +640,9 @@ export function SmartTableInput(props: ObjectInputProps<TableValue>) {
                       ))}
                     </tbody>
                   </table>
-                  {parsedPreview.rows.length > 5 && (
+                  {parsedPreview.rows.length > 8 && (
                     <div style={{ fontSize: '10px', color: '#64748b', marginTop: '4px', textAlign: 'center' }}>
-                      + {parsedPreview.rows.length - 5} more rows detected...
+                      + {parsedPreview.rows.length - 8} more rows detected...
                     </div>
                   )}
                 </div>
