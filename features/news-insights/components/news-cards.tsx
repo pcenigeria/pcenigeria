@@ -75,7 +75,7 @@ export const NewsCards: React.FC<NewsCardsProps> = ({ sanityArticles, articlesSe
         return sanityArticles.map((article, idx) => ({
             id: article._id,
             slug: article.slug,
-            category: article.category,
+            category: article.category || 'News',
             date: article.date || '',
             title: article.title,
             description: article.intro || '',
@@ -91,7 +91,7 @@ export const NewsCards: React.FC<NewsCardsProps> = ({ sanityArticles, articlesSe
 
     const filteredItems = activeTab === 'all'
         ? newsItems
-        : newsItems.filter(item => item.category.toLowerCase() === activeTab);
+        : newsItems.filter(item => (item.category || '').toLowerCase() === activeTab);
 
     return (
         <section className="w-full bg-[var(--color-canvas-tint)] section flex flex-col items-start gap-8 py-16 lg:py-24">
@@ -130,7 +130,7 @@ export const NewsCards: React.FC<NewsCardsProps> = ({ sanityArticles, articlesSe
             </FadeInSlideUp>
 
             {/* Cards Grid */}
-            <StaggerContainer className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <StaggerContainer key={activeTab} className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredItems.map((item) => (
                     <StaggerItem key={item.id}>
                         <Link href={`/news-insights/${item.slug}`} className="no-underline block h-full">
