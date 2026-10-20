@@ -65,9 +65,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const [fetchedProjects, fetchedProducts, fetchedNews] = await Promise.all([
-      client.fetch<SanitySlugDoc[]>(`*[_type == "project" && defined(slug.current)]{ slug, _updatedAt }`),
-      client.fetch<SanitySlugDoc[]>(`*[_type == "product" && defined(slug.current)]{ slug, _updatedAt }`),
-      client.fetch<SanitySlugDoc[]>(`*[_type == "newsArticle" && defined(slug.current)]{ slug, _updatedAt }`),
+      client.fetch<SanitySlugDoc[]>(`*[_type == "project" && defined(slug.current) && !(_id in path("drafts.**"))]{ slug, _updatedAt }`),
+      client.fetch<SanitySlugDoc[]>(`*[_type == "product" && defined(slug.current) && !(_id in path("drafts.**"))]{ slug, _updatedAt }`),
+      client.fetch<SanitySlugDoc[]>(`*[_type == "newsArticle" && defined(slug.current) && !(_id in path("drafts.**")) && (!defined(publishedAt) || publishedAt <= now())]{ slug, _updatedAt }`),
     ]);
 
     if (fetchedProjects?.length) projectDocs = mergeBySlug(fallbackProjects, fetchedProjects, fallbackIso);

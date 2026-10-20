@@ -31,6 +31,7 @@ export async function POST(request: Request) {
         }
         revalidatePath('/projects', 'page');
         revalidatePath('/', 'page');
+        revalidatePath('/sitemap.xml');
         break;
       case 'newsArticle':
         triggerRevalidateTag('newsArticle');
@@ -39,6 +40,8 @@ export async function POST(request: Request) {
           revalidatePath(`/news-insights/${slug}`, 'page');
         }
         revalidatePath('/news-insights', 'page');
+        revalidatePath('/sitemap.xml');
+        revalidatePath('/feed.xml');
         break;
       case 'product':
         triggerRevalidateTag('product');
