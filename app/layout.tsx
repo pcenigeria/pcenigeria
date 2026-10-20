@@ -101,9 +101,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo/PCE Logo Icon.svg",
-    shortcut: "/logo/PCE Logo Icon.svg",
-    apple: "/logo/PCE Logo Icon.svg",
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/logo/PCE Logo Icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
   },
 };
 
